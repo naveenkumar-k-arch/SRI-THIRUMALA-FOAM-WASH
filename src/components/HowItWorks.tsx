@@ -1,5 +1,5 @@
 import React from 'react';
-import { Smartphone, Car, Sparkles, Key, ArrowRight, Shield } from 'lucide-react';
+import { Smartphone, Car, Sparkles, Key, ArrowRight } from 'lucide-react';
 
 interface HowItWorksProps {
   onOpenBooking: () => void;

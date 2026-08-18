@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, X, Sparkles } from 'lucide-react';
+import { Eye, X } from 'lucide-react';
 
 interface GalleryItem {
   id: string;

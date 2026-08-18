@@ -7,8 +7,7 @@ import {
   MessageSquare, 
   Calendar, 
   CheckCircle2,
-  PhoneCall,
-  ArrowRight
+  PhoneCall
 } from 'lucide-react';
 import { COMPANY_INFO } from '../data/carWashData';
 

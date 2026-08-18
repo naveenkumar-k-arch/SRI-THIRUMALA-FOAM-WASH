@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, 
-  Calendar, 
-  Clock, 
-  Car, 
   MapPin, 
   Check, 
   ChevronRight, 
@@ -11,9 +8,7 @@ import {
   ShieldCheck, 
   CheckCircle2,
   Phone,
-  User,
-  Sparkles,
-  HelpCircle
+  User
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { VEHICLE_OPTIONS, COMPANY_INFO } from '../data/carWashData';
