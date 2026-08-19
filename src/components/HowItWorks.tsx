@@ -66,21 +66,21 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenBooking }) => {
           </p>
         </div>
 
-        {/* 4 Steps Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {/* 4 Steps Grid with 3D Perspective */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 perspective-container">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
               <div 
                 key={step.num} 
-                className="relative bg-white hover:bg-slate-50 rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-sm transition-all duration-200 flex flex-col justify-between group"
+                className="relative bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-slate-200 card-3d flex flex-col justify-between group cursor-default"
               >
-                {/* Step number badge */}
+                {/* Step number badge with 3D depth */}
                 <div className="flex items-center justify-between mb-5">
-                  <span className="text-2xl sm:text-3xl font-extrabold text-slate-300 group-hover:text-slate-900 transition-colors font-['Outfit']">
+                  <span className="text-2xl sm:text-3xl font-extrabold text-slate-300 group-hover:text-slate-900 transition-colors font-['Outfit'] depth-pop">
                     {step.num}
                   </span>
-                  <div className={`w-11 h-11 rounded-xl ${step.iconBg} border ${step.accent} flex items-center justify-center transition-transform group-hover:scale-105 shadow-xs`}>
+                  <div className={`w-11 h-11 rounded-xl ${step.iconBg} border ${step.accent} flex items-center justify-center transition-transform group-hover:scale-110 shadow-xs depth-pop`}>
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
@@ -110,7 +110,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenBooking }) => {
         <div className="mt-10 text-center">
           <button
             onClick={onOpenBooking}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer hover:shadow-md"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm tactile-btn cursor-pointer"
           >
             <span>RESERVE DOORSTEP SLOT</span>
             <ArrowRight className="w-4 h-4" />

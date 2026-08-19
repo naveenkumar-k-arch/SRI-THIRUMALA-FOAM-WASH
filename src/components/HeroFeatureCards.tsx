@@ -107,16 +107,16 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
               </div>
             </div>
 
-            {/* 3 Key Points Cards */}
-            <div className="space-y-3 pt-1">
+            {/* 3 Key Points Cards with 3D Tilt */}
+            <div className="space-y-3 pt-1 perspective-container">
               {keyPoints.map((point) => {
                 const Icon = point.icon;
                 return (
                   <div
                     key={point.id}
-                    className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-sm transition-all duration-200 flex items-start gap-4"
+                    className="p-4 rounded-2xl bg-white border border-slate-200 card-3d flex items-start gap-4 cursor-default"
                   >
-                    <div className={`w-10 h-10 rounded-xl ${point.iconBg} border flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                    <div className={`w-10 h-10 rounded-xl ${point.iconBg} border flex items-center justify-center flex-shrink-0 mt-0.5 depth-pop`}>
                       <Icon className={`w-5 h-5 ${point.iconColor}`} />
                     </div>
                     <div>
@@ -136,7 +136,7 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
             <div className="pt-2">
               <button
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-sm transition-all cursor-pointer hover:shadow-md"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm tactile-dark-btn cursor-pointer"
               >
                 <Calendar className="w-4 h-4 text-red-400" />
                 <span>BOOK A WASH</span>

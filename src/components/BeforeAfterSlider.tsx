@@ -47,8 +47,8 @@ export const BeforeAfterSlider: React.FC = () => {
           </p>
         </div>
 
-        {/* Interactive Comparison Container */}
-        <div className="max-w-5xl mx-auto">
+        {/* Interactive Comparison Container with 3D Bevel */}
+        <div className="max-w-5xl mx-auto perspective-container">
           <div 
             ref={containerRef}
             onMouseDown={() => setIsDragging(true)}
@@ -58,7 +58,7 @@ export const BeforeAfterSlider: React.FC = () => {
             onTouchStart={() => setIsDragging(true)}
             onTouchEnd={() => setIsDragging(false)}
             onTouchMove={handleTouchMove}
-            className="relative h-[280px] xs:h-[320px] sm:h-[460px] md:h-[500px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 select-none cursor-ew-resize bg-slate-950 touch-none"
+            className="relative h-[280px] xs:h-[320px] sm:h-[460px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 select-none cursor-ew-resize bg-slate-950 touch-none bevel-3d"
           >
             {/* AFTER: Clean Car Image (Base Layer) */}
             <div className="absolute inset-0 w-full h-full">
@@ -67,7 +67,7 @@ export const BeforeAfterSlider: React.FC = () => {
                 alt="After Sri Thirumala Foam Wash - Gleaming Clean Car" 
                 className="w-full h-full object-cover object-center pointer-events-none"
               />
-              <div className="absolute top-4 right-4 sm:top-5 sm:right-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-emerald-600 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm flex items-center gap-1.5">
+              <div className="absolute top-4 right-4 sm:top-5 sm:right-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-emerald-600 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm flex items-center gap-1.5 depth-pop">
                 <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>AFTER: SPOTLESS & GLOSSY</span>
               </div>
@@ -84,7 +84,7 @@ export const BeforeAfterSlider: React.FC = () => {
                 className="absolute inset-0 w-full h-full object-cover object-center max-w-none pointer-events-none"
                 style={{ width: containerRef.current ? `${containerRef.current.offsetWidth}px` : '100%' }}
               />
-              <div className="absolute top-4 left-4 sm:top-5 sm:left-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm">
+              <div className="absolute top-4 left-4 sm:top-5 sm:left-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm depth-pop">
                 <span>BEFORE: DUST & ROAD GRIME</span>
               </div>
             </div>
@@ -94,8 +94,8 @@ export const BeforeAfterSlider: React.FC = () => {
               className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(0,0,0,0.8)] z-20 pointer-events-none"
               style={{ left: `${sliderPosition}%` }}
             >
-              {/* Center Drag Handle */}
-              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-slate-900 shadow-xl flex items-center justify-center border-2 border-slate-900 pointer-events-auto cursor-ew-resize hover:scale-110 active:scale-95 transition-transform">
+              {/* Center 3D Tactile Drag Handle */}
+              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-slate-900 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.5)] flex items-center justify-center border-2 border-slate-900 pointer-events-auto cursor-ew-resize hover:scale-110 active:scale-95 transition-transform depth-pop">
                 <div className="flex items-center">
                   <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 -mr-1" />
                   <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 -ml-1" />

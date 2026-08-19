@@ -97,23 +97,23 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
           </span>
         </div>
 
-        {/* Service Package Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        {/* Service Package Cards Grid with 3D Tilt */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 perspective-container">
           {SERVICE_PACKAGES.map((pkg) => {
             const price = calculatePrice(pkg.basePrice);
             const isPopular = pkg.popular;
             return (
               <div
                 key={pkg.id}
-                className={`relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 ${
+                className={`relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between cursor-default ${
                   isPopular
-                    ? 'bg-slate-900 text-white border-2 border-red-600 shadow-lg scale-102 z-10'
-                    : 'bg-white border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-sm text-slate-900'
+                    ? 'bg-slate-900 text-white border-2 border-red-600 shadow-xl card-3d-dark z-10'
+                    : 'bg-white border border-slate-200 text-slate-900 card-3d'
                 }`}
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-red-600 text-white font-extrabold text-[10px] uppercase tracking-wider shadow-sm">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-red-600 text-white font-extrabold text-[10px] uppercase tracking-wider shadow-sm depth-pop">
                     MOST POPULAR
                   </div>
                 )}
@@ -137,7 +137,7 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
                   </p>
 
                   {/* Price Block */}
-                  <div className={`my-5 p-3.5 rounded-xl border flex items-baseline gap-1 ${
+                  <div className={`my-5 p-3.5 rounded-xl border flex items-baseline gap-1 depth-pop ${
                     isPopular ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'
                   }`}>
                     <span className={`text-sm font-bold font-mono ${isPopular ? 'text-slate-400' : 'text-slate-500'}`}>₹</span>
@@ -164,10 +164,10 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
                 {/* Card CTA */}
                 <button
                   onClick={() => handleBookPackage(pkg.id)}
-                  className={`w-full py-3 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+                  className={`w-full py-3 rounded-xl font-bold text-xs sm:text-sm cursor-pointer flex items-center justify-center gap-1.5 ${
                     isPopular
-                      ? 'bg-red-600 hover:bg-red-700 text-white shadow-sm'
-                      : 'bg-slate-900 hover:bg-slate-800 text-white shadow-xs'
+                      ? 'bg-red-600 hover:bg-red-700 text-white tactile-btn'
+                      : 'bg-slate-900 hover:bg-slate-800 text-white tactile-dark-btn'
                   }`}
                 >
                   <span>Select & Book Slot</span>

@@ -191,14 +191,14 @@ export const FleetSolutions: React.FC = () => {
           })}
         </div>
 
-        {/* Individual Vehicle Photo Cards Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+        {/* Individual Vehicle Photo Cards Grid with 3D Depth */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5 perspective-container">
           {filteredVehicles.map((veh) => {
             const Icon = veh.icon;
             return (
               <div
                 key={veh.id}
-                className="group rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-sm transition-all duration-200 overflow-hidden flex flex-col justify-between"
+                className="group rounded-2xl bg-white border border-slate-200 card-3d overflow-hidden flex flex-col justify-between cursor-default"
               >
                 <div>
                   {/* Vehicle Image */}
@@ -206,12 +206,12 @@ export const FleetSolutions: React.FC = () => {
                     <img
                       src={veh.imageUrl}
                       alt={veh.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
 
                     {/* Category Label Badge */}
-                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 depth-pop">
                       <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 flex items-center gap-1 shadow-xs">
                         <Icon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-600" />
                         <span className="hidden sm:inline">{veh.categoryLabel}</span>

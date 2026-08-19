@@ -155,15 +155,15 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
       </div>
 
       {/* Main Center Floating Content */}
-      <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 my-auto pt-14 sm:pt-20 pb-6 sm:pb-8 flex flex-col items-center">
+      <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 my-auto pt-14 sm:pt-20 pb-6 sm:pb-8 flex flex-col items-center perspective-container">
         
         {/* Subtitle Tag */}
         <span className="text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-orange-400 font-['Outfit'] block mb-2 sm:mb-4 drop-shadow-[0_0_12px_rgba(232,121,249,0.6)]">
           SRI THIRUMALA FOAM WASH
         </span>
 
-        {/* Hero Headline - Responsive Mobile Scaling */}
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight uppercase leading-tight sm:leading-tight font-['Outfit'] max-w-5xl drop-shadow-2xl">
+        {/* Hero Headline - Responsive Mobile Scaling with 3D Depth */}
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight uppercase leading-tight sm:leading-tight font-['Outfit'] max-w-5xl drop-shadow-2xl floating-3d">
           <span className="text-white">WE </span>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400 drop-shadow-[0_0_25px_rgba(239,68,68,0.7)]">
             PICK IT UP.
@@ -178,13 +178,13 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
           </span>
         </h1>
 
-        {/* Primary Glow CTA Button: BOOK A SLOT */}
-        <div className="mt-6 sm:mt-10 w-full sm:w-auto px-4 sm:px-0">
+        {/* Primary Glow 3D Tactile Button: BOOK A SLOT */}
+        <div className="mt-6 sm:mt-10 w-full sm:w-auto px-4 sm:px-0 depth-pop">
           <button
             onClick={onOpenBooking}
-            className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-6 sm:px-10 py-3.5 sm:py-4.5 rounded-2xl bg-gradient-to-r from-red-600/40 via-red-500/40 to-orange-500/40 hover:from-red-600/70 hover:to-orange-500/70 text-white font-black text-sm sm:text-lg border-2 border-red-400 hover:border-amber-300 shadow-[0_0_35px_rgba(220,38,38,0.5)] hover:shadow-[0_0_50px_rgba(249,115,22,0.7)] backdrop-blur-md transition-all duration-300 transform active:scale-98 cursor-pointer font-['Outfit']"
+            className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-7 sm:px-12 py-3.5 sm:py-4.5 rounded-2xl bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-sm sm:text-lg border border-amber-300/40 shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] tactile-btn cursor-pointer font-['Outfit'] select-none"
           >
-            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 group-hover:scale-110 transition-transform" />
+            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-200 group-hover:scale-110 transition-transform" />
             <span className="tracking-wider text-white drop-shadow-md">BOOK A SLOT</span>
           </button>
         </div>
