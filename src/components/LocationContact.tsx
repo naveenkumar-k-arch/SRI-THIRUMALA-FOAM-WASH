@@ -58,10 +58,10 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking 
               </a>
 
               <a
-                href="https://maps.google.com"
+                href={COMPANY_INFO.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Navigation className="w-4 h-4 text-slate-300" />
                 <span>DIRECTIONS</span>
@@ -91,9 +91,12 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking 
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 font-['Outfit']">Service Hub</h4>
-                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 font-['Outfit']">Service Hub Address</h4>
+                    <p className="text-xs text-slate-700 font-medium mt-0.5 leading-relaxed">
                       {COMPANY_INFO.address}
+                    </p>
+                    <p className="text-[11px] text-slate-500 mt-0.5 font-mono">
+                      Plus Code: {COMPANY_INFO.plusCode}
                     </p>
                   </div>
                 </div>
@@ -104,7 +107,7 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking 
                   </div>
                   <div>
                     <h4 className="text-xs sm:text-sm font-bold text-slate-900 font-['Outfit']">Operating Hours</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-xs text-slate-600 mt-0.5 font-medium">
                       {COMPANY_INFO.timing}
                     </p>
                   </div>
@@ -140,10 +143,10 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking 
               </a>
 
               <a
-                href="https://maps.google.com"
+                href={COMPANY_INFO.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:flex-1 py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-200 flex items-center justify-center gap-1.5 transition-colors"
+                className="w-full sm:flex-1 py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-200 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Navigation className="w-4 h-4 text-slate-600" />
                 <span>Google Maps</span>
@@ -155,8 +158,8 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking 
           <div className="lg:col-span-7 bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200 shadow-xs flex flex-col justify-between">
             <div className="relative w-full h-[240px] sm:h-[320px] rounded-xl overflow-hidden border border-slate-200">
               <iframe
-                title="Sri Thirumala Foam Wash Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.877660682855!2d77.6!3d12.97!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDU4JzEyLjAiTiA3N8KwMzYnMDAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                title="Sri Thirumala Foam Wash Location - Karpur Karnataka"
+                src="https://maps.google.com/maps?q=PPF9%2B2M+Karpur,+Karnataka&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 className="w-full h-full border-0 grayscale opacity-90"
                 loading="lazy"
               ></iframe>
@@ -167,7 +170,7 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking 
                   Sri Thirumala Foam Wash
                 </p>
                 <p className="text-[10px] text-slate-500">
-                  Karpur, Karnataka • Doorstep Valet Radius
+                  {COMPANY_INFO.address}
                 </p>
               </div>
             </div>
