@@ -1,11 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, 
-  Phone, 
+  MapPin, 
+  Check, 
   ChevronRight, 
   ChevronLeft, 
-  ChevronUp, 
-  ChevronDown 
+  ShieldCheck, 
+  CheckCircle2, 
+  Phone, 
+  User, 
+  Calendar, 
+  Clock, 
+  Sparkles, 
+  Car, 
+  Zap, 
+  Crosshair, 
+  Printer, 
+  History, 
+  MessageSquare, 
+  Droplets,
+  Wind,
+  Eye,
+  Navigation,
+  Mail,
+  ChevronUp,
+  ChevronDown,
+  Shield,
+  Award,
+  Gem,
+  Flame,
+  Compass,
+  FileCheck
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { 
@@ -161,7 +186,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
   const toggleService = (serviceId: string) => {
     if (selectedServiceIds.includes(serviceId)) {
       if (selectedServiceIds.length === 1) {
-        alert('⚠️ Please keep at least 1 wash service selected.');
+        alert('Please retain at least one detailing service.');
         return;
       }
       setSelectedServiceIds(selectedServiceIds.filter(id => id !== serviceId));
@@ -185,12 +210,12 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
 
   // Quick Area chips with preset distance from Karpur Hub
   const popularAreasWithDistance = [
-    { name: 'Karpur Main Rd', km: 0.8, emoji: '🏠' },
-    { name: 'Sarjapur Hub', km: 5.2, emoji: '🌳' },
-    { name: 'Attibele Circle', km: 4.5, emoji: '🏬' },
-    { name: 'Anekal Town', km: 8.2, emoji: '🏙️' },
-    { name: 'Chandapura', km: 6.8, emoji: '🛣️' },
-    { name: 'Electronic City Ph 2', km: 12.5, emoji: '🏢' }
+    { name: 'Karpur Main Road', km: 0.8 },
+    { name: 'Sarjapur Hub', km: 5.2 },
+    { name: 'Attibele Junction', km: 4.5 },
+    { name: 'Anekal Town', km: 8.2 },
+    { name: 'Chandapura Circle', km: 6.8 },
+    { name: 'Electronic City Ph 2', km: 12.5 }
   ];
 
   const handleAreaSelect = (areaName: string, km: number) => {
@@ -237,7 +262,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
       },
       () => {
         setIsLocating(false);
-        alert('Could not retrieve exact GPS coordinates. Please enter your address manually.');
+        alert('Could not retrieve exact GPS coordinates. Please enter your address.');
       },
       { timeout: 10000 }
     );
@@ -248,15 +273,15 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     // Step 1 Validation: Vehicle & Services
     if (currentStep === 1) {
       if (!vehicleModel.trim()) {
-        alert('🚗 Please enter your vehicle model or name (e.g. Swift, City, Creta, Pulsar, Activa, Auto, etc.).');
+        alert('Please enter your vehicle make and model (e.g. Swift, City, Creta, Pulsar, Activa, etc.).');
         return;
       }
       if (!vehicleNumber.trim()) {
-        alert('🔢 Please enter your vehicle registration number (e.g. KA 01 AB 1234).');
+        alert('Please enter your vehicle registration number (e.g. KA 01 AB 1234).');
         return;
       }
       if (selectedServiceIds.length === 0) {
-        alert('🫧 Please select at least 1 wash service.');
+        alert('Please select at least one wash service.');
         return;
       }
     }
@@ -264,15 +289,15 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     // Step 2 Validation: Doorstep Address & Contact
     if (currentStep === 2) {
       if (!customerName.trim()) {
-        alert('👤 Please enter your full name.');
+        alert('Please enter your full name.');
         return;
       }
       if (!customerPhone.trim() || customerPhone.replace(/\D/g, '').length < 10) {
-        alert('📱 Please enter a valid 10-digit contact / WhatsApp phone number.');
+        alert('Please enter a valid 10-digit contact / WhatsApp phone number.');
         return;
       }
       if (!pickupAddress.trim()) {
-        alert('📍 Please enter your specific doorstep pickup address.');
+        alert('Please enter your specific doorstep pickup address.');
         return;
       }
     }
@@ -280,7 +305,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     // Step 3 Validation: Slot conflict check
     if (currentStep === 3) {
       if (isSlotBooked(inTime, date)) {
-        alert(`⚠️ The slot ${inTime} on ${date} is already booked by another customer! Please select an available open time slot.`);
+        alert(`The slot ${inTime} on ${date} is currently booked. Please select another available slot.`);
         return;
       }
     }
@@ -290,7 +315,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     } else {
       // Step 4: Final Confirmation
       if (isSlotBooked(inTime, date)) {
-        alert(`⚠️ The slot ${inTime} on ${date} is no longer available! Please choose another open time slot.`);
+        alert(`The slot ${inTime} on ${date} is no longer available. Please choose another slot.`);
         setCurrentStep(3);
         return;
       }
@@ -347,10 +372,10 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
       // Trigger Confetti
       try {
         confetti({
-          particleCount: 160,
-          spread: 100,
+          particleCount: 140,
+          spread: 90,
           origin: { y: 0.55 },
-          colors: ['#ff3b30', '#ff9500', '#ffcc00', '#34c759', '#007aff', '#af52de']
+          colors: ['#2563eb', '#dc2626', '#f59e0b', '#10b981', '#6366f1']
         });
       } catch {
         // safe fallback
@@ -358,98 +383,96 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     }
   };
 
-  // Formatted WhatsApp Dispatch message
+  // Professional WhatsApp Dispatch message
   const whatsappBookingMessage = encodeURIComponent(
-`*🚗 SRI THIRUMALA FOAM WASH - NEW DOORSTEP BOOKING 🫧*
-----------------------------------------
-*🎫 Booking ID:* ${bookingId}
-*👤 Customer:* ${customerName}
-*📱 Phone:* ${customerPhone}
-*🚙 Vehicle:* ${vehicleModel} (${vehicleNumber.toUpperCase()})
-*🧼 Services Selected:*
-${selectedServicesObjects.map(s => `• ${s.name} (₹${s.price})`).join('\n')}
-*⏱️ Estimated Duration:* ${Math.floor(totalDurationMinutes / 60)}h ${totalDurationMinutes % 60}m
-*📥 In-Time (Pickup):* ${date} @ ${inTime}
-*📤 Out-Time (Return):* ${date} @ ${outTime}
-*📍 Doorstep Address:* ${pickupAddress} (${pickupPincode})
-${landmark ? `*🏢 Landmark:* ${landmark}\n` : ''}*🗺️ Distance from Hub:* ${distanceKm} km
-*💰 Total Amount Payable:* ₹${grandTotal} (Pay after vehicle delivery)
-----------------------------------------
-Please dispatch valet pickup driver.`
+`*SRI THIRUMALA FOAM WASH — DOORSTEP VALET BOOKING*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*Booking Reference:* ${bookingId}
+*Customer Name:* ${customerName}
+*Contact Number:* ${customerPhone}
+*Vehicle:* ${vehicleModel} (${vehicleNumber.toUpperCase()})
+*Selected Treatments:*
+${selectedServicesObjects.map(s => `• ${s.name} — ₹${s.price}`).join('\n')}
+*Estimated Treatment Duration:* ${Math.floor(totalDurationMinutes / 60)}h ${totalDurationMinutes % 60}m
+*Pickup Schedule (In-Time):* ${date} at ${inTime}
+*Estimated Return (Out-Time):* ${date} at ${outTime}
+*Doorstep Address:* ${pickupAddress} (${pickupPincode})
+${landmark ? `*Landmark:* ${landmark}\n` : ''}*Hub Transit Distance:* ${distanceKm} km
+*Total Amount Payable:* ₹${grandTotal} (Payable upon vehicle delivery)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Please confirm valet pickup dispatch.`
   );
 
-  // Service 3D Emoji Icon Selector
-  const getServiceEmoji = (srvId: string) => {
+  // Mature, Refined Professional Vector Icon Selector
+  const getProfessionalServiceIcon = (srvId: string) => {
     switch (srvId) {
-      case 'water_wash': return '💦';
-      case 'foam_wash': return '🫧';
-      case 'vacuum_clean': return '🌪️';
-      case 'engine_steam': return '🔥';
-      case 'underbody_wash': return '🚿';
-      case 'interior_sanitization': return '❄️';
-      case 'ceramic_gloss': return '💎';
-      case 'leather_polish': return '✨';
-      case 'windshield_coat': return '🪟';
-      case 'rat_repellent': return '🐭';
-      default: return '🧼';
+      case 'water_wash': return <Droplets className="w-5 h-5 text-sky-600" />;
+      case 'foam_wash': return <Sparkles className="w-5 h-5 text-amber-500" />;
+      case 'vacuum_clean': return <Wind className="w-5 h-5 text-indigo-600" />;
+      case 'engine_steam': return <Flame className="w-5 h-5 text-red-500" />;
+      case 'underbody_wash': return <ShieldCheck className="w-5 h-5 text-teal-600" />;
+      case 'interior_sanitization': return <Zap className="w-5 h-5 text-cyan-600" />;
+      case 'ceramic_gloss': return <Gem className="w-5 h-5 text-violet-600" />;
+      case 'leather_polish': return <Award className="w-5 h-5 text-amber-600" />;
+      case 'windshield_coat': return <Eye className="w-5 h-5 text-blue-600" />;
+      case 'rat_repellent': return <Shield className="w-5 h-5 text-rose-600" />;
+      default: return <Droplets className="w-5 h-5 text-sky-600" />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#fffbf5] to-[#f0f9ff] text-slate-900 flex flex-col justify-between selection:bg-amber-400 selection:text-black pb-28 lg:pb-8 relative overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between selection:bg-red-600 selection:text-white pb-28 lg:pb-8 relative overflow-x-hidden font-sans">
       
-      {/* Radiant Floating Color Orbs */}
-      <div className="absolute top-0 left-10 w-96 h-96 bg-gradient-to-br from-amber-300/40 via-orange-400/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
-      <div className="absolute top-1/4 right-5 w-96 h-96 bg-gradient-to-bl from-pink-300/40 via-red-300/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
-      <div className="absolute bottom-10 left-1/3 w-96 h-96 bg-gradient-to-tr from-cyan-300/30 via-emerald-300/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
-
+      {/* Subtle Professional Ambient Gradient Background */}
+      <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-blue-50/60 via-slate-50 to-transparent pointer-events-none -z-10"></div>
+      
       {/* Top Header Navigation */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b-2 border-dashed border-amber-400/60 py-3 px-3 sm:px-8 shadow-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 py-3.5 px-4 sm:px-8 shadow-sm">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
           <button
             onClick={onNavigateHome}
-            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-2xl bg-white hover:bg-orange-50 text-slate-800 border-2 border-b-4 border-slate-200 hover:border-orange-400 active:border-b-2 active:translate-y-0.5 transition-all text-xs sm:text-sm font-black cursor-pointer shadow-md"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border border-slate-300 transition-colors text-xs sm:text-sm font-semibold cursor-pointer"
           >
-            <ArrowLeft className="w-4 h-4 text-orange-500 flex-shrink-0 stroke-[3]" />
-            <span className="hidden xs:inline">🏡 Back to Home</span>
-            <span className="xs:hidden">🏡 Home</span>
+            <ArrowLeft className="w-4 h-4 text-slate-600" />
+            <span className="hidden sm:inline">Back to Home</span>
+            <span className="sm:hidden">Home</span>
           </button>
 
-          {/* Circular Brand Logo */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-b-4 border-amber-400 shadow-[0_6px_16px_rgba(245,158,11,0.3)] bg-gradient-to-br from-amber-400 to-orange-500 p-0.5 flex items-center justify-center flex-shrink-0 rotate-[-2deg] hover:rotate-0 transition-transform">
+          {/* Clean Brand Identity */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200 shadow-sm bg-white flex items-center justify-center flex-shrink-0">
               <img 
                 src="/logo.png" 
                 alt="Sri Thirumala Foam Wash" 
-                className="w-full h-full object-cover rounded-xl scale-110" 
+                className="w-full h-full object-cover scale-105" 
               />
             </div>
             <div className="text-left hidden sm:block">
-              <span className="text-slate-900 font-black text-sm uppercase tracking-wider block leading-none font-['Outfit']">
+              <span className="text-slate-900 font-extrabold text-sm tracking-wide block leading-none font-['Outfit']">
                 SRI THIRUMALA
               </span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 font-black text-[11px] uppercase tracking-widest leading-none font-['Outfit']">
-                FOAM WASH • VALET ⚡
+              <span className="text-red-600 font-bold text-[10px] uppercase tracking-wider leading-none font-['Outfit']">
+                DOORSTEP DETAILING HUB
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {savedBookings.length > 0 && (
               <button
                 onClick={() => setShowHistoryModal(true)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 text-xs font-black border-2 border-b-4 border-amber-600 shadow-[0_4px_12px_rgba(245,158,11,0.4)] active:border-b-2 active:translate-y-0.5 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-300 transition-colors cursor-pointer"
                 title="View My Bookings"
               >
-                <span className="text-sm">🎫</span>
-                <span>My Passes ({savedBookings.length})</span>
+                <History className="w-3.5 h-3.5 text-slate-600" />
+                <span>My Bookings ({savedBookings.length})</span>
               </button>
             )}
 
-            <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-700 bg-emerald-100 px-3.5 py-1.5 rounded-2xl border-2 border-emerald-300 font-black shadow-sm">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-              <span className="text-emerald-800">🚀 Hub Valet Online</span>
+            <div className="hidden md:flex items-center gap-2 text-xs text-slate-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="font-semibold text-emerald-800">Valet Active • Karpur Hub</span>
             </div>
           </div>
 
@@ -457,194 +480,213 @@ Please dispatch valet pickup driver.`
       </header>
 
       {/* Main Form Content */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full flex-1">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-9 w-full flex-1">
         
-        {/* Colorful Hero Title with 3D Badges */}
-        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-yellow-400 text-slate-950 font-black text-xs uppercase tracking-wider mb-2.5 shadow-[0_6px_16px_rgba(245,158,11,0.35)] border-2 border-white transform hover:scale-105 transition-transform">
-            <span className="text-sm">✨</span>
-            <span>EXPRESS DOORSTEP VEHICLE SPA & FOAM WASH</span>
-            <span className="text-sm">🚀</span>
+        {/* Professional Header Section */}
+        <div className="text-center max-w-3xl mx-auto mb-7 sm:mb-9">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-semibold tracking-wide mb-2.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+            <span>DOORSTEP VEHICLE CARE & FOAM WASH</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-['Outfit'] leading-tight drop-shadow-sm">
-            Book Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-500 to-amber-500">Doorstep Slot</span> 🫧
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight font-['Outfit'] leading-tight">
+            Schedule Your <span className="text-red-600">Doorstep Slot</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1.5 font-bold max-w-xl mx-auto">
-            🚗 Any Vehicle • 🧼 Custom Wash Services • ⏱️ Exact In/Out Timings • 💰 Pay on Delivery
+          <p className="text-xs sm:text-sm text-slate-600 mt-1.5 font-normal max-w-xl mx-auto">
+            Select your vehicle, customize your detailing services, and reserve an exact in-time slot with complimentary doorstep valet transit.
           </p>
         </div>
 
-        {/* 3D Stitched 4-Step Progression Stepper */}
+        {/* Professional 4-Step Stepper Progress Bar */}
         {!isSubmitted && (
-          <div className="max-w-4xl mx-auto mb-6 sm:mb-8 p-2 rounded-3xl bg-white border-2 border-dashed border-amber-400 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
-            <div className="grid grid-cols-4 gap-1.5 sm:gap-3 text-[11px] sm:text-xs font-black">
+          <div className="max-w-4xl mx-auto mb-7 sm:mb-9 p-1.5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-semibold">
               
               {/* Step 1 Tab */}
               <button
                 type="button"
                 onClick={() => setCurrentStep(1)}
-                className={`py-2.5 px-1 sm:px-3 rounded-2xl transition-all flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 cursor-pointer border-2 ${
+                className={`py-2.5 px-2 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
                   currentStep === 1
-                    ? 'bg-gradient-to-r from-red-500 via-orange-500 to-amber-400 text-white border-b-4 border-orange-700 shadow-[0_6px_16px_rgba(239,68,68,0.4)] scale-100'
+                    ? 'bg-slate-900 text-white shadow-sm'
                     : currentStep > 1
-                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                    : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'bg-transparent text-slate-500 hover:text-slate-800'
                 }`}
               >
-                <span className="text-sm">{currentStep > 1 ? '✅' : '🚗'}</span>
-                <span className="truncate">1. Vehicle & Wash</span>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                  currentStep === 1 ? 'bg-red-600 text-white' : currentStep > 1 ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
+                }`}>
+                  {currentStep > 1 ? '✓' : '1'}
+                </span>
+                <span className="truncate hidden sm:inline">Vehicle & Services</span>
+                <span className="truncate sm:hidden">Services</span>
               </button>
 
               {/* Step 2 Tab */}
               <button
                 type="button"
                 onClick={() => currentStep > 2 && setCurrentStep(2)}
-                className={`py-2.5 px-1 sm:px-3 rounded-2xl transition-all flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 border-2 ${
+                className={`py-2.5 px-2 rounded-xl transition-all flex items-center justify-center gap-2 ${
                   currentStep === 2
-                    ? 'bg-gradient-to-r from-red-500 via-orange-500 to-amber-400 text-white border-b-4 border-orange-700 shadow-[0_6px_16px_rgba(239,68,68,0.4)] cursor-pointer'
+                    ? 'bg-slate-900 text-white shadow-sm cursor-pointer'
                     : currentStep > 2
-                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300 cursor-pointer'
-                    : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 cursor-pointer'
+                    : 'bg-transparent text-slate-400 cursor-not-allowed'
                 }`}
               >
-                <span className="text-sm">{currentStep > 2 ? '✅' : '📍'}</span>
-                <span className="truncate">2. Address & KM</span>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                  currentStep === 2 ? 'bg-red-600 text-white' : currentStep > 2 ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-500'
+                }`}>
+                  {currentStep > 2 ? '✓' : '2'}
+                </span>
+                <span className="truncate hidden sm:inline">Address & Distance</span>
+                <span className="truncate sm:hidden">Address</span>
               </button>
 
               {/* Step 3 Tab */}
               <button
                 type="button"
                 onClick={() => currentStep > 3 && setCurrentStep(3)}
-                className={`py-2.5 px-1 sm:px-3 rounded-2xl transition-all flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 border-2 ${
+                className={`py-2.5 px-2 rounded-xl transition-all flex items-center justify-center gap-2 ${
                   currentStep === 3
-                    ? 'bg-gradient-to-r from-red-500 via-orange-500 to-amber-400 text-white border-b-4 border-orange-700 shadow-[0_6px_16px_rgba(239,68,68,0.4)] cursor-pointer'
+                    ? 'bg-slate-900 text-white shadow-sm cursor-pointer'
                     : currentStep > 3
-                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300 cursor-pointer'
-                    : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 cursor-pointer'
+                    : 'bg-transparent text-slate-400 cursor-not-allowed'
                 }`}
               >
-                <span className="text-sm">{currentStep > 3 ? '✅' : '⏰'}</span>
-                <span className="truncate">3. Timings & Slots</span>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                  currentStep === 3 ? 'bg-red-600 text-white' : currentStep > 3 ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-500'
+                }`}>
+                  {currentStep > 3 ? '✓' : '3'}
+                </span>
+                <span className="truncate hidden sm:inline">Schedule & Timing</span>
+                <span className="truncate sm:hidden">Timings</span>
               </button>
 
               {/* Step 4 Tab */}
               <button
                 type="button"
-                className={`py-2.5 px-1 sm:px-3 rounded-2xl transition-all flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 border-2 ${
+                className={`py-2.5 px-2 rounded-xl transition-all flex items-center justify-center gap-2 ${
                   currentStep === 4
-                    ? 'bg-gradient-to-r from-red-500 via-orange-500 to-amber-400 text-white border-b-4 border-orange-700 shadow-[0_6px_16px_rgba(239,68,68,0.4)]'
-                    : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+                    ? 'bg-slate-900 text-white shadow-sm'
+                    : 'bg-transparent text-slate-400 cursor-not-allowed'
                 }`}
               >
-                <span className="text-sm">🎟️</span>
-                <span className="truncate">4. Confirm</span>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                  currentStep === 4 ? 'bg-red-600 text-white' : 'bg-slate-200 text-slate-500'
+                }`}>
+                  4
+                </span>
+                <span className="truncate hidden sm:inline">Review & Confirm</span>
+                <span className="truncate sm:hidden">Confirm</span>
               </button>
 
             </div>
           </div>
         )}
 
-        {/* Main Wizard Form + Live 3D Estimate Sidebar */}
+        {/* Main Form Layout + Desktop Estimate Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           
           {/* Main Card */}
-          <div className={`${isSubmitted ? 'lg:col-span-12' : 'lg:col-span-8'} bg-white border-2 border-b-8 border-slate-200/90 rounded-3xl p-4 sm:p-7 md:p-8 shadow-[0_15px_35px_rgba(0,0,0,0.06)] text-left relative overflow-hidden`}>
+          <div className={`${isSubmitted ? 'lg:col-span-12' : 'lg:col-span-8'} bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 shadow-sm text-left relative`}>
             
-            {/* STEP 1: ANY VEHICLE & CUSTOMIZABLE WASH SERVICES */}
+            {/* STEP 1: VEHICLE INFORMATION & A LA CARTE SERVICES */}
             {!isSubmitted && currentStep === 1 && (
               <div className="space-y-6 sm:space-y-8">
                 
                 {/* 1A: Vehicle Information */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-base sm:text-lg font-black text-slate-900 font-['Outfit'] flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-orange-100 border-2 border-orange-300 flex items-center justify-center text-base">
-                        🚗
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+                        <Car className="w-4 h-4 text-slate-800" />
                       </div>
                       <span>1. Vehicle Information</span>
                     </h3>
 
-                    <span className="text-[11px] font-black px-3 py-1 rounded-full bg-amber-100 text-orange-800 border-2 border-dashed border-amber-400 flex items-center gap-1">
-                      <span>✨</span> ANY VEHICLE
+                    <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                      All Vehicle Types Supported
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-600 mb-3.5 font-medium">
-                    Enter your vehicle name & number (Bike 🛵, Car 🚗, Auto 🛺, SUV 🚙, Van 🚐, EV ⚡).
+                  <p className="text-xs text-slate-500 mb-3.5">
+                    Enter the make, model, and registration number of your vehicle.
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-amber-50/70 via-orange-50/40 to-yellow-50/60 border-2 border-dashed border-amber-300 shadow-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1.5 uppercase tracking-wide flex items-center gap-1">
-                        <span>🚘</span> Vehicle Name / Model *
+                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                        Vehicle Make & Model *
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. Swift, City, Creta, Pulsar, Activa, Auto, etc."
+                        placeholder="e.g. Swift, Honda City, Creta, Pulsar, Activa, etc."
                         value={vehicleModel}
                         onChange={(e) => setVehicleModel(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none text-sm text-slate-900 font-bold placeholder:text-slate-400 shadow-sm transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none text-sm text-slate-900 font-medium placeholder:text-slate-400 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1.5 uppercase tracking-wide flex items-center gap-1">
-                        <span>🔢</span> Vehicle Registration Number *
+                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                        Registration Number *
                       </label>
                       <input
                         type="text"
                         placeholder="e.g. KA 01 AB 1234"
                         value={vehicleNumber}
                         onChange={(e) => setVehicleNumber(e.target.value.toUpperCase())}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none text-sm text-orange-600 uppercase font-mono font-black placeholder:text-slate-400 shadow-sm transition-all tracking-wider"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none text-sm text-slate-900 uppercase font-mono font-semibold placeholder:text-slate-400 transition-colors"
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* 1B: Modular Wash Services Selector */}
-                <div className="pt-6 border-t-2 border-dashed border-slate-200">
+                {/* 1B: Modular Detailing Services */}
+                <div className="pt-6 border-t border-slate-200">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <div>
-                      <h3 className="text-base sm:text-lg font-black text-slate-900 font-['Outfit'] flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-xl bg-yellow-100 border-2 border-yellow-300 flex items-center justify-center text-base">
-                          🫧
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+                          <Droplets className="w-4 h-4 text-blue-600" />
                         </div>
-                        <span>2. Choose Your Wash Services</span>
+                        <span>2. Detailing & Wash Services</span>
                       </h3>
-                      <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                        Tap any treatment to add or remove. Customize freely!
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Select treatments to include in your booking.
                       </p>
                     </div>
 
-                    {/* Quick Package Presets */}
+                    {/* Presets */}
                     <div className="flex items-center gap-2 flex-wrap">
                       <button
                         type="button"
                         onClick={selectAllServices}
-                        className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[11px] font-black text-slate-800 border-2 border-slate-300 transition-all cursor-pointer active:scale-95"
+                        className="px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200 transition-colors cursor-pointer"
                       >
-                        🌟 Select All
+                        Select All
                       </button>
                       <button
                         type="button"
                         onClick={() => applyPresetBundle('express_foam')}
-                        className="px-3 py-1.5 rounded-xl bg-cyan-100 hover:bg-cyan-200 text-[11px] font-black text-cyan-800 border-2 border-cyan-300 transition-all cursor-pointer active:scale-95"
+                        className="px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200 transition-colors cursor-pointer"
                       >
-                        ⚡ Quick Wash
+                        Quick Wash
                       </button>
                       <button
                         type="button"
                         onClick={() => applyPresetBundle('deep_interior_foam')}
-                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-orange-400 to-amber-400 text-[11px] font-black text-slate-950 border-2 border-b-3 border-orange-600 shadow-sm transition-all cursor-pointer active:scale-95"
+                        className="px-2.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-xs font-semibold text-red-700 border border-red-200 transition-colors cursor-pointer"
                       >
-                        🔥 Deep Wash Bundle
+                        Deep Interior Bundle
                       </button>
                     </div>
                   </div>
 
-                  {/* 3D Bright Service Cards Grid */}
+                  {/* Professional Services Cards Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {MODULAR_SERVICES.map((srv) => {
                       const isSelected = selectedServiceIds.includes(srv.id);
@@ -653,34 +695,34 @@ Please dispatch valet pickup driver.`
                         <div
                           key={srv.id}
                           onClick={() => toggleService(srv.id)}
-                          className={`p-4 rounded-3xl border-2 transition-all cursor-pointer flex flex-col justify-between select-none relative group active:scale-[0.98] ${
+                          className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative ${
                             isSelected
-                              ? 'bg-gradient-to-br from-amber-50 via-orange-50/60 to-white border-orange-500 border-b-6 shadow-[0_10px_25px_rgba(249,115,22,0.18)]'
-                              : 'bg-white border-slate-200 border-b-4 hover:border-slate-300 hover:shadow-md'
+                              ? 'bg-red-50/40 border-red-500 shadow-sm ring-1 ring-red-500'
+                              : 'bg-white border-slate-200 hover:border-slate-300'
                           }`}
                         >
-                          {/* Active 3D Badge */}
-                          {isSelected && (
-                            <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 text-slate-950 font-black text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-sm border border-white">
-                              <span>✓</span>
-                              <span>ADDED</span>
-                            </div>
-                          )}
-
                           <div>
-                            <div className="flex items-start gap-3 mb-2 pr-12">
-                              <div className={`w-11 h-11 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-sm border-2 transition-transform group-hover:scale-110 ${
-                                isSelected ? 'bg-gradient-to-br from-amber-300 to-orange-400 border-white' : 'bg-slate-100 border-slate-200'
-                              }`}>
-                                {getServiceEmoji(srv.id)}
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <div className="flex items-center gap-2.5">
+                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${
+                                  isSelected ? 'bg-white border-red-200 text-red-600 shadow-xs' : 'bg-slate-50 border-slate-200 text-slate-600'
+                                }`}>
+                                  {getProfessionalServiceIcon(srv.id)}
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-bold text-slate-900 font-['Outfit'] leading-snug">
+                                    {srv.name}
+                                  </h4>
+                                  <span className="text-[11px] text-slate-500 font-medium">
+                                    Approx. {srv.durationMinutes} mins
+                                  </span>
+                                </div>
                               </div>
-                              <div>
-                                <h4 className="text-sm sm:text-base font-black text-slate-900 font-['Outfit'] leading-snug">
-                                  {srv.name}
-                                </h4>
-                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-orange-600 font-mono mt-0.5">
-                                  ⏱️ ~{srv.durationMinutes} mins
-                                </span>
+
+                              <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
+                                isSelected ? 'bg-red-600 border-red-600 text-white' : 'border-slate-300 bg-white'
+                              }`}>
+                                {isSelected ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : null}
                               </div>
                             </div>
 
@@ -689,22 +731,18 @@ Please dispatch valet pickup driver.`
                             </p>
                           </div>
 
-                          {/* 3D Price Bar */}
-                          <div className="flex items-center justify-between pt-3 border-t-2 border-dashed border-slate-200/80 mt-3 text-xs">
-                            <div className="flex items-baseline gap-1">
-                              <span className="text-xs font-bold text-slate-500 font-mono">₹</span>
-                              <span className="text-2xl font-black text-slate-900 font-['Outfit']">
+                          {/* Price Footer */}
+                          <div className="flex items-center justify-between pt-3 border-t border-slate-100 mt-3 text-xs">
+                            <div className="flex items-baseline gap-0.5">
+                              <span className="text-xs text-slate-500 font-normal">₹</span>
+                              <span className="text-base font-bold text-slate-900 font-['Outfit']">
                                 {srv.price}
                               </span>
                             </div>
 
-                            <div className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 transition-all shadow-sm ${
-                              isSelected
-                                ? 'bg-orange-500 text-white border-orange-600 border-b-3'
-                                : 'bg-slate-100 text-slate-700 border-slate-300 group-hover:border-orange-400 group-hover:bg-orange-50'
-                            }`}>
-                              {isSelected ? '✓ Added' : '+ Add'}
-                            </div>
+                            <span className={`text-xs font-semibold ${isSelected ? 'text-red-600' : 'text-slate-500'}`}>
+                              {isSelected ? 'Selected' : 'Add Treatment'}
+                            </span>
                           </div>
                         </div>
                       );
@@ -712,265 +750,275 @@ Please dispatch valet pickup driver.`
                   </div>
                 </div>
 
-                {/* Step 1 Footer CTA */}
-                <div className="pt-5 flex items-center justify-between border-t-2 border-dashed border-slate-200">
-                  <div className="text-xs sm:text-sm text-slate-700 font-bold">
-                    <span className="font-black text-orange-600">{selectedServiceIds.length}</span> services • Total: <span className="text-slate-950 font-black font-mono text-base">₹{grandTotal}</span> (~{totalDurationMinutes}m)
+                {/* Step 1 Footer */}
+                <div className="pt-5 flex items-center justify-between border-t border-slate-200">
+                  <div className="text-xs sm:text-sm text-slate-600">
+                    <span className="font-bold text-slate-900">{selectedServiceIds.length}</span> services selected • Estimated duration: <span className="font-semibold text-slate-900">{totalDurationMinutes} mins</span>
                   </div>
 
                   <button
                     onClick={handleNextStep}
-                    className="px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-sm border-2 border-b-4 border-orange-700 shadow-[0_8px_20px_rgba(249,115,22,0.35)] hover:shadow-[0_12px_28px_rgba(249,115,22,0.45)] active:border-b-2 active:translate-y-0.5 transition-all cursor-pointer flex items-center gap-2"
+                    className="px-6 sm:px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
                   >
-                    <span>Doorstep Address</span>
-                    <span className="text-base">📍</span>
+                    <span>Proceed to Address</span>
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
 
               </div>
             )}
 
-            {/* STEP 2: ADDRESS, GPS & DISTANCE CALCULATION */}
+            {/* STEP 2: ADDRESS, GPS & DISTANCE */}
             {!isSubmitted && currentStep === 2 && (
               <div className="space-y-6 sm:space-y-8">
                 
-                {/* 2A: Contact Info */}
+                {/* 2A: Customer Information */}
                 <div>
-                  <h3 className="text-base sm:text-lg font-black text-slate-900 font-['Outfit'] mb-1 flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-blue-100 border-2 border-blue-300 flex items-center justify-center text-base">
-                      👤
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] mb-1 flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+                      <User className="w-4 h-4 text-slate-800" />
                     </div>
-                    <span>1. Customer Contact</span>
+                    <span>1. Customer Details</span>
                   </h3>
-                  <p className="text-xs text-slate-600 mb-3.5 font-medium">
-                    Our valet driver will call this number before arriving at your doorstep.
+                  <p className="text-xs text-slate-500 mb-3.5">
+                    Our valet driver will contact this number upon dispatch.
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 p-4 sm:p-5 rounded-3xl bg-slate-50 border-2 border-dashed border-slate-200">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 p-4 rounded-xl bg-slate-50 border border-slate-200">
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1 uppercase tracking-wide flex items-center gap-1">
-                        <span>👤</span> Full Name *
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Full Name *
                       </label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Anand Kumar"
-                        value={customerName}
-                        onChange={(e) => setCustomerName(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 outline-none text-sm text-slate-900 font-bold placeholder:text-slate-400 shadow-sm"
-                      />
+                      <div className="relative">
+                        <User className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                        <input
+                          type="text"
+                          placeholder="e.g. Anand Kumar"
+                          value={customerName}
+                          onChange={(e) => setCustomerName(e.target.value)}
+                          className="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-medium placeholder:text-slate-400"
+                        />
+                      </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1 uppercase tracking-wide flex items-center gap-1">
-                        <span>📱</span> Phone / WhatsApp *
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Phone / WhatsApp Number *
                       </label>
-                      <input
-                        type="tel"
-                        placeholder="+91 98765 43210"
-                        value={customerPhone}
-                        onChange={(e) => setCustomerPhone(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 outline-none text-sm text-orange-600 font-mono font-black placeholder:text-slate-400 shadow-sm"
-                      />
+                      <div className="relative">
+                        <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                        <input
+                          type="tel"
+                          placeholder="+91 98765 43210"
+                          value={customerPhone}
+                          onChange={(e) => setCustomerPhone(e.target.value)}
+                          className="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-mono font-medium placeholder:text-slate-400"
+                        />
+                      </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1 uppercase tracking-wide flex items-center gap-1">
-                        <span>📧</span> Email (Optional)
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Email Address (Optional)
                       </label>
-                      <input
-                        type="email"
-                        placeholder="anand@example.com"
-                        value={customerEmail}
-                        onChange={(e) => setCustomerEmail(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 outline-none text-sm text-slate-900 font-bold placeholder:text-slate-400 shadow-sm"
-                      />
+                      <div className="relative">
+                        <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                        <input
+                          type="email"
+                          placeholder="anand@example.com"
+                          value={customerEmail}
+                          onChange={(e) => setCustomerEmail(e.target.value)}
+                          className="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-medium placeholder:text-slate-400"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* 2B: Doorstep Address & Distance */}
-                <div className="pt-6 border-t-2 border-dashed border-slate-200">
+                {/* 2B: Doorstep Pickup Location */}
+                <div className="pt-6 border-t border-slate-200">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                    <h3 className="text-base sm:text-lg font-black text-slate-900 font-['Outfit'] flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-base">
-                        📍
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+                        <Navigation className="w-4 h-4 text-slate-800" />
                       </div>
-                      <span>2. Doorstep Address & Distance</span>
+                      <span>2. Doorstep Pickup Address & Distance</span>
                     </h3>
 
                     <button
                       type="button"
                       onClick={handleUseLocation}
                       disabled={isLocating}
-                      className="inline-flex items-center gap-1.5 text-xs text-slate-950 font-black bg-gradient-to-r from-amber-300 to-yellow-400 hover:from-amber-400 hover:to-yellow-500 px-4 py-2 rounded-2xl border-2 border-b-3 border-amber-600 shadow-sm active:border-b-2 active:translate-y-0.5 transition-all cursor-pointer self-start sm:self-auto"
+                      className="inline-flex items-center gap-1.5 text-xs text-blue-700 hover:text-blue-900 font-semibold bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-200 transition-colors cursor-pointer self-start sm:self-auto"
                     >
-                      <span className={`text-sm ${isLocating ? 'animate-spin' : ''}`}>🎯</span>
-                      <span>{isLocating ? 'Detecting GPS...' : 'Detect My GPS Location'}</span>
+                      <Crosshair className={`w-3.5 h-3.5 ${isLocating ? 'animate-spin' : ''}`} />
+                      <span>{isLocating ? 'Detecting Location...' : 'Detect GPS Location'}</span>
                     </button>
                   </div>
 
-                  <p className="text-xs text-slate-600 mb-3 font-medium">
-                    Distance calculated live from Sri Thirumala Hub, Karpur Main Road.
+                  <p className="text-xs text-slate-500 mb-3">
+                    Calculated live from Sri Thirumala Detailing Hub, Karpur Main Road.
                   </p>
 
-                  {/* Popular area chips */}
-                  <div className="mb-3.5">
-                    <span className="text-[11px] font-black text-slate-700 block mb-1.5">⚡ Tap Quick Hub Location:</span>
+                  {/* Popular quick area chips */}
+                  <div className="mb-3">
+                    <span className="text-[11px] font-semibold text-slate-500 block mb-1.5">Common Locations near Hub:</span>
                     <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
                       {popularAreasWithDistance.map((area) => (
                         <button
                           key={area.name}
                           type="button"
                           onClick={() => handleAreaSelect(area.name, area.km)}
-                          className="px-3.5 py-2 rounded-2xl bg-white hover:bg-orange-50 text-slate-800 border-2 border-slate-200 hover:border-orange-400 text-xs font-black transition-all cursor-pointer flex-shrink-0 flex items-center gap-1.5 shadow-sm active:scale-95"
+                          className="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-medium transition-colors cursor-pointer flex-shrink-0 flex items-center gap-1"
                         >
-                          <span>{area.emoji}</span>
                           <span>{area.name}</span>
-                          <span className="text-orange-600 font-mono font-black">({area.km}km)</span>
+                          <span className="text-slate-500 font-mono">({area.km} km)</span>
                         </button>
                       ))}
                     </div>
                   </div>
 
                   {/* Address Textarea */}
-                  <div className="relative mb-3.5">
+                  <div className="relative mb-3">
+                    <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
                     <textarea
                       rows={3}
-                      placeholder="🏠 House / Flat / Villa No., Apartment Name, Street, Landmark, Karpur or nearby locality"
+                      placeholder="Building / Villa / Flat No., Street Name, Landmark, Karpur or surrounding area"
                       value={pickupAddress}
                       onChange={(e) => setPickupAddress(e.target.value)}
-                      className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 outline-none text-sm text-slate-900 font-bold placeholder:text-slate-400 shadow-sm"
+                      className="w-full pl-9 pr-3 py-2.5 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-medium placeholder:text-slate-400"
                     ></textarea>
                   </div>
 
                   {/* Pincode & Landmark & Notes */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1 uppercase tracking-wide">
-                        📮 Pincode
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Postal Pincode
                       </label>
                       <input
                         type="text"
                         placeholder="562125"
                         value={pickupPincode}
                         onChange={(e) => setPickupPincode(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 outline-none text-sm text-slate-900 font-mono font-bold placeholder:text-slate-400 shadow-sm"
+                        className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-mono font-medium placeholder:text-slate-400"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1 uppercase tracking-wide">
-                        🏢 Landmark (Optional)
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Landmark (Optional)
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. Near Karpur Temple"
+                        placeholder="e.g. Near Temple / School"
                         value={landmark}
                         onChange={(e) => setLandmark(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 outline-none text-sm text-slate-900 font-bold placeholder:text-slate-400 shadow-sm"
+                        className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-medium placeholder:text-slate-400"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-slate-800 mb-1 uppercase tracking-wide">
-                        🚗 Parking Notes
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        Parking Instructions
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. Basement B1 / Gate"
+                        placeholder="e.g. Basement B1 / Visitor Gate"
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 focus:border-orange-500 outline-none text-sm text-slate-900 font-bold placeholder:text-slate-400 shadow-sm"
+                        className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-medium placeholder:text-slate-400"
                       />
                     </div>
                   </div>
 
-                  {/* 3D Bright Distance Metric Card */}
-                  <div className="mt-4 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-orange-100 via-amber-100 to-yellow-100 border-2 border-amber-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-sm">
+                  {/* Professional Distance Metric Box */}
+                  <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white flex items-center justify-center text-2xl flex-shrink-0 shadow-md border-2 border-white">
-                        🗺️
+                      <div className="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0">
+                        <Compass className="w-5 h-5 text-blue-700" />
                       </div>
                       <div>
-                        <span className="text-slate-700 block text-[11px] font-bold">Distance from Karpur Hub:</span>
-                        <span className="text-xl font-black text-slate-900 font-['Outfit'] font-mono">
-                          {distanceKm} Kilometers
+                        <span className="text-slate-500 block text-[11px] font-medium">Distance from Karpur Hub:</span>
+                        <span className="text-base font-bold text-slate-900 font-['Outfit'] font-mono">
+                          {distanceKm} km
                         </span>
                       </div>
                     </div>
 
-                    <div className="text-left sm:text-right border-t sm:border-t-0 pt-2 sm:pt-0 border-amber-200">
-                      <span className="text-slate-700 block text-[11px] font-bold">Est. Valet Arrival Time:</span>
-                      <span className="font-black text-emerald-800 text-sm">~{Math.round(distanceKm * 2.5 + 5)} mins transit reach ⏱️</span>
+                    <div className="text-left sm:text-right border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200">
+                      <span className="text-slate-500 block text-[11px] font-medium">Estimated Valet Transit:</span>
+                      <span className="font-semibold text-slate-900 text-xs">~{Math.round(distanceKm * 2.5 + 5)} mins arrival window</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Step 2 CTA */}
-                <div className="pt-4 flex items-center justify-between border-t-2 border-dashed border-slate-200">
+                {/* Step 2 Footer */}
+                <div className="pt-4 flex items-center justify-between border-t border-slate-200">
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black transition-all cursor-pointer border-2 border-slate-300 active:scale-95"
+                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer border border-slate-300"
                   >
-                    <span>← Back</span>
+                    <ChevronLeft className="w-4 h-4" />
+                    <span>Back</span>
                   </button>
 
                   <button
                     onClick={handleNextStep}
-                    className="px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-sm border-2 border-b-4 border-orange-700 shadow-[0_8px_20px_rgba(249,115,22,0.35)] active:border-b-2 active:translate-y-0.5 transition-all cursor-pointer flex items-center gap-2"
+                    className="px-6 sm:px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
                   >
-                    <span>Slot Timings</span>
-                    <span className="text-base">⏰</span>
+                    <span>Proceed to Timings</span>
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
 
               </div>
             )}
 
-            {/* STEP 3: IN-TIME SELECTION & TIMELINE CALCULATOR */}
+            {/* STEP 3: SCHEDULE & TIMELINE */}
             {!isSubmitted && currentStep === 3 && (
               <div className="space-y-6 sm:space-y-8">
                 
                 {/* 3A: Date Selector */}
                 <div>
-                  <h3 className="text-base sm:text-lg font-black text-slate-900 font-['Outfit'] mb-2.5 flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-yellow-100 border-2 border-yellow-300 flex items-center justify-center text-base">
-                      📅
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] mb-2 flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+                      <Calendar className="w-4 h-4 text-slate-800" />
                     </div>
-                    <span>1. Select Pickup Date</span>
+                    <span>1. Select Date</span>
                   </h3>
 
-                  <div className="flex items-center gap-3 p-3.5 rounded-3xl bg-slate-50 border-2 border-dashed border-slate-200">
+                  <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
                     <input
                       type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      className="px-4 py-2.5 rounded-2xl bg-white border-2 border-orange-400 focus:border-orange-500 outline-none text-sm text-slate-900 font-black font-mono shadow-sm"
+                      className="px-3 py-2 rounded-lg bg-white border border-slate-300 focus:border-slate-800 outline-none text-sm text-slate-900 font-semibold font-mono"
                     />
-                    <span className="text-xs text-slate-700 font-bold">
-                      Checking real-time open slots for {date} ⚡
+                    <span className="text-xs text-slate-600 font-medium">
+                      Checking real-time slot availability for {date}
                     </span>
                   </div>
                 </div>
 
                 {/* 3B: In-Time Slots with Live Conflict Detection */}
-                <div className="pt-6 border-t-2 border-dashed border-slate-200">
+                <div className="pt-6 border-t border-slate-200">
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h3 className="text-base sm:text-lg font-black text-slate-900 font-['Outfit'] flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-xl bg-orange-100 border-2 border-orange-300 flex items-center justify-center text-base">
-                          ⏰
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 font-['Outfit'] flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+                          <Clock className="w-4 h-4 text-slate-800" />
                         </div>
                         <span>2. Choose In-Time (Pickup Slot)</span>
                       </h3>
-                      <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                        Select when you want our valet driver to collect your vehicle.
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Select when our valet driver should collect your vehicle.
                       </p>
                     </div>
                   </div>
 
-                  {/* 3D Slot Chips Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 mb-6">
+                  {/* Slot chips */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 mb-6">
                     {allTimeSlots.map((time) => {
                       const booked = isSlotBooked(time, date);
                       const isSelected = inTime === time && !booked;
@@ -982,336 +1030,322 @@ Please dispatch valet pickup driver.`
                           disabled={booked}
                           onClick={() => {
                             if (booked) {
-                              alert(`⚠️ Slot ${time} on ${date} is already booked! Please select another open slot.`);
+                              alert(`The slot ${time} on ${date} is already reserved. Please select another slot.`);
                               return;
                             }
                             setInTime(time);
                           }}
-                          className={`p-3.5 rounded-2xl border-2 text-left transition-all flex flex-col justify-between cursor-pointer select-none active:scale-95 ${
+                          className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between cursor-pointer select-none ${
                             booked
-                              ? 'bg-red-50 border-red-200 text-slate-400 cursor-not-allowed opacity-60'
+                              ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed opacity-60'
                               : isSelected
-                              ? 'bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-white border-orange-700 border-b-4 shadow-[0_8px_20px_rgba(249,115,22,0.35)] font-black'
-                              : 'bg-white border-slate-200 border-b-3 hover:border-orange-400 hover:bg-orange-50 text-slate-800 shadow-sm'
+                              ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                              : 'bg-white border-slate-200 hover:border-slate-400 text-slate-800'
                           }`}
                         >
                           <div className="flex items-center justify-between mb-1">
-                            <span className={`text-sm font-black font-mono ${isSelected ? 'text-white' : booked ? 'line-through text-slate-400' : 'text-slate-900'}`}>
+                            <span className={`text-sm font-semibold font-mono ${isSelected ? 'text-white' : booked ? 'line-through text-slate-400' : 'text-slate-900'}`}>
                               {time}
                             </span>
                             {booked ? (
-                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-red-100 text-red-700 border border-red-300">
-                                BOOKED 🚫
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600">
+                                Booked
                               </span>
                             ) : isSelected ? (
-                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-white text-orange-700">
-                                PICKED ✨
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-red-600 text-white">
+                                Selected
                               </span>
                             ) : (
-                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-300">
-                                OPEN 🟢
+                              <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                Open
                               </span>
                             )}
                           </div>
 
-                          <span className={`text-[10px] font-bold ${isSelected ? 'text-white' : 'text-slate-500'}`}>
-                            {booked ? 'Slot unavailable' : isSelected ? '✓ Pickup Confirmed' : 'Tap to select'}
+                          <span className={`text-[10px] ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>
+                            {booked ? 'Unavailable' : isSelected ? 'Confirmed' : 'Available'}
                           </span>
                         </button>
                       );
                     })}
                   </div>
 
-                  {/* 3C: Dynamic Timeline Calculator Card (3D Stitched Style) */}
-                  <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-amber-100/90 via-orange-100/80 to-yellow-50 border-2 border-dashed border-amber-400 shadow-lg text-left relative overflow-hidden">
-                    
-                    <div className="flex items-center justify-between mb-3 border-b-2 border-dashed border-amber-300/80 pb-2">
-                      <span className="text-xs font-black uppercase tracking-wider text-slate-900 font-['Outfit'] flex items-center gap-1.5">
-                        <span>⚡</span>
-                        <span>AUTOMATED VALET TIMELINE CALCULATOR</span>
+                  {/* 3C: Dynamic Timeline Calculator Card */}
+                  <div className="p-5 rounded-xl bg-slate-900 text-white text-left shadow-sm">
+                    <div className="flex items-center justify-between mb-3 border-b border-slate-800 pb-2.5">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-300 font-['Outfit'] flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-red-500" />
+                        <span>Automated Valet Schedule</span>
                       </span>
-                      <span className="text-[11px] font-black text-orange-800 bg-amber-200 px-2.5 py-0.5 rounded-full border border-amber-400">
-                        Doorstep Guaranteed 🤝
+                      <span className="text-[11px] font-medium text-slate-400">
+                        Doorstep Delivery Guaranteed
                       </span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 items-center">
                       
                       {/* In-Time */}
-                      <div className="p-4 rounded-2xl bg-white border-2 border-b-4 border-orange-300 shadow-sm">
-                        <span className="text-orange-700 block text-xs font-black uppercase flex items-center gap-1">
-                          <span>📥</span> In-Time (Pickup):
-                        </span>
-                        <span className="text-xl font-black text-slate-900 font-mono font-['Outfit']">
+                      <div className="p-3.5 rounded-lg bg-slate-800/80 border border-slate-700">
+                        <span className="text-slate-400 block text-[11px] font-medium uppercase">Pickup In-Time:</span>
+                        <span className="text-lg font-bold text-white font-mono font-['Outfit']">
                           {inTime}
                         </span>
-                        <span className="block text-[11px] text-slate-500 font-medium mt-0.5">Valet driver collects vehicle</span>
+                        <span className="block text-[10px] text-slate-400 mt-0.5">Valet driver collection</span>
                       </div>
 
                       {/* Duration */}
-                      <div className="p-4 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-400 text-white border-2 border-b-4 border-orange-700 text-center shadow-md">
-                        <span className="text-white block text-xs font-black uppercase flex items-center justify-center gap-1">
-                          <span>⏱️</span> Wash Duration:
-                        </span>
-                        <span className="text-xl font-black font-mono font-['Outfit'] drop-shadow-sm">
+                      <div className="p-3.5 rounded-lg bg-slate-800/80 border border-slate-700 text-center">
+                        <span className="text-slate-400 block text-[11px] font-medium uppercase">Treatment Duration:</span>
+                        <span className="text-lg font-bold text-amber-400 font-mono font-['Outfit']">
                           {Math.floor(totalDurationMinutes / 60)}h {totalDurationMinutes % 60}m
                         </span>
-                        <span className="block text-[11px] text-yellow-100 font-bold mt-0.5">{selectedServiceIds.length} services + 15m transit</span>
+                        <span className="block text-[10px] text-slate-400 mt-0.5">{selectedServiceIds.length} services + 15m transit</span>
                       </div>
 
                       {/* Out-Time */}
-                      <div className="p-4 rounded-2xl bg-emerald-50 border-2 border-b-4 border-emerald-400 shadow-sm">
-                        <span className="text-emerald-800 block text-xs font-black uppercase flex items-center gap-1">
-                          <span>📤</span> Out-Time (Return):
-                        </span>
-                        <span className="text-xl font-black text-emerald-800 font-mono font-['Outfit']">
+                      <div className="p-3.5 rounded-lg bg-slate-800/80 border border-slate-700">
+                        <span className="text-emerald-400 block text-[11px] font-medium uppercase">Return Out-Time:</span>
+                        <span className="text-lg font-bold text-emerald-400 font-mono font-['Outfit']">
                           {outTime}
                         </span>
-                        <span className="block text-[11px] text-slate-600 font-medium mt-0.5">Spotless vehicle delivered back</span>
+                        <span className="block text-[10px] text-slate-400 mt-0.5">Spotless vehicle return</span>
                       </div>
 
                     </div>
                   </div>
                 </div>
 
-                {/* Step 3 CTA */}
-                <div className="pt-4 flex items-center justify-between border-t-2 border-dashed border-slate-200">
+                {/* Step 3 Footer */}
+                <div className="pt-4 flex items-center justify-between border-t border-slate-200">
                   <button
                     onClick={() => setCurrentStep(2)}
-                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black transition-all cursor-pointer border-2 border-slate-300 active:scale-95"
+                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer border border-slate-300"
                   >
-                    <span>← Back</span>
+                    <ChevronLeft className="w-4 h-4" />
+                    <span>Back</span>
                   </button>
 
                   <button
                     onClick={handleNextStep}
-                    className="px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-sm border-2 border-b-4 border-orange-700 shadow-[0_8px_20px_rgba(249,115,22,0.35)] active:border-b-2 active:translate-y-0.5 transition-all cursor-pointer flex items-center gap-2"
+                    className="px-6 sm:px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
                   >
-                    <span>Review & Finalize</span>
-                    <span className="text-base">🎟️</span>
+                    <span>Review Booking</span>
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
 
               </div>
             )}
 
-            {/* STEP 4: FINAL SUMMARY & CONFIRMATION */}
+            {/* STEP 4: REVIEW & SUBMISSION */}
             {!isSubmitted && currentStep === 4 && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 font-['Outfit'] mb-1 flex items-center gap-2">
-                    <span>🎟️</span>
-                    <span>Review Your Custom Valet Slot</span>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 font-['Outfit'] mb-1">
+                    Booking Summary & Review
                   </h3>
-                  <p className="text-xs text-slate-600 mb-5 font-medium">
-                    Review your vehicle, selected services, timings, and address before confirming.
+                  <p className="text-xs text-slate-500 mb-5">
+                    Please review your vehicle details, scheduled timings, and location.
                   </p>
 
-                  {/* 3D Stitched Receipt Card */}
-                  <div className="p-5 sm:p-7 rounded-3xl bg-white border-2 border-dashed border-amber-400 space-y-3.5 text-xs sm:text-sm shadow-xl relative">
+                  {/* Clean Receipt Breakdown */}
+                  <div className="p-5 sm:p-6 rounded-xl bg-slate-50 border border-slate-200 space-y-3 text-xs sm:text-sm">
                     
-                    {/* Perforation Cut Line */}
-                    <div className="flex items-center gap-2 text-slate-400 text-[11px] pb-2 border-b-2 border-dashed border-slate-200 font-mono font-bold">
-                      <span>✂️</span>
-                      <span>DOORSTEP VALET BOOKING VOUCHER</span>
-                    </div>
-
                     <div className="flex justify-between items-center pb-2.5 border-b border-slate-200">
-                      <span className="text-slate-600 font-bold">🚗 Vehicle:</span>
-                      <span className="font-black text-slate-900 font-['Outfit'] text-right text-sm">
+                      <span className="text-slate-500 font-medium">Vehicle:</span>
+                      <span className="font-bold text-slate-900 font-['Outfit'] text-right">
                         {vehicleModel} ({vehicleNumber.toUpperCase()})
                       </span>
                     </div>
 
                     <div className="flex justify-between items-start pb-2.5 border-b border-slate-200">
-                      <span className="text-slate-600 font-bold">🧼 Services:</span>
+                      <span className="text-slate-500 font-medium">Selected Treatments:</span>
                       <div className="text-right space-y-1 max-w-xs sm:max-w-sm">
                         {selectedServicesObjects.map((s) => (
-                          <div key={s.id} className="text-orange-600 font-black text-xs flex justify-between gap-4">
+                          <div key={s.id} className="text-slate-800 font-medium text-xs flex justify-between gap-4">
                             <span>• {s.name}</span>
-                            <span className="font-mono text-slate-900 font-bold">₹{s.price}</span>
+                            <span className="font-mono font-semibold">₹{s.price}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     <div className="flex justify-between items-center pb-2.5 border-b border-slate-200">
-                      <span className="text-slate-600 font-bold">👤 Customer Contact:</span>
-                      <span className="font-black text-slate-900">{customerName} ({customerPhone})</span>
+                      <span className="text-slate-500 font-medium">Customer Contact:</span>
+                      <span className="font-semibold text-slate-900">{customerName} ({customerPhone})</span>
                     </div>
 
                     <div className="flex justify-between items-start pb-2.5 border-b border-slate-200">
-                      <span className="text-slate-600 font-bold">📍 Doorstep Address:</span>
-                      <span className="font-bold text-slate-900 max-w-xs sm:max-w-sm text-right">
+                      <span className="text-slate-500 font-medium">Doorstep Pickup:</span>
+                      <span className="font-medium text-slate-900 max-w-xs sm:max-w-sm text-right">
                         {pickupAddress} ({pickupPincode})
-                        <span className="block text-[11px] text-orange-600 font-mono mt-0.5">
-                          🗺️ {distanceKm} km from Karpur Hub
+                        <span className="block text-[11px] text-slate-500 font-mono mt-0.5">
+                          {distanceKm} km from Karpur Hub
                         </span>
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center pb-2.5 border-b border-slate-200">
-                      <span className="text-slate-600 font-bold">📥 Pickup In-Time:</span>
-                      <span className="font-black text-orange-600 font-mono">{date} @ {inTime}</span>
+                      <span className="text-slate-500 font-medium">Scheduled In-Time:</span>
+                      <span className="font-bold text-slate-900 font-mono">{date} at {inTime}</span>
                     </div>
 
                     <div className="flex justify-between items-center pb-2.5 border-b border-slate-200">
-                      <span className="text-slate-600 font-bold">📤 Return Out-Time:</span>
-                      <span className="font-black text-emerald-700 font-mono">{date} @ {outTime}</span>
+                      <span className="text-slate-500 font-medium">Estimated Return Out-Time:</span>
+                      <span className="font-bold text-emerald-700 font-mono">{date} at {outTime}</span>
                     </div>
 
                     <div className="flex justify-between items-center pt-1">
-                      <span className="text-slate-600 font-bold">🚚 Valet Pickup & Delivery Fee:</span>
-                      <span className="font-black text-emerald-800 uppercase tracking-wider text-xs bg-emerald-100 px-2.5 py-1 rounded-xl border border-emerald-300">
-                        FREE (₹0) 🎉
+                      <span className="text-slate-500 font-medium">Doorstep Valet Fee:</span>
+                      <span className="font-bold text-emerald-700 uppercase tracking-wider text-xs">
+                        Included (₹0)
                       </span>
                     </div>
 
                   </div>
 
-                  <div className="mt-4 p-4 rounded-3xl bg-amber-50 border-2 border-amber-300 text-slate-800 text-xs flex items-center gap-3 shadow-sm">
-                    <span className="text-2xl">🤝</span>
+                  <div className="mt-4 p-4 rounded-xl bg-blue-50 border border-blue-200 text-slate-700 text-xs flex items-center gap-3">
+                    <ShieldCheck className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <span>
-                      <strong className="text-orange-700">Zero Advance Payment:</strong> Pay only after full vehicle wash inspection at your doorstep. Cash, UPI, GPay, PhonePe, and Cards accepted.
+                      <strong className="text-slate-900">Zero Advance Required:</strong> Inspect the vehicle upon return and pay securely via Cash, UPI (GPay/PhonePe), or Card.
                     </span>
                   </div>
                 </div>
 
-                {/* Step 4 CTA */}
-                <div className="pt-4 flex items-center justify-between border-t-2 border-dashed border-slate-200">
+                {/* Step 4 Footer */}
+                <div className="pt-4 flex items-center justify-between border-t border-slate-200">
                   <button
                     onClick={() => setCurrentStep(3)}
-                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black transition-all cursor-pointer border-2 border-slate-300 active:scale-95"
+                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer border border-slate-300"
                   >
-                    <span>← Back</span>
+                    <ChevronLeft className="w-4 h-4" />
+                    <span>Back</span>
                   </button>
 
                   <button
                     onClick={handleNextStep}
-                    className="px-6 sm:px-10 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-sm sm:text-base border-2 border-b-4 border-orange-700 shadow-[0_10px_25px_rgba(249,115,22,0.4)] active:border-b-2 active:translate-y-0.5 transition-all cursor-pointer flex items-center gap-2"
+                    className="px-6 sm:px-10 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm sm:text-base transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
                   >
-                    <span>Confirm & Book Slot • ₹{grandTotal}</span>
-                    <span className="text-lg">🚀</span>
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span>Confirm Booking • ₹{grandTotal}</span>
                   </button>
                 </div>
               </div>
             )}
 
-            {/* STEP 5: 3D STITCHED CONFIRMED PASS & WHATSAPP DISPATCH */}
+            {/* STEP 5: CONFIRMED BOOKING PASS & DISPATCH */}
             {isSubmitted && (
               <div className="text-center py-4 sm:py-6 space-y-6 max-w-2xl mx-auto">
                 
-                {/* Header Confirmation 3D Badge */}
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-emerald-400 to-teal-500 text-white flex items-center justify-center mx-auto shadow-[0_10px_30px_rgba(52,211,153,0.5)] border-4 border-white text-4xl animate-bounce">
-                  🎉
+                {/* Clean Status Badge */}
+                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
+                  <CheckCircle2 className="w-10 h-10" />
                 </div>
 
                 <div>
-                  <span className="text-xs font-mono font-black px-4 py-1.5 rounded-full bg-amber-100 text-orange-800 border-2 border-dashed border-amber-400 shadow-sm">
-                    🎫 BOOKING REFERENCE: {bookingId}
+                  <span className="text-xs font-mono font-bold px-3 py-1 rounded-md bg-slate-100 text-slate-800 border border-slate-200">
+                    REFERENCE ID: {bookingId}
                   </span>
 
-                  <h2 className="text-3xl sm:text-4xl font-black text-slate-900 font-['Outfit'] mt-3">
-                    Slot Booked Successfully! 🫧
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit'] mt-3">
+                    Booking Confirmed
                   </h2>
 
-                  <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto mt-2 leading-relaxed font-bold">
-                    Thank you, <strong className="text-slate-900">{customerName}</strong>! Pickup scheduled at <strong className="text-orange-600">{inTime}</strong> and ready by <strong className="text-emerald-700">{outTime}</strong> on <strong className="text-slate-900">{date}</strong>.
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto mt-1.5 leading-relaxed font-normal">
+                    Thank you, <strong className="text-slate-900">{customerName}</strong>. Valet pickup is confirmed for <strong className="text-slate-900">{inTime}</strong> with vehicle return by <strong className="text-emerald-700">{outTime}</strong> on <strong className="text-slate-900">{date}</strong>.
                   </p>
                 </div>
 
-                {/* Printable 3D Stitched Digital Valet Pass Ticket */}
-                <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-50 border-2 border-dashed border-amber-400 shadow-2xl text-left relative overflow-hidden">
+                {/* Printable Digital Valet Pass Ticket */}
+                <div className="p-6 sm:p-7 rounded-2xl bg-white border border-slate-300 shadow-md text-left relative">
                   
-                  {/* Left & Right Perforated Ticket Notches */}
-                  <div className="absolute top-1/2 -left-3.5 -translate-y-1/2 w-7 h-7 rounded-full bg-[#f8fafc] border-r-2 border-dashed border-amber-400"></div>
-                  <div className="absolute top-1/2 -right-3.5 -translate-y-1/2 w-7 h-7 rounded-full bg-[#f8fafc] border-l-2 border-dashed border-amber-400"></div>
-
-                  <div className="flex items-center justify-between border-b-2 border-dashed border-slate-300 pb-3.5 mb-3.5">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-3.5 mb-3.5">
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-orange-600 font-mono">
-                        OFFICIAL DOORSTEP VALET PASS 🎟️
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">
+                        Official Doorstep Valet Pass
                       </span>
-                      <h4 className="text-base sm:text-lg font-black text-slate-900 font-['Outfit']">
+                      <h4 className="text-base font-bold text-slate-900 font-['Outfit']">
                         SRI THIRUMALA FOAM WASH
                       </h4>
                     </div>
-                    <span className="text-xs font-mono font-black px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-red-600 to-orange-500 text-white shadow-md border-2 border-white">
+                    <span className="text-xs font-mono font-bold px-3 py-1 rounded-md bg-slate-900 text-white">
                       {bookingId}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-xs mb-3.5">
                     <div>
-                      <span className="text-slate-500 block text-[11px] font-bold">🚗 Vehicle:</span>
-                      <span className="font-black text-slate-900">{vehicleModel}</span>
-                      <span className="block text-[10px] text-orange-600 font-mono font-black">{vehicleNumber.toUpperCase()}</span>
+                      <span className="text-slate-500 block text-[11px] font-medium">Vehicle:</span>
+                      <span className="font-bold text-slate-900">{vehicleModel}</span>
+                      <span className="block text-[10px] text-slate-600 font-mono font-semibold">{vehicleNumber.toUpperCase()}</span>
                     </div>
 
                     <div>
-                      <span className="text-slate-500 block text-[11px] font-bold">📥 In-Time:</span>
-                      <span className="font-black text-orange-600 font-mono">{date} @ {inTime}</span>
+                      <span className="text-slate-500 block text-[11px] font-medium">In-Time:</span>
+                      <span className="font-bold text-slate-900 font-mono">{date} at {inTime}</span>
                     </div>
 
                     <div>
-                      <span className="text-slate-500 block text-[11px] font-bold">📤 Out-Time:</span>
-                      <span className="font-black text-emerald-700 font-mono">{date} @ {outTime}</span>
+                      <span className="text-slate-500 block text-[11px] font-medium">Out-Time:</span>
+                      <span className="font-bold text-emerald-700 font-mono">{date} at {outTime}</span>
                     </div>
 
                     <div>
-                      <span className="text-slate-500 block text-[11px] font-bold">🗺️ Distance:</span>
-                      <span className="font-black text-slate-900 font-mono">{distanceKm} km Hub</span>
+                      <span className="text-slate-500 block text-[11px] font-medium">Distance:</span>
+                      <span className="font-bold text-slate-900 font-mono">{distanceKm} km</span>
                     </div>
                   </div>
 
                   {/* Services Itemized */}
-                  <div className="py-2.5 border-t-2 border-dashed border-slate-300 text-xs">
-                    <span className="text-slate-500 block text-[11px] font-bold mb-1.5">🧼 Services Booked:</span>
+                  <div className="py-2.5 border-t border-slate-200 text-xs">
+                    <span className="text-slate-500 block text-[11px] font-medium mb-1.5">Treatments:</span>
                     <div className="flex flex-wrap gap-1.5">
                       {selectedServicesObjects.map(s => (
-                        <span key={s.id} className="px-2.5 py-1 rounded-xl bg-white text-slate-800 text-[11px] font-black border-2 border-slate-200 shadow-sm">
-                          {getServiceEmoji(s.id)} {s.name}
+                        <span key={s.id} className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800 text-[11px] font-medium border border-slate-200">
+                          {s.name}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  <div className="border-t-2 border-dashed border-slate-300 pt-3.5 flex items-center justify-between text-xs mt-3">
+                  <div className="border-t border-slate-200 pt-3.5 flex items-center justify-between text-xs mt-3">
                     <div>
-                      <span className="text-slate-500 block text-[11px] font-bold">💰 Total Payable (Upon Delivery):</span>
-                      <span className="text-3xl font-black text-slate-900 font-['Outfit']">₹{grandTotal}</span>
+                      <span className="text-slate-500 block text-[11px] font-medium">Total Amount (Pay on Delivery):</span>
+                      <span className="text-2xl font-bold text-slate-900 font-['Outfit']">₹{grandTotal}</span>
                     </div>
 
                     <div className="text-right">
-                      <span className="text-slate-500 block text-[10px] font-bold">💳 Payment:</span>
-                      <span className="font-bold text-slate-900 text-xs">Cash / UPI / GPay / Card</span>
+                      <span className="text-slate-500 block text-[10px] font-medium">Payment Modes:</span>
+                      <span className="font-semibold text-slate-800 text-xs">Cash / UPI / Cards</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Final Actions */}
+                {/* Final CTA buttons */}
                 <div className="pt-2 flex flex-col sm:flex-row justify-center items-center gap-3">
                   <a
                     href={`https://wa.me/${COMPANY_INFO.whatsapp}?text=${whatsappBookingMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black text-sm border-2 border-b-4 border-emerald-700 shadow-[0_8px_20px_rgba(16,185,129,0.4)] active:border-b-2 active:translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
                   >
-                    <span>💬 Send Booking to WhatsApp</span>
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Send Booking via WhatsApp</span>
                   </a>
 
                   <button
                     onClick={() => window.print()}
-                    className="w-full sm:w-auto px-5 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-black text-sm border-2 border-b-4 border-slate-300 active:border-b-2 active:translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm border border-slate-300 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                   >
-                    <span>🖨️ Print Valet Pass</span>
+                    <Printer className="w-4 h-4 text-slate-600" />
+                    <span>Print Valet Pass</span>
                   </button>
 
                   <button
                     onClick={onNavigateHome}
-                    className="w-full sm:w-auto px-5 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-sm border-2 border-b-4 border-orange-700 shadow-md transition-all cursor-pointer active:translate-y-0.5"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm transition-colors cursor-pointer"
                   >
-                    🏡 Return to Home
+                    Return to Home
                   </button>
                 </div>
 
@@ -1320,108 +1354,108 @@ Please dispatch valet pickup driver.`
 
           </div>
 
-          {/* Desktop 3D Bright Sidebar Estimate */}
+          {/* Desktop Summary Sidebar */}
           {!isSubmitted && (
-            <aside className="hidden lg:block lg:col-span-4 lg:sticky lg:top-24 space-y-5">
+            <aside className="hidden lg:block lg:col-span-4 lg:sticky lg:top-24 space-y-4">
               
-              {/* Order Summary Stitched Card */}
-              <div className="bg-white border-2 border-b-8 border-slate-200 rounded-3xl p-6 shadow-xl text-left relative overflow-hidden">
+              {/* Order Summary Card */}
+              <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm text-left relative">
                 
-                <div className="flex items-center justify-between pb-3.5 border-b-2 border-dashed border-slate-200">
-                  <h3 className="font-black text-slate-900 text-sm font-['Outfit'] uppercase tracking-wider flex items-center gap-1.5">
-                    <span>📋</span>
-                    <span>Live Valet Quote</span>
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-900 text-sm font-['Outfit'] uppercase tracking-wider flex items-center gap-2">
+                    <FileCheck className="w-4 h-4 text-red-600" />
+                    <span>Reservation Quote</span>
                   </h3>
-                  <span className="text-xs font-mono font-black px-3 py-1 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 text-slate-950 shadow-sm border border-white">
-                    Step {currentStep} of 4 ⚡
+                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                    Step {currentStep} of 4
                   </span>
                 </div>
 
-                <div className="py-4 space-y-3 text-xs">
+                <div className="py-3.5 space-y-2.5 text-xs">
                   
                   {/* Vehicle */}
                   {vehicleModel && (
-                    <div className="flex justify-between items-center text-slate-700">
-                      <span className="font-bold">🚗 Vehicle:</span>
-                      <span className="font-black text-slate-900 truncate max-w-[170px]">{vehicleModel}</span>
+                    <div className="flex justify-between items-center text-slate-600">
+                      <span className="font-medium">Vehicle:</span>
+                      <span className="font-semibold text-slate-900 truncate max-w-[170px]">{vehicleModel}</span>
                     </div>
                   )}
 
                   {/* Services Selected */}
                   <div className="pt-2 border-t border-slate-100 space-y-1.5">
-                    <span className="text-slate-500 block text-[11px] font-black uppercase">🧼 Services ({selectedServiceIds.length}):</span>
+                    <span className="text-slate-500 block text-[11px] font-semibold uppercase">Services ({selectedServiceIds.length}):</span>
                     {selectedServicesObjects.map((s) => (
                       <div key={s.id} className="flex justify-between text-slate-700">
-                        <span className="truncate max-w-[170px]">{getServiceEmoji(s.id)} {s.name}</span>
-                        <span className="font-mono font-bold text-slate-900">₹{s.price}</span>
+                        <span className="truncate max-w-[170px]">• {s.name}</span>
+                        <span className="font-mono font-medium text-slate-900">₹{s.price}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Estimated Wash Duration */}
-                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 text-slate-700">
-                    <span className="font-bold">⏱️ Wash Duration:</span>
-                    <span className="font-black text-orange-600 font-mono">
+                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 text-slate-600">
+                    <span className="font-medium">Estimated Duration:</span>
+                    <span className="font-semibold text-slate-900 font-mono">
                       {Math.floor(totalDurationMinutes / 60)}h {totalDurationMinutes % 60}m
                     </span>
                   </div>
 
                   {/* In & Out Time */}
-                  <div className="flex justify-between items-center text-slate-700">
-                    <span className="font-bold">⏰ Timings:</span>
-                    <span className="font-black text-emerald-700 font-mono">
+                  <div className="flex justify-between items-center text-slate-600">
+                    <span className="font-medium">Schedule Window:</span>
+                    <span className="font-semibold text-slate-900 font-mono">
                       {inTime} ➔ {outTime}
                     </span>
                   </div>
 
                   {/* Distance from Hub */}
-                  <div className="flex justify-between items-center text-slate-700">
-                    <span className="font-bold">🗺️ Distance:</span>
-                    <span className="font-black text-slate-900 font-mono">{distanceKm} km Hub</span>
+                  <div className="flex justify-between items-center text-slate-600">
+                    <span className="font-medium">Hub Distance:</span>
+                    <span className="font-semibold text-slate-900 font-mono">{distanceKm} km</span>
                   </div>
 
                   {/* Doorstep Valet Fee */}
-                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 text-slate-700">
-                    <span className="font-bold">🚚 Valet Fee:</span>
-                    <span className="font-black text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-300">
-                      FREE (₹0) 🎉
+                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 text-slate-600">
+                    <span className="font-medium">Doorstep Valet Fee:</span>
+                    <span className="font-bold text-emerald-700">
+                      FREE (₹0)
                     </span>
                   </div>
                 </div>
 
                 {/* Grand Total */}
-                <div className="pt-4 border-t-2 border-dashed border-slate-200 flex items-baseline justify-between">
+                <div className="pt-3.5 border-t border-slate-200 flex items-baseline justify-between">
                   <div>
-                    <span className="text-xs text-slate-500 block font-bold">Total Payable:</span>
-                    <span className="text-[11px] text-orange-700 font-bold">Pay after wash inspection</span>
+                    <span className="text-xs text-slate-500 block font-medium">Total Amount:</span>
+                    <span className="text-[11px] text-slate-600 font-normal">Payable upon delivery</span>
                   </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm font-bold text-slate-500 font-mono">₹</span>
-                    <span className="text-3xl font-black text-slate-900 font-['Outfit']">
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-xs text-slate-500 font-mono">₹</span>
+                    <span className="text-2xl font-bold text-slate-900 font-['Outfit']">
                       {grandTotal}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-4 p-3 rounded-2xl bg-amber-50 border-2 border-amber-200 text-[11px] text-slate-700 flex items-center gap-2 font-medium">
-                  <span className="text-base">🔒</span>
-                  <span>Zero advance required. Instant valet pass.</span>
+                <div className="mt-3.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 flex items-center gap-2 font-normal">
+                  <ShieldCheck className="w-4 h-4 text-slate-600 flex-shrink-0" />
+                  <span>Zero advance payment required to book.</span>
                 </div>
               </div>
 
               {/* Hub Hotline Contact */}
-              <div className="p-4 rounded-3xl bg-gradient-to-br from-orange-100 to-amber-100 border-2 border-amber-300 text-left text-xs shadow-sm">
-                <h4 className="font-black text-slate-900 text-xs uppercase tracking-wide font-['Outfit'] mb-1 flex items-center gap-1.5">
-                  <span>📞</span> Hub Dispatch Hotline
+              <div className="p-4 rounded-2xl bg-white border border-slate-200 text-left text-xs shadow-xs">
+                <h4 className="font-bold text-slate-900 text-xs font-['Outfit'] mb-1 flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-red-600" />
+                  <span>Hub Dispatch Hotline</span>
                 </h4>
-                <p className="text-slate-600 mb-2 text-[11px] font-medium">
-                  Need an urgent emergency wash or customized fleet timing?
+                <p className="text-slate-500 mb-2 text-[11px]">
+                  Special fleet requests or urgent scheduling support:
                 </p>
                 <a
                   href={`tel:${COMPANY_INFO.phone}`}
-                  className="inline-flex items-center gap-2 font-black text-orange-700 hover:text-orange-900 transition-colors text-xs"
+                  className="inline-flex items-center gap-1.5 font-semibold text-slate-900 hover:text-red-600 transition-colors text-xs"
                 >
-                  <Phone className="w-3.5 h-3.5 text-orange-600" />
                   <span>{COMPANY_INFO.phone}</span>
                 </a>
               </div>
@@ -1433,24 +1467,24 @@ Please dispatch valet pickup driver.`
 
       </main>
 
-      {/* MOBILE-ONLY STICKY 3D BOTTOM ACTION BAR */}
+      {/* MOBILE STICKY BOTTOM BAR */}
       {!isSubmitted && (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t-2 border-dashed border-amber-400 p-3 shadow-[0_-8px_30px_rgba(0,0,0,0.12)]">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 p-3 shadow-lg">
           <div className="max-w-md mx-auto flex items-center justify-between gap-3">
             
-            {/* Price & Expand Trigger */}
+            {/* Price & Expand */}
             <div 
               onClick={() => setShowMobileSummary(!showMobileSummary)}
               className="flex items-center gap-2 cursor-pointer select-none"
             >
               <div>
-                <span className="text-[10px] text-slate-500 font-bold block leading-none">Total Amount</span>
-                <span className="text-2xl font-black text-slate-900 font-['Outfit'] leading-tight font-mono">
+                <span className="text-[10px] text-slate-500 font-medium block leading-none">Total Amount</span>
+                <span className="text-xl font-bold text-slate-900 font-['Outfit'] leading-tight font-mono">
                   ₹{grandTotal}
                 </span>
               </div>
-              <div className="p-1.5 rounded-xl bg-amber-100 text-slate-900 border border-amber-300">
-                {showMobileSummary ? <ChevronDown className="w-4 h-4 stroke-[3]" /> : <ChevronUp className="w-4 h-4 stroke-[3]" />}
+              <div className="p-1 rounded-lg bg-slate-100 text-slate-600">
+                {showMobileSummary ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
               </div>
             </div>
 
@@ -1460,19 +1494,19 @@ Please dispatch valet pickup driver.`
                 <button
                   type="button"
                   onClick={() => setCurrentStep(currentStep - 1)}
-                  className="p-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-black text-xs border-2 border-slate-300 cursor-pointer active:scale-95"
+                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-300 cursor-pointer"
                 >
-                  <ChevronLeft className="w-4 h-4 stroke-[3]" />
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
               )}
 
               <button
                 type="button"
                 onClick={handleNextStep}
-                className="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-xs sm:text-sm border-2 border-b-4 border-orange-700 shadow-[0_6px_16px_rgba(249,115,22,0.4)] active:border-b-2 active:translate-y-0.5 transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-xs sm:text-sm transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
               >
-                <span>{currentStep === 1 ? 'Address 📍' : currentStep === 2 ? 'Slots ⏰' : currentStep === 3 ? 'Review 🎟️' : 'Confirm 🚀'}</span>
-                <ChevronRight className="w-4 h-4 stroke-[3]" />
+                <span>{currentStep === 1 ? 'Address' : currentStep === 2 ? 'Timings' : currentStep === 3 ? 'Review' : 'Confirm'}</span>
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
 
@@ -1480,60 +1514,60 @@ Please dispatch valet pickup driver.`
         </div>
       )}
 
-      {/* MOBILE SUMMARY EXPANDABLE DRAWER */}
+      {/* MOBILE SUMMARY DRAWER */}
       {showMobileSummary && (
-        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white border-t-4 border-dashed border-amber-400 rounded-t-3xl p-5 text-left shadow-2xl max-h-[75vh] overflow-y-auto space-y-4">
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white border-t border-slate-200 rounded-t-2xl p-5 text-left shadow-2xl max-h-[75vh] overflow-y-auto space-y-4">
             
-            <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-slate-200">
-              <h3 className="text-base font-black text-slate-900 font-['Outfit'] flex items-center gap-2">
-                <span>📋</span>
-                <span>Live Quote Breakdown</span>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+              <h3 className="text-sm font-bold text-slate-900 font-['Outfit'] flex items-center gap-2">
+                <FileCheck className="w-4 h-4 text-red-600" />
+                <span>Reservation Breakdown</span>
               </h3>
               <button
                 onClick={() => setShowMobileSummary(false)}
-                className="text-slate-600 hover:text-slate-900 text-xs font-black px-3 py-1 rounded-xl bg-slate-100 border border-slate-300 cursor-pointer"
+                className="text-slate-500 hover:text-slate-800 text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 cursor-pointer"
               >
-                ✕ Close
+                Close
               </button>
             </div>
 
             <div className="space-y-2 text-xs">
               {vehicleModel && (
-                <div className="flex justify-between text-slate-800">
-                  <span className="font-bold">🚗 Vehicle:</span>
-                  <span className="font-black text-slate-900">{vehicleModel} ({vehicleNumber || '—'})</span>
+                <div className="flex justify-between text-slate-700">
+                  <span className="font-medium">Vehicle:</span>
+                  <span className="font-semibold text-slate-900">{vehicleModel} ({vehicleNumber || '—'})</span>
                 </div>
               )}
 
               <div className="pt-2 border-t border-slate-100 space-y-1">
-                <span className="text-slate-500 font-black block">🧼 Services Selected ({selectedServiceIds.length}):</span>
+                <span className="text-slate-500 font-semibold block">Services Selected ({selectedServiceIds.length}):</span>
                 {selectedServicesObjects.map((s) => (
                   <div key={s.id} className="flex justify-between text-slate-700 text-xs">
-                    <span>{getServiceEmoji(s.id)} {s.name}</span>
-                    <span className="font-mono font-bold text-slate-900">₹{s.price}</span>
+                    <span>• {s.name}</span>
+                    <span className="font-mono font-medium text-slate-900">₹{s.price}</span>
                   </div>
                 ))}
               </div>
 
               <div className="flex justify-between pt-2 border-t border-slate-100 text-slate-700">
-                <span>⏱️ Est. Duration:</span>
-                <span className="font-black text-orange-600 font-mono">{Math.floor(totalDurationMinutes / 60)}h {totalDurationMinutes % 60}m</span>
+                <span>Duration:</span>
+                <span className="font-medium text-slate-900 font-mono">{Math.floor(totalDurationMinutes / 60)}h {totalDurationMinutes % 60}m</span>
               </div>
 
               <div className="flex justify-between text-slate-700">
-                <span>⏰ Timings:</span>
-                <span className="font-black text-emerald-700 font-mono">{inTime} ➔ {outTime}</span>
+                <span>Schedule:</span>
+                <span className="font-medium text-slate-900 font-mono">{inTime} ➔ {outTime}</span>
               </div>
 
               <div className="flex justify-between text-slate-700">
-                <span>🚚 Valet Fee:</span>
-                <span className="font-black text-emerald-800">FREE (₹0) 🎉</span>
+                <span>Doorstep Valet Fee:</span>
+                <span className="font-semibold text-emerald-700">FREE (₹0)</span>
               </div>
 
-              <div className="flex justify-between pt-3 border-t-2 border-dashed border-slate-200 text-sm font-black items-baseline">
+              <div className="flex justify-between pt-3 border-t border-slate-200 text-sm font-bold items-baseline">
                 <span className="text-slate-900">Total Amount:</span>
-                <span className="text-2xl text-slate-900 font-['Outfit'] font-mono">₹{grandTotal}</span>
+                <span className="text-xl text-slate-900 font-['Outfit'] font-mono">₹{grandTotal}</span>
               </div>
             </div>
 
@@ -1542,9 +1576,9 @@ Please dispatch valet pickup driver.`
                 setShowMobileSummary(false);
                 handleNextStep();
               }}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-sm border-2 border-b-4 border-orange-700 shadow-lg shadow-orange-500/30 transition-all cursor-pointer active:translate-y-0.5"
+              className="w-full py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-colors cursor-pointer"
             >
-              Continue Next Step 🚀
+              Continue Next Step →
             </button>
           </div>
         </div>
@@ -1552,16 +1586,16 @@ Please dispatch valet pickup driver.`
 
       {/* Booking History Modal */}
       {showHistoryModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white border-2 border-dashed border-amber-400 rounded-3xl max-w-lg w-full p-6 text-left shadow-2xl max-h-[85vh] flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b-2 border-dashed border-slate-200">
-              <h3 className="text-lg font-black text-slate-900 font-['Outfit'] flex items-center gap-2">
-                <span>🎫</span>
-                <span>My Saved Valet Passes</span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 text-left shadow-xl max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-200">
+              <h3 className="text-base font-bold text-slate-900 font-['Outfit'] flex items-center gap-2">
+                <History className="w-4 h-4 text-slate-700" />
+                <span>My Saved Bookings</span>
               </h3>
               <button
                 onClick={() => setShowHistoryModal(false)}
-                className="text-slate-600 hover:text-slate-900 text-sm font-black px-3 py-1 rounded-xl bg-slate-100 border border-slate-300 cursor-pointer"
+                className="text-slate-500 hover:text-slate-800 text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 cursor-pointer"
               >
                 ✕
               </button>
@@ -1572,26 +1606,26 @@ Please dispatch valet pickup driver.`
                 <p className="text-xs text-slate-500 text-center py-6">No previous bookings found.</p>
               ) : (
                 savedBookings.map((b) => (
-                  <div key={b.id} className="p-4 rounded-2xl bg-amber-50/60 border-2 border-dashed border-amber-300 space-y-1 text-xs shadow-sm">
+                  <div key={b.id} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
                     <div className="flex justify-between items-center">
-                      <span className="font-mono font-black text-orange-700">{b.id}</span>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
-                        {b.status} ✅
+                      <span className="font-mono font-bold text-slate-900">{b.id}</span>
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                        {b.status}
                       </span>
                     </div>
-                    <p className="font-black text-slate-900 font-['Outfit'] text-sm">🚗 {b.vehicleModel} ({b.vehicleNumber})</p>
-                    <p className="text-orange-700 font-bold">🧼 {b.serviceName} • ₹{b.totalPrice}</p>
-                    <p className="text-slate-600 text-[11px] font-mono">⏰ In: {b.inTime} ➔ Out: {b.outTime} ({b.date})</p>
-                    <p className="text-slate-500 text-[11px] truncate">📍 {b.pickupAddress} ({b.distanceKm} km)</p>
+                    <p className="font-bold text-slate-900 font-['Outfit'] text-sm">{b.vehicleModel} ({b.vehicleNumber})</p>
+                    <p className="text-slate-700">{b.serviceName} • ₹{b.totalPrice}</p>
+                    <p className="text-slate-500 text-[11px] font-mono">In: {b.inTime} ➔ Out: {b.outTime} ({b.date})</p>
+                    <p className="text-slate-500 text-[11px] truncate">{b.pickupAddress} ({b.distanceKm} km)</p>
                   </div>
                 ))
               )}
             </div>
 
-            <div className="pt-3 border-t-2 border-dashed border-slate-200 flex justify-end">
+            <div className="pt-3 border-t border-slate-200 flex justify-end">
               <button
                 onClick={() => setShowHistoryModal(false)}
-                className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-orange-500 text-white font-black text-xs cursor-pointer shadow-md active:scale-95"
+                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-semibold text-xs cursor-pointer"
               >
                 Close
               </button>
@@ -1601,8 +1635,8 @@ Please dispatch valet pickup driver.`
       )}
 
       {/* Footer */}
-      <footer className="py-6 border-t-2 border-dashed border-amber-300/60 text-center text-xs text-slate-600 font-bold">
-        <p>© {new Date().getFullYear()} SRI THIRUMALA FOAM WASH 🫧 • Doorstep Valet Pickup & Delivery 🚗 • Karpur Hub, Karnataka</p>
+      <footer className="py-6 border-t border-slate-200 text-center text-xs text-slate-500 font-normal">
+        <p>© {new Date().getFullYear()} SRI THIRUMALA FOAM WASH • Professional Doorstep Detailing • Karpur Hub, Karnataka</p>
       </footer>
 
     </div>
