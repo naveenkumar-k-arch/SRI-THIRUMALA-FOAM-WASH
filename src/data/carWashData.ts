@@ -1,4 +1,4 @@
-import type { VehicleOption, ServicePackage, ServiceAddon, ReviewItem } from '../types';
+import type { VehicleOption, WashServiceItem, ServicePackage, ServiceAddon, ReviewItem } from '../types';
 
 export const COMPANY_INFO = {
   name: 'SRI THIRUMALA FOAM WASH',
@@ -9,39 +9,61 @@ export const COMPANY_INFO = {
   displayPhone: '+91 98765 43210',
   whatsapp: '919876543210',
   email: 'care@srithirumalafoamwash.com',
-  address: 'Sri Thirumala Foam Wash, Main Road, Karpur, Karnataka',
-  timing: 'Everyday: 7:30 AM – 8:30 PM (Pickup & Delivery Available)',
+  address: 'Sri Thirumala Foam Wash, Main Road, Karpur, Karnataka 562125',
+  hubCoordinates: { lat: 12.8256, lng: 77.7845 },
+  timing: 'Everyday: 7:00 AM – 8:30 PM (Doorstep Pickup & Delivery)',
   location: 'Karpur, Karnataka'
 };
 
 export const VEHICLE_OPTIONS: VehicleOption[] = [
   {
+    id: 'bike',
+    name: 'Bike / Scooter',
+    example: 'Activa, Pulsar, Royal Enfield, Duke, EV Scooter',
+    icon: 'bike',
+    multiplier: 0.65
+  },
+  {
+    id: 'auto',
+    name: 'Auto / 3-Wheeler',
+    example: 'Bajaj RE, Piaggio Ape, Electric Auto',
+    icon: 'car',
+    multiplier: 0.8
+  },
+  {
     id: 'hatchback',
     name: 'Hatchback',
-    example: 'Swift, i20, Polo, Baleno, Tiago',
+    example: 'Swift, i20, Polo, Baleno, Tiago, WagonR',
     icon: 'car',
     multiplier: 1.0
   },
   {
     id: 'sedan',
     name: 'Sedan',
-    example: 'City, Verna, Ciaz, Slavia, Virtus',
+    example: 'City, Verna, Ciaz, Slavia, Virtus, Dzire',
     icon: 'car',
     multiplier: 1.15
   },
   {
     id: 'suv',
     name: 'Compact SUV',
-    example: 'Creta, Seltos, Brezza, Nexon, Thar',
+    example: 'Creta, Seltos, Brezza, Nexon, Thar, Sonet',
     icon: 'car',
     multiplier: 1.3
   },
   {
     id: 'luxury_suv',
     name: 'Full SUV / 7-Seater',
-    example: 'Fortuner, XUV700, Safari, Innova, Scorpio',
+    example: 'Fortuner, XUV700, Safari, Innova, Scorpio, Ertiga',
     icon: 'truck',
     multiplier: 1.5
+  },
+  {
+    id: 'commercial',
+    name: 'Commercial / Van',
+    example: 'Tata Ace, Bolero Camper, Eeco, Traveller',
+    icon: 'truck',
+    multiplier: 1.6
   },
   {
     id: 'luxury',
@@ -49,6 +71,110 @@ export const VEHICLE_OPTIONS: VehicleOption[] = [
     example: 'BMW, Mercedes-Benz, Audi, Jaguar, Porsche',
     icon: 'sparkles',
     multiplier: 1.8
+  },
+  {
+    id: 'custom',
+    name: 'Any Other Vehicle',
+    example: 'Specify your custom vehicle model & type',
+    icon: 'car',
+    multiplier: 1.0
+  }
+];
+
+export const MODULAR_SERVICES: WashServiceItem[] = [
+  {
+    id: 'water_wash',
+    name: 'High-Pressure Water Wash',
+    category: 'exterior',
+    price: 199,
+    durationMinutes: 25,
+    description: 'High-pressure underbody and exterior mud & grit removal rinse',
+    iconName: 'droplet',
+    popular: true
+  },
+  {
+    id: 'foam_wash',
+    name: 'Snow Foam Wash',
+    category: 'exterior',
+    price: 299,
+    durationMinutes: 30,
+    description: 'Thick pH-neutral snow foam blanket with gentle microfiber scrubbing',
+    iconName: 'sparkles',
+    popular: true
+  },
+  {
+    id: 'vacuum_clean',
+    name: 'Deep Cabin & Trunk Vacuum',
+    category: 'interior',
+    price: 249,
+    durationMinutes: 25,
+    description: 'High-power suction vacuum for seats, footwells, carpets, mats & boot',
+    iconName: 'wind',
+    popular: true
+  },
+  {
+    id: 'engine_clean',
+    name: 'Engine Bay Steam Clean',
+    category: 'engine',
+    price: 349,
+    durationMinutes: 25,
+    description: 'Steam degreasing with non-conductive anti-static protective dressing',
+    iconName: 'zap'
+  },
+  {
+    id: 'underbody_wash',
+    name: 'Underbody Chassis Pressure Wash',
+    category: 'exterior',
+    price: 249,
+    durationMinutes: 20,
+    description: 'Full underneath chassis cleaning with anti-corrosion protection rinse',
+    iconName: 'shield'
+  },
+  {
+    id: 'interior_sanitization',
+    name: 'AC Vents Sanitization & Mist',
+    category: 'interior',
+    price: 299,
+    durationMinutes: 20,
+    description: 'Bacterial disinfectant for AC ducts and refreshing cabin fragrance mist',
+    iconName: 'sun'
+  },
+  {
+    id: 'ceramic_gloss',
+    name: 'Ceramic Hydrophobic Wax Coat',
+    category: 'protective',
+    price: 499,
+    durationMinutes: 35,
+    description: 'Hand-applied hydrophobic polymer wax with high-gloss mirror shine',
+    iconName: 'shield-check',
+    popular: true
+  },
+  {
+    id: 'leather_polish',
+    name: 'Dashboard & Leather Balm',
+    category: 'interior',
+    price: 249,
+    durationMinutes: 20,
+    description: 'UV protectant conditioner for dashboard, door trims and leather seats',
+    iconName: 'layers'
+  },
+  {
+    id: 'glass_rainx',
+    name: 'Windshield De-Fog & Rain-X',
+    category: 'exterior',
+    price: 149,
+    durationMinutes: 15,
+    description: 'Crystal streak-free glass clean and water-repelling hydrophobic layer',
+    iconName: 'eye'
+  },
+  {
+    id: 'anti_rodent',
+    name: 'Anti-Rodent Engine Spray',
+    category: 'protective',
+    price: 249,
+    durationMinutes: 15,
+    description: 'Bitter taste coating that protects electrical wire harness from rats',
+    iconName: 'alert-circle'
   }
 ];
 
@@ -61,6 +187,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     duration: '45 mins',
     popular: false,
     recommendedFor: 'Weekly maintenance & quick dust reset',
+    serviceIds: ['water_wash', 'foam_wash', 'underbody_wash', 'glass_rainx'],
     features: [
       'Touchless High-Pressure Water Rinse',
       'Thick pH-Neutral Snow Foam Blanket',
@@ -79,6 +206,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     duration: '90 mins',
     popular: true,
     recommendedFor: 'Comprehensive monthly deep clean & family cars',
+    serviceIds: ['water_wash', 'foam_wash', 'vacuum_clean', 'interior_sanitization', 'leather_polish', 'underbody_wash', 'glass_rainx'],
     features: [
       'Everything in Express Foam Wash',
       'Full Cabin & Trunk High-Power Vacuum',
@@ -98,6 +226,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     duration: '2.5 hours',
     popular: false,
     recommendedFor: 'Deep gloss enhancement & water-repelling protection',
+    serviceIds: ['water_wash', 'foam_wash', 'vacuum_clean', 'interior_sanitization', 'leather_polish', 'ceramic_gloss', 'engine_clean', 'underbody_wash', 'glass_rainx'],
     features: [
       'Everything in Deep Interior + Foam Wash',
       'Chemical Iron & Tar Decontamination',
@@ -117,6 +246,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     duration: '4 hours',
     popular: false,
     recommendedFor: 'Occasions, weddings, resale prep & luxury detailing',
+    serviceIds: ['water_wash', 'foam_wash', 'vacuum_clean', 'engine_clean', 'underbody_wash', 'interior_sanitization', 'ceramic_gloss', 'leather_polish', 'glass_rainx', 'anti_rodent'],
     features: [
       'Everything in Signature Ceramic Gloss',
       'Single-Stage Machine DA Glaze & Paint Polish',
@@ -135,28 +265,28 @@ export const SERVICE_ADDONS: ServiceAddon[] = [
     id: 'engine_bay',
     name: 'Engine Bay Steam Detailing',
     description: 'Safe grease removal and non-conductive plastic dressing',
-    price: 399,
+    price: 349,
     iconName: 'zap'
   },
   {
     id: 'leather_balm',
     name: 'Rich Leather Conditioning',
     description: 'Nourishes dry leather, prevents cracking & adds silky touch',
-    price: 499,
+    price: 249,
     iconName: 'shield'
   },
   {
     id: 'headlight_restore',
     name: 'Headlight Oxidation Polish',
     description: 'Removes yellow haze and restores optical clarity',
-    price: 349,
+    price: 299,
     iconName: 'sun'
   },
   {
     id: 'anti_rat',
     name: 'Anti-Rodent Engine Spray',
     description: 'Bitter compound coating repels rats from chewing wire harness',
-    price: 299,
+    price: 249,
     iconName: 'alert-circle'
   }
 ];

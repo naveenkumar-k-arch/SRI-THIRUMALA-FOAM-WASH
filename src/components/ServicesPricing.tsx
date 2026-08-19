@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   Check, 
   ArrowRight, 
-  Car
+  Car,
+  Zap
 } from 'lucide-react';
 import { VEHICLE_OPTIONS, SERVICE_PACKAGES, SERVICE_ADDONS } from '../data/carWashData';
 import type { VehicleCategory } from '../types';
@@ -41,35 +42,39 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
   };
 
   return (
-    <section id="pricing" className="py-20 bg-white relative border-b border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="py-24 bg-[#030712] relative border-b border-white/10 text-slate-100">
+      
+      {/* Background Ambience Glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-red-600/10 blur-[130px] rounded-full pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-red-600 font-['Outfit'] block mb-2">
-            TRANSPARENT PRICING
+          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-orange-400 font-['Outfit'] block mb-2">
+            TRANSPARENT VALUE
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight font-['Outfit'] uppercase">
-            CHOOSE YOUR <span className="text-red-600">PERFECT WASH</span>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-['Outfit'] uppercase">
+            CHOOSE YOUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">PERFECT WASH</span>
           </h2>
-          <p className="mt-3 text-slate-600 text-base sm:text-lg font-medium">
-            Select your vehicle class below to view custom tailored packages with doorstep pickup & delivery included.
+          <p className="mt-3 text-slate-300 text-sm sm:text-base font-normal">
+            Select your vehicle class below to view custom tailored packages with doorstep valet pickup & delivery included.
           </p>
         </div>
 
         {/* Vehicle Selection Segment Bar */}
-        <div className="flex justify-center mb-12 overflow-x-auto pb-3">
-          <div className="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200 shadow-inner gap-1.5">
+        <div className="flex justify-center mb-8 overflow-x-auto pb-2">
+          <div className="inline-flex p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 shadow-inner gap-1.5">
             {VEHICLE_OPTIONS.map((v) => {
               const isSelected = selectedVehicle === v.id;
               return (
                 <button
                   key={v.id}
                   onClick={() => setSelectedVehicle(v.id)}
-                  className={`flex items-center gap-2.5 px-4 sm:px-5 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                  className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 whitespace-nowrap cursor-pointer ${
                     isSelected
-                      ? 'bg-red-600 text-white shadow-md shadow-red-500/25 scale-102'
-                      : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/60'
+                      ? 'bg-gradient-to-r from-red-600 to-orange-500 text-white shadow-lg shadow-red-600/30 scale-102'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
                   }`}
                 >
                   <Car className="w-4 h-4" />
@@ -81,61 +86,63 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
         </div>
 
         {/* Selected Vehicle Context Bar */}
-        <div className="max-w-xl mx-auto mb-10 p-3 rounded-2xl bg-red-50/70 border border-red-100 flex items-center justify-between text-xs text-slate-700">
+        <div className="max-w-xl mx-auto mb-12 p-3.5 rounded-2xl bg-red-950/30 border border-red-500/30 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-red-700">Selected Class:</span>
-            <span className="font-semibold text-slate-900">{currentVehicle.name}</span>
+            <span className="font-bold text-orange-400">Selected Class:</span>
+            <span className="font-semibold text-white">{currentVehicle.name}</span>
             <span className="text-slate-400">({currentVehicle.example})</span>
           </div>
-          <span className="font-semibold text-red-600 text-[11px]">Free Pickup & Delivery</span>
+          <span className="font-bold text-amber-300 text-[11px] bg-red-500/20 px-2.5 py-0.5 rounded border border-orange-400/30">
+            Free Pickup & Delivery
+          </span>
         </div>
 
         {/* Service Package Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {SERVICE_PACKAGES.map((pkg) => {
             const price = calculatePrice(pkg.basePrice);
             const isPopular = pkg.popular;
             return (
               <div
                 key={pkg.id}
-                className={`relative rounded-3xl p-7 flex flex-col justify-between transition-all duration-300 ${
+                className={`relative rounded-3xl p-7 flex flex-col justify-between transition-all duration-300 backdrop-blur-md ${
                   isPopular
-                    ? 'bg-gradient-to-b from-red-50/60 via-white to-white border-2 border-red-500 shadow-xl shadow-red-500/10 scale-102 z-10'
-                    : 'bg-white border border-slate-200/90 shadow-md hover:shadow-xl hover:border-slate-300'
+                    ? 'bg-gradient-to-b from-red-950/40 via-white/[0.04] to-white/[0.02] border-2 border-orange-400/60 shadow-2xl shadow-red-900/30 scale-102 z-10'
+                    : 'bg-white/[0.03] border border-white/10 hover:border-white/20 shadow-xl'
                 }`}
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-red-600 to-red-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-md">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 text-slate-950 font-black text-[10px] uppercase tracking-wider shadow-lg">
                     MOST POPULAR
                   </div>
                 )}
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-extrabold text-red-600 uppercase tracking-wider">
+                    <span className="text-xs font-bold text-orange-400 uppercase tracking-wider font-mono">
                       {pkg.duration}
                     </span>
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-white/10 text-slate-300">
                       Doorstep Valet
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-black text-slate-900 font-['Outfit'] mt-1">
+                  <h3 className="text-xl font-black text-white font-['Outfit'] mt-1">
                     {pkg.name}
                   </h3>
                   
-                  <p className="text-xs text-slate-500 mt-1 min-h-[36px]">
+                  <p className="text-xs text-slate-400 mt-1 min-h-[36px]">
                     {pkg.tagline}
                   </p>
 
                   {/* Price Block */}
-                  <div className="my-6 p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-baseline gap-1">
-                    <span className="text-sm font-bold text-slate-500">₹</span>
-                    <span className="text-4xl font-black text-slate-900 font-['Outfit']">
+                  <div className="my-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10 flex items-baseline gap-1">
+                    <span className="text-sm font-bold text-slate-400 font-mono">₹</span>
+                    <span className="text-3xl sm:text-4xl font-black text-amber-300 font-['Outfit']">
                       {price}
                     </span>
-                    <span className="text-xs text-slate-500 ml-1">/ all-inclusive</span>
+                    <span className="text-xs text-slate-400 ml-1">/ all-inclusive</span>
                   </div>
 
                   {/* Features List */}
@@ -144,8 +151,8 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
                       What's Included:
                     </p>
                     {pkg.features.map((feat, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-700 font-medium">
-                        <Check className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
+                      <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-300 font-medium">
+                        <Check className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </div>
                     ))}
@@ -157,12 +164,12 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
                   onClick={() => handleBookPackage(pkg.id)}
                   className={`w-full py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${
                     isPopular
-                      ? 'bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/30 hover:scale-102 active:scale-100'
-                      : 'bg-slate-900 hover:bg-red-600 text-white shadow-md'
+                      ? 'bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white shadow-lg shadow-red-600/40 hover:scale-102 active:scale-100'
+                      : 'bg-white/[0.08] hover:bg-white/[0.15] text-white border border-white/10 hover:border-orange-400/40'
                   }`}
                 >
-                  <span>Select & Book</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Select & Book Slot</span>
+                  <ArrowRight className="w-4 h-4 text-amber-300" />
                 </button>
               </div>
             );
@@ -170,18 +177,19 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
         </div>
 
         {/* Optional Add-Ons Bar */}
-        <div className="mt-16 bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200">
+        <div className="mt-14 bg-white/[0.02] rounded-3xl p-6 sm:p-8 border border-white/10 backdrop-blur-md">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 text-left">
             <div>
-              <h3 className="text-xl font-bold text-slate-900 font-['Outfit']">
-                Recommended Add-On Treatments
+              <h3 className="text-xl font-bold text-white font-['Outfit'] flex items-center gap-2">
+                <Zap className="w-5 h-5 text-orange-400" />
+                <span>Recommended Add-On Treatments</span>
               </h3>
-              <p className="text-xs sm:text-sm text-slate-500">
+              <p className="text-xs sm:text-sm text-slate-400">
                 Enhance your wash package with specialized protective treatments.
               </p>
             </div>
             {selectedAddons.length > 0 && (
-              <span className="text-xs font-bold px-3 py-1 rounded-full bg-red-100 text-red-800">
+              <span className="text-xs font-bold px-3 py-1 rounded-full bg-red-600/30 text-amber-300 border border-red-500/40 font-mono">
                 {selectedAddons.length} Selected (+₹{calculateAddonsTotal()})
               </span>
             )}
@@ -196,28 +204,30 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
                   onClick={() => toggleAddon(addon.id)}
                   className={`p-4 rounded-2xl border transition-all cursor-pointer text-left flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-red-50/80 border-red-400 shadow-sm'
-                      : 'bg-white border-slate-200 hover:border-slate-300'
+                      ? 'bg-red-600/20 border-orange-400 shadow-[0_0_15px_rgba(239,68,68,0.25)] ring-1 ring-orange-400'
+                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <h4 className="text-sm font-bold text-slate-900">
+                    <h4 className="text-sm font-bold text-white font-['Outfit']">
                       {addon.name}
                     </h4>
                     <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 ${
-                      isSelected ? 'bg-red-600 text-white' : 'border border-slate-300'
+                      isSelected ? 'bg-orange-400 text-slate-950 font-bold' : 'border border-white/20'
                     }`}>
                       {isSelected && <Check className="w-3.5 h-3.5" />}
                     </div>
                   </div>
                   
-                  <p className="text-xs text-slate-500 mb-3">
+                  <p className="text-xs text-slate-400 mb-3">
                     {addon.description}
                   </p>
 
-                  <div className="flex items-center justify-between text-xs font-extrabold pt-2 border-t border-slate-100">
-                    <span className="text-red-600">+₹{addon.price}</span>
-                    <span className="text-[11px] text-slate-400 font-normal">Add to wash</span>
+                  <div className="flex items-center justify-between text-xs font-extrabold pt-2 border-t border-white/10">
+                    <span className="text-amber-300 font-mono">+₹{addon.price}</span>
+                    <span className="text-[11px] text-slate-400 font-normal">
+                      {isSelected ? 'Selected' : 'Add to wash'}
+                    </span>
                   </div>
                 </div>
               );

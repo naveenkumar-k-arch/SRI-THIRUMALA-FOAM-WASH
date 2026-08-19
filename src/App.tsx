@@ -3,8 +3,9 @@ import { Navbar } from './components/Navbar';
 import { HeroWashExperience } from './components/HeroWashExperience';
 import { HeroFeatureCards } from './components/HeroFeatureCards';
 import { HowItWorks } from './components/HowItWorks';
-import { BeforeAfterSlider } from './components/BeforeAfterSlider';
 import { FleetSolutions } from './components/FleetSolutions';
+import { ServicesPricing } from './components/ServicesPricing';
+import { BeforeAfterSlider } from './components/BeforeAfterSlider';
 import { GallerySection } from './components/GallerySection';
 import { CustomerReviews } from './components/CustomerReviews';
 import { LocationContact } from './components/LocationContact';
@@ -12,10 +13,22 @@ import { Footer } from './components/Footer';
 import { AccountModal } from './components/AccountModal';
 import { FloatingBookingBar } from './components/FloatingBookingBar';
 import { BookSlotPage } from './pages/BookSlotPage';
+import type { VehicleCategory } from './types';
 
 export function App() {
   // Page routing state ('home' | 'book')
   const [currentPage, setCurrentPage] = useState<'home' | 'book'>('home');
+
+  // Initial booking preset state passed when user selects a service directly
+  const [bookingPreset, setBookingPreset] = useState<{
+    vehicleType: VehicleCategory;
+    serviceId: string;
+    addons: string[];
+  }>({
+    vehicleType: 'sedan',
+    serviceId: 'deep_interior_foam',
+    addons: []
+  });
 
   // Account modal states
   const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -43,6 +56,15 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleSelectServiceFromHome = (
+    vehicleType: VehicleCategory, 
+    serviceId: string, 
+    addons: string[]
+  ) => {
+    setBookingPreset({ vehicleType, serviceId, addons });
+    handleNavigateToBook();
+  };
+
   const handleNavigateHome = () => {
     window.location.hash = '#hero';
     setCurrentPage('home');
@@ -58,7 +80,12 @@ export function App() {
   if (currentPage === 'book') {
     return (
       <div className="min-h-screen bg-[#030712]">
-        <BookSlotPage onNavigateHome={handleNavigateHome} />
+        <BookSlotPage 
+          onNavigateHome={handleNavigateHome}
+          initialVehicleType={bookingPreset.vehicleType}
+          initialServiceId={bookingPreset.serviceId}
+          initialAddons={bookingPreset.addons}
+        />
         <AccountModal
           isOpen={isAccountOpen}
           initialTab={accountTab}
@@ -98,6 +125,11 @@ export function App() {
 
         {/* Vehicles We Wash - Dedicated Photo Cards Showcase */}
         <FleetSolutions />
+
+        {/* Transparent Pricing & Custom Package Selector */}
+        <ServicesPricing 
+          onSelectService={handleSelectServiceFromHome}
+        />
 
         {/* Interactive Before & After Transformation Slider */}
         <BeforeAfterSlider />
