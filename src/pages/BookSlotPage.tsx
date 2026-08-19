@@ -421,7 +421,7 @@ Please confirm valet pickup dispatch.`
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between selection:bg-red-600 selection:text-white pb-28 lg:pb-8 relative overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between selection:bg-red-600 selection:text-white pb-28 lg:pb-8 relative overflow-x-hidden w-full max-w-full font-sans">
       
       {/* Subtle Professional Ambient Gradient Background */}
       <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-blue-50/60 via-slate-50 to-transparent pointer-events-none -z-10"></div>
@@ -686,8 +686,8 @@ Please confirm valet pickup dispatch.`
                     </div>
                   </div>
 
-                  {/* Professional Services Cards Grid */}
-                  <div className="grid grid-cols-1 gap-3">
+                  {/* Service Cards — compact horizontal rows on mobile, 2-col on sm+ */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                     {MODULAR_SERVICES.map((srv) => {
                       const isSelected = selectedServiceIds.includes(srv.id);
 
@@ -695,55 +695,48 @@ Please confirm valet pickup dispatch.`
                         <div
                           key={srv.id}
                           onClick={() => toggleService(srv.id)}
-                          className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative ${
+                          className={`p-3 sm:p-4 rounded-xl border transition-all cursor-pointer select-none ${
                             isSelected
-                              ? 'bg-red-50/40 border-red-500 shadow-sm ring-1 ring-red-500'
+                              ? 'bg-red-50/50 border-red-500 ring-1 ring-red-400'
                               : 'bg-white border-slate-200 hover:border-slate-300'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-start justify-between gap-2 mb-2">
-                              <div className="flex items-center gap-2.5">
-                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${
-                                  isSelected ? 'bg-white border-red-200 text-red-600 shadow-xs' : 'bg-slate-50 border-slate-200 text-slate-600'
-                                }`}>
-                                  {getProfessionalServiceIcon(srv.id)}
-                                </div>
-                                <div>
-                                  <h4 className="text-sm font-bold text-slate-900 font-['Outfit'] leading-snug">
-                                    {srv.name}
-                                  </h4>
-                                  <span className="text-[11px] text-slate-500 font-medium">
-                                    Approx. {srv.durationMinutes} mins
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
-                                isSelected ? 'bg-red-600 border-red-600 text-white' : 'border-slate-300 bg-white'
-                              }`}>
-                                {isSelected ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : null}
-                              </div>
+                          {/* Mobile: single compact row — Icon | Name+Duration | Price | Checkbox */}
+                          <div className="flex items-center gap-3">
+                            {/* Icon */}
+                            <div className={`w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center border ${
+                              isSelected ? 'bg-white border-red-200' : 'bg-slate-50 border-slate-200'
+                            }`}>
+                              {getProfessionalServiceIcon(srv.id)}
                             </div>
 
-                            <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                              {srv.description}
-                            </p>
-                          </div>
-
-                          {/* Price Footer */}
-                          <div className="flex items-center justify-between pt-3 border-t border-slate-100 mt-3 text-xs">
-                            <div className="flex items-baseline gap-0.5">
-                              <span className="text-xs text-slate-500 font-normal">₹</span>
-                              <span className="text-base font-bold text-slate-900 font-['Outfit']">
-                                {srv.price}
+                            {/* Name + duration */}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-sm font-bold text-slate-900 font-['Outfit'] leading-tight truncate">
+                                {srv.name}
+                              </h4>
+                              <span className="text-[11px] text-slate-500 font-medium">
+                                ~{srv.durationMinutes} min
                               </span>
                             </div>
 
-                            <span className={`text-xs font-semibold ${isSelected ? 'text-red-600' : 'text-slate-500'}`}>
-                              {isSelected ? 'Selected' : 'Add Treatment'}
-                            </span>
+                            {/* Price */}
+                            <div className="flex-shrink-0 text-right">
+                              <span className="text-sm font-bold text-slate-900 font-['Outfit'] font-mono">₹{srv.price}</span>
+                            </div>
+
+                            {/* Checkbox */}
+                            <div className={`w-5 h-5 flex-shrink-0 rounded-md flex items-center justify-center border transition-colors ${
+                              isSelected ? 'bg-red-600 border-red-600 text-white' : 'border-slate-300 bg-white'
+                            }`}>
+                              {isSelected ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : null}
+                            </div>
                           </div>
+
+                          {/* Description — hidden on mobile, shown on sm+ */}
+                          <p className="hidden sm:block text-xs text-slate-500 mt-2 line-clamp-1 leading-relaxed pl-12">
+                            {srv.description}
+                          </p>
                         </div>
                       );
                     })}
