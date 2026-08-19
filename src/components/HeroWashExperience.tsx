@@ -130,10 +130,10 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
       </div>
 
       {/* Floating Sound Toggle Control on Mobile & Desktop */}
-      <div className="absolute top-20 right-3 sm:top-24 sm:right-6 z-30">
+      <div className="absolute top-[4.5rem] sm:top-24 right-3 sm:right-6 z-30">
         <button
           onClick={toggleSound}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border backdrop-blur-md transition-all duration-300 shadow-xl cursor-pointer ${
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border backdrop-blur-md transition-all duration-300 shadow-xl cursor-pointer ${
             !isMuted
               ? 'bg-red-600/90 hover:bg-red-600 text-white border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
               : 'bg-black/80 hover:bg-black/95 text-amber-300 border-amber-500/50 animate-pulse'
@@ -142,13 +142,13 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
         >
           {!isMuted ? (
             <>
-              <Volume2 className="w-3.5 h-3.5 text-amber-300 animate-bounce" />
-              <span className="text-[10px] sm:text-xs font-black tracking-wider text-amber-100 font-['Outfit']">SOUND ON</span>
+              <Volume2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300 animate-bounce" />
+              <span className="text-[9px] sm:text-[10px] font-black tracking-wider text-amber-100 font-['Outfit']">SOUND ON</span>
             </>
           ) : (
             <>
-              <VolumeX className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-[10px] sm:text-xs font-black tracking-wider text-amber-300 font-['Outfit']">TAP FOR SOUND</span>
+              <VolumeX className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400" />
+              <span className="text-[9px] sm:text-[10px] font-black tracking-wider text-amber-300 font-['Outfit']">TAP SOUND</span>
             </>
           )}
         </button>

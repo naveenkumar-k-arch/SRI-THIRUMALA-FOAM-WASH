@@ -41,11 +41,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#030712]/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Circular Logo & Name */}
-        <a href="#hero" className="flex items-center gap-3 group">
-          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400/60 shadow-lg shadow-red-600/30 bg-slate-950 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 flex-shrink-0">
+        <a href="#hero" className="flex items-center gap-2 group flex-shrink-0">
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-amber-400/60 shadow-lg shadow-red-600/30 bg-slate-950 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 flex-shrink-0">
             <img 
               src="/logo.png" 
               alt="Sri Thirumala Foam Wash Official Logo" 
@@ -53,10 +53,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
             />
           </div>
           <div className="flex flex-col text-left">
-            <span className="text-white font-extrabold text-sm sm:text-base tracking-wider uppercase leading-none font-['Outfit']">
+            <span className="text-white font-extrabold text-xs sm:text-base tracking-wider uppercase leading-none font-['Outfit']">
               SRI THIRUMALA
             </span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 font-bold text-xs tracking-widest uppercase leading-tight font-['Outfit'] mt-0.5">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 font-bold text-[9px] sm:text-xs tracking-widest uppercase leading-tight font-['Outfit'] mt-0.5">
               FOAM WASH
             </span>
           </div>

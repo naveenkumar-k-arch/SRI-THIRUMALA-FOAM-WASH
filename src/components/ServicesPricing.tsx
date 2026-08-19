@@ -62,22 +62,22 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
           </p>
         </div>
 
-        {/* Vehicle Selection Segment Bar */}
-        <div className="flex justify-center mb-8 overflow-x-auto pb-2">
-          <div className="inline-flex p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 shadow-inner gap-1.5">
+        {/* Vehicle Selection Segment Bar - scrollable on mobile */}
+        <div className="flex justify-start sm:justify-center mb-8 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="inline-flex p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 shadow-inner gap-1.5 flex-nowrap">
             {VEHICLE_OPTIONS.map((v) => {
               const isSelected = selectedVehicle === v.id;
               return (
                 <button
                   key={v.id}
                   onClick={() => setSelectedVehicle(v.id)}
-                  className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 whitespace-nowrap cursor-pointer flex-shrink-0 ${
                     isSelected
-                      ? 'bg-gradient-to-r from-red-600 to-orange-500 text-white shadow-lg shadow-red-600/30 scale-102'
+                      ? 'bg-gradient-to-r from-red-600 to-orange-500 text-white shadow-lg shadow-red-600/30'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
                   }`}
                 >
-                  <Car className="w-4 h-4" />
+                  <Car className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   <span>{v.name}</span>
                 </button>
               );
@@ -86,19 +86,19 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
         </div>
 
         {/* Selected Vehicle Context Bar */}
-        <div className="max-w-xl mx-auto mb-12 p-3.5 rounded-2xl bg-red-950/30 border border-red-500/30 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-orange-400">Selected Class:</span>
+        <div className="max-w-xl mx-auto mb-12 p-3 rounded-2xl bg-red-950/30 border border-red-500/30 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="font-bold text-orange-400">Class:</span>
             <span className="font-semibold text-white">{currentVehicle.name}</span>
-            <span className="text-slate-400">({currentVehicle.example})</span>
+            <span className="text-slate-400 hidden sm:inline">({currentVehicle.example})</span>
           </div>
-          <span className="font-bold text-amber-300 text-[11px] bg-red-500/20 px-2.5 py-0.5 rounded border border-orange-400/30">
+          <span className="font-bold text-amber-300 text-[11px] bg-red-500/20 px-2.5 py-0.5 rounded border border-orange-400/30 whitespace-nowrap">
             Free Pickup & Delivery
           </span>
         </div>
 
-        {/* Service Package Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Service Package Cards Grid - 1 col mobile, 2 col tablet, 4 col desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {SERVICE_PACKAGES.map((pkg) => {
             const price = calculatePrice(pkg.basePrice);
             const isPopular = pkg.popular;
