@@ -29,7 +29,6 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { 
-  VEHICLE_OPTIONS, 
   MODULAR_SERVICES, 
   SERVICE_PACKAGES, 
   COMPANY_INFO 
@@ -45,7 +44,6 @@ interface BookSlotPageProps {
 
 export const BookSlotPage: React.FC<BookSlotPageProps> = ({ 
   onNavigateHome,
-  initialVehicleType = 'sedan',
   initialServiceId = 'deep_interior_foam'
 }) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -64,8 +62,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
 
   const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>(defaultServices);
 
-  // Form State
-  const [vehicleType, setVehicleType] = useState<string>(initialVehicleType);
+  // Form State: Any vehicle input
   const [vehicleModel, setVehicleModel] = useState<string>('');
   const [vehicleNumber, setVehicleNumber] = useState<string>('');
   
@@ -116,18 +113,9 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStep, isSubmitted]);
 
-  // Vehicle Multiplier
-  const currentVehicleObj = VEHICLE_OPTIONS.find(v => v.id === vehicleType) || VEHICLE_OPTIONS[3];
-  const vehicleMultiplier = currentVehicleObj.multiplier || 1.0;
-
   // Calculate Total Amount & Total Service Duration
-  const calculateServiceCost = (basePrice: number) => {
-    return Math.round(basePrice * vehicleMultiplier);
-  };
-
   const selectedServicesObjects = MODULAR_SERVICES.filter(s => selectedServiceIds.includes(s.id));
-  const totalRawCost = selectedServicesObjects.reduce((sum, s) => sum + s.price, 0);
-  const grandTotal = Math.round(totalRawCost * vehicleMultiplier);
+  const grandTotal = selectedServicesObjects.reduce((sum, s) => sum + s.price, 0);
   const totalDurationMinutes = selectedServicesObjects.reduce((sum, s) => sum + s.durationMinutes, 0);
 
   // Time formatting helper: Calculate Out-Time from In-Time + Duration
@@ -279,7 +267,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     // Step 1 Validation: Vehicle & Services
     if (currentStep === 1) {
       if (!vehicleModel.trim()) {
-        alert('Please enter your vehicle model or name (e.g. Swift, City, Pulsar, Auto, Activa).');
+        alert('Please enter your vehicle model or name (e.g. Swift, City, Pulsar, Auto, Activa, etc.).');
         return;
       }
       if (!vehicleNumber.trim()) {
@@ -335,7 +323,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
       const newBooking: BookingRecord = {
         id: generatedId,
         createdAt: new Date().toLocaleString(),
-        vehicleCategory: currentVehicleObj.name,
+        vehicleCategory: vehicleModel,
         vehicleModel: vehicleModel,
         vehicleNumber: vehicleNumber.toUpperCase(),
         serviceId: selectedServiceIds.join(','),
@@ -395,9 +383,9 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
 *Booking ID:* ${bookingId}
 *Customer:* ${customerName}
 *Phone:* ${customerPhone}
-*Vehicle:* ${vehicleModel} (${vehicleNumber.toUpperCase()}) [${currentVehicleObj.name}]
+*Vehicle:* ${vehicleModel} (${vehicleNumber.toUpperCase()})
 *Services Selected:*
-${selectedServicesObjects.map(s => `• ${s.name} (₹${calculateServiceCost(s.price)})`).join('\n')}
+${selectedServicesObjects.map(s => `• ${s.name} (₹${s.price})`).join('\n')}
 *Estimated Wash Duration:* ${Math.floor(totalDurationMinutes / 60)}h ${totalDurationMinutes % 60}m
 *In-Time (Pickup):* ${date} @ ${inTime}
 *Out-Time (Return):* ${date} @ ${outTime}
@@ -490,10 +478,10 @@ Please confirm valet driver dispatch.`
             DOORSTEP VEHICLE SPA & FOAM WASH
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight font-['Outfit'] leading-tight">
-            Customizable <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">Doorstep Slot Booking</span>
+            Doorstep <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">Slot Booking</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 mt-2">
-            Any vehicle • Select your exact wash services • Choose In-Time with auto-calculated Out-Time • Instant doorstep valet reach
+            Enter your vehicle details • Choose your exact wash services • Pick In-Time with auto-calculated Out-Time
           </p>
         </div>
 
@@ -532,56 +520,24 @@ Please confirm valet driver dispatch.`
             {!isSubmitted && currentStep === 1 && (
               <div className="space-y-8">
                 
-                {/* 1A: Vehicle Category & Any Vehicle Flexibility */}
+                {/* 1A: Vehicle Details */}
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-bold text-white font-['Outfit'] flex items-center gap-2">
-                      <Car className="w-5 h-5 text-orange-400" />
-                      <span>1. Select Vehicle Type</span>
-                    </h3>
-                    <span className="text-xs text-amber-300 font-mono bg-red-950/60 px-2.5 py-1 rounded-md border border-red-800/40">
-                      Rate Scale: {vehicleMultiplier}x
-                    </span>
-                  </div>
+                  <h3 className="text-lg font-bold text-white font-['Outfit'] flex items-center gap-2 mb-1">
+                    <Car className="w-5 h-5 text-orange-400" />
+                    <span>1. Vehicle Details</span>
+                  </h3>
+                  <p className="text-xs text-slate-400 mb-4">
+                    Enter your vehicle make/model (Car, Bike, Scooter, Auto, Van, SUV, EV, etc.)
+                  </p>
 
-                  {/* Flexible Vehicle Pills */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mb-4">
-                    {VEHICLE_OPTIONS.map((veh) => {
-                      const isSelected = vehicleType === veh.id;
-                      return (
-                        <button
-                          key={veh.id}
-                          type="button"
-                          onClick={() => setVehicleType(veh.id)}
-                          className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
-                            isSelected
-                              ? 'bg-red-600/25 border-orange-400 shadow-[0_0_15px_rgba(239,68,68,0.25)] ring-1 ring-orange-400'
-                              : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs font-black text-white font-['Outfit'] truncate">
-                              {veh.name}
-                            </span>
-                            {isSelected && <Check className="w-3.5 h-3.5 text-amber-300 flex-shrink-0" />}
-                          </div>
-                          <span className="text-[10px] text-slate-400 truncate">
-                            {veh.example}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Vehicle Model & Registration Number */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 p-4 rounded-2xl bg-white/[0.02] border border-white/10">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/10">
                     <div>
                       <label className="block text-xs font-bold text-slate-300 mb-1.5">
                         Vehicle Name / Model *
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. Swift / Honda City / Creta / Pulsar / Auto"
+                        placeholder="e.g. Swift, Honda City, Creta, Pulsar, Activa, Auto, etc."
                         value={vehicleModel}
                         onChange={(e) => setVehicleModel(e.target.value)}
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/15 focus:border-orange-400 outline-none text-sm text-white placeholder:text-slate-500"
@@ -646,7 +602,6 @@ Please confirm valet driver dispatch.`
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {MODULAR_SERVICES.map((srv) => {
                       const isSelected = selectedServiceIds.includes(srv.id);
-                      const cost = calculateServiceCost(srv.price);
 
                       return (
                         <div
@@ -690,7 +645,7 @@ Please confirm valet driver dispatch.`
                             <div className="flex items-baseline gap-1">
                               <span className="text-[11px] text-slate-400 font-mono">₹</span>
                               <span className="text-lg font-black text-amber-300 font-['Outfit']">
-                                {cost}
+                                {srv.price}
                               </span>
                             </div>
                             <span className={`text-[11px] font-bold ${isSelected ? 'text-amber-300' : 'text-slate-500'}`}>
@@ -1089,7 +1044,7 @@ Please confirm valet driver dispatch.`
                     <div className="flex justify-between items-center pb-3 border-b border-white/10">
                       <span className="text-slate-400">Vehicle:</span>
                       <span className="font-bold text-white font-['Outfit'] text-right">
-                        {vehicleModel} ({vehicleNumber.toUpperCase()}) • {currentVehicleObj.name}
+                        {vehicleModel} ({vehicleNumber.toUpperCase()})
                       </span>
                     </div>
 
@@ -1099,7 +1054,7 @@ Please confirm valet driver dispatch.`
                         {selectedServicesObjects.map((s) => (
                           <div key={s.id} className="text-amber-300 font-semibold text-xs flex justify-between gap-4">
                             <span>• {s.name}</span>
-                            <span className="font-mono text-white">₹{calculateServiceCost(s.price)}</span>
+                            <span className="font-mono text-white">₹{s.price}</span>
                           </div>
                         ))}
                       </div>
@@ -1327,10 +1282,12 @@ Please confirm valet driver dispatch.`
                 <div className="py-4 space-y-3 text-xs">
                   
                   {/* Vehicle */}
-                  <div className="flex justify-between items-center text-slate-300">
-                    <span>Vehicle Class:</span>
-                    <span className="font-bold text-white">{currentVehicleObj.name} ({vehicleMultiplier}x)</span>
-                  </div>
+                  {vehicleModel && (
+                    <div className="flex justify-between items-center text-slate-300">
+                      <span>Vehicle:</span>
+                      <span className="font-bold text-white truncate max-w-[170px]">{vehicleModel}</span>
+                    </div>
+                  )}
 
                   {/* Services Selected */}
                   <div className="pt-2 border-t border-white/5 space-y-1.5">
@@ -1338,7 +1295,7 @@ Please confirm valet driver dispatch.`
                     {selectedServicesObjects.map((s) => (
                       <div key={s.id} className="flex justify-between text-slate-300">
                         <span className="truncate max-w-[170px]">• {s.name}</span>
-                        <span className="font-mono font-bold text-white">₹{calculateServiceCost(s.price)}</span>
+                        <span className="font-mono font-bold text-white">₹{s.price}</span>
                       </div>
                     ))}
                   </div>
