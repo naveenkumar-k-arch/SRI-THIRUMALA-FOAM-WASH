@@ -224,7 +224,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     setDistanceKm(km);
   };
 
-  // Geolocation & Distance Calculation from Shop Coordinates
+  // Geolocation & Full Reverse Geocoded Address Resolution
   const handleUseLocation = () => {
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser.');
@@ -232,8 +232,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
     }
     setIsLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setIsLocating(false);
+      async (position) => {
         const { latitude, longitude } = position.coords;
         
         // Haversine Distance from Karpur Hub (12.8256° N, 77.7845° E)
@@ -253,16 +252,60 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
         const finalDist = computedDist < 0.5 ? 0.8 : computedDist;
         setDistanceKm(finalDist);
 
-        setPickupAddress(prev => 
-          prev ? `${prev} (GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)})` 
-               : `Doorstep Location near Karpur (GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)})`
-        );
+        // Reverse Geocode to get real, full doorstep address & pincode
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`,
+            { headers: { 'Accept-Language': 'en' } }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            const addr = data.address || {};
+            
+            // Build a clean, precise street address
+            const parts: string[] = [];
+            if (addr.building || addr.house_number) parts.push(addr.building || addr.house_number);
+            if (addr.road || addr.street || addr.pedestrian) parts.push(addr.road || addr.street || addr.pedestrian);
+            if (addr.suburb || addr.neighbourhood || addr.residential) parts.push(addr.suburb || addr.neighbourhood || addr.residential);
+            if (addr.village || addr.town || addr.city_district || addr.city) parts.push(addr.village || addr.town || addr.city_district || addr.city);
+            if (addr.state_district || addr.county) parts.push(addr.state_district || addr.county);
+            if (addr.state) parts.push(addr.state);
+            
+            const resolvedAddress = parts.length > 0 ? parts.join(', ') : data.display_name;
+            
+            if (resolvedAddress) {
+              setPickupAddress(resolvedAddress);
+            } else {
+              setPickupAddress(`GPS: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`);
+            }
+
+            if (addr.postcode) {
+              setPickupPincode(addr.postcode);
+            }
+
+            if (addr.suburb || addr.neighbourhood || addr.road) {
+              setLandmark(prev => prev || addr.suburb || addr.neighbourhood || addr.road || '');
+            }
+          } else {
+            setPickupAddress(prev => 
+              prev ? `${prev} (GPS: ${latitude.toFixed(5)}, ${longitude.toFixed(5)})` 
+                   : `Doorstep Location (GPS: ${latitude.toFixed(5)}, ${longitude.toFixed(5)})`
+            );
+          }
+        } catch {
+          setPickupAddress(prev => 
+            prev ? `${prev} (GPS: ${latitude.toFixed(5)}, ${longitude.toFixed(5)})` 
+                 : `Doorstep Location (GPS: ${latitude.toFixed(5)}, ${longitude.toFixed(5)})`
+          );
+        } finally {
+          setIsLocating(false);
+        }
       },
       () => {
         setIsLocating(false);
-        alert('Could not retrieve exact GPS coordinates. Please enter your address.');
+        alert('Could not retrieve exact GPS coordinates. Please type your doorstep address.');
       },
-      { timeout: 10000 }
+      { timeout: 15000, enableHighAccuracy: true }
     );
   };
 
