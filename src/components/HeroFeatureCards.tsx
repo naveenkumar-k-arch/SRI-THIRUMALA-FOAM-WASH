@@ -9,40 +9,33 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
   const keyPoints = [
     {
       id: 'pickup',
-      title: 'Pickup & Delivery',
-      description: 'No need to spend your time driving to the wash center. Book your service and let our team handle the pickup and return.',
+      title: 'Valet Pickup & Return',
+      description: 'No need to spend your time driving to the wash center. Our team handles secure pickup, wash transit, and delivery.',
       icon: Car,
-      iconColor: 'text-orange-400',
-      iconBg: 'bg-orange-500/10 border-orange-400/30',
-      borderGlow: 'hover:border-orange-500/50 hover:bg-orange-500/5'
+      iconColor: 'text-red-600',
+      iconBg: 'bg-red-50 border-red-200'
     },
     {
       id: 'foam',
-      title: 'Professional Foam Cleaning',
-      description: 'A focused vehicle-cleaning experience designed to remove everyday dirt, dust and road grime.',
+      title: 'Active High-Foam Decontamination',
+      description: 'pH-neutral dense snow foam lifts stubborn road grime, dust, and brake particles without abrasive micro-scratches.',
       icon: Droplets,
-      iconColor: 'text-orange-400',
-      iconBg: 'bg-orange-500/10 border-orange-400/30',
-      borderGlow: 'hover:border-orange-500/50 hover:bg-orange-500/5'
+      iconColor: 'text-blue-600',
+      iconBg: 'bg-blue-50 border-blue-200'
     },
     {
       id: 'booking',
-      title: 'Easy Booking',
-      description: 'Choose your vehicle, service and preferred time through our online booking system.',
+      title: 'Digital Slot Reservation',
+      description: 'Select your vehicle, choose custom modular treatments, and reserve an exact in-time slot with live timeline tracking.',
       icon: Calendar,
-      iconColor: 'text-red-400',
-      iconBg: 'bg-red-500/10 border-red-400/30',
-      borderGlow: 'hover:border-red-500/50 hover:bg-red-500/5'
+      iconColor: 'text-slate-900',
+      iconBg: 'bg-slate-100 border-slate-200'
     }
   ];
 
   return (
-    <section id="about" className="bg-[#030712] py-20 sm:py-24 border-b border-white/10 text-left relative z-20 overflow-hidden w-full max-w-full">
+    <section id="about" className="bg-white py-16 sm:py-24 border-b border-slate-200 text-left relative z-20 overflow-hidden w-full max-w-full font-sans">
       
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 right-10 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* 2-Column Story-Driven About Layout */}
@@ -50,35 +43,35 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
           
           {/* LEFT: Large Premium Car Detailing Image */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl overflow-hidden border-2 border-white/15 shadow-2xl bg-slate-900 group">
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100 group">
               <img
                 src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&q=80"
                 alt="Sri Thirumala Foam Wash - Professional Clean Car"
-                className="w-full h-[420px] sm:h-[500px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-[380px] sm:h-[480px] object-cover object-center group-hover:scale-104 transition-transform duration-700"
               />
               
               {/* Subtle gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 pointer-events-none"></div>
 
               {/* Floating Bottom Badge on Image */}
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-[#030712]/85 backdrop-blur-md border border-white/15 shadow-xl flex items-center justify-between">
+              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-400/30 text-red-400 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center flex-shrink-0">
                     <Droplets className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-sm font-['Outfit']">
-                      Karpur, Karnataka
+                    <h4 className="text-slate-900 font-bold text-sm font-['Outfit']">
+                      Karpur Detailing Hub
                     </h4>
-                    <p className="text-xs text-slate-400">
-                      Doorstep Pickup & Return
+                    <p className="text-xs text-slate-500">
+                      Doorstep Valet & Return
                     </p>
                   </div>
                 </div>
 
-                <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-red-500/20 text-amber-300 border border-orange-400/30 flex items-center gap-1">
+                <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Active Service</span>
+                  <span>Valet Active</span>
                 </span>
               </div>
             </div>
@@ -89,53 +82,48 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
             
             {/* Small Heading */}
             <div>
-              <span className="text-xs sm:text-sm font-black uppercase tracking-[0.25em] text-orange-400 font-['Outfit'] block">
-                ABOUT SRI THIRUMALA FOAM WASH
-              </span>
-              <div className="h-0.5 w-16 bg-red-500 rounded-full mt-2 shadow-[0_0_8px_#dc2626]"></div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-semibold tracking-wide mb-2.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                <span>ABOUT SRI THIRUMALA FOAM WASH</span>
+              </div>
+              
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-['Outfit'] leading-tight">
+                Your Vehicle Deserves <br className="hidden sm:inline" />
+                <span className="text-red-600">More Than Just a Wash.</span>
+              </h2>
             </div>
 
-            {/* Main Heading */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight font-['Outfit'] leading-tight">
-              Your Car Deserves <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">
-                More Than Just a Wash.
-              </span>
-            </h2>
-
             {/* Story Description */}
-            <div className="space-y-3 text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
+            <div className="space-y-3 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
               <p>
-                Sri Thirumala Foam Wash is a vehicle cleaning service based in <strong className="text-white">Karpur, Karnataka</strong>, focused on making car washing simple, convenient and professional.
+                Sri Thirumala Foam Wash is an automotive care studio based in <strong className="text-slate-900 font-semibold">Karpur, Karnataka</strong>, dedicated to making high-precision car detailing and foam washing effortless, convenient, and reliable.
               </p>
-              <p>
-                With our pickup-and-delivery concept, customers can book a wash and let our team handle the vehicle from pickup to cleaning and return.
-              </p>
-              <div className="p-4 rounded-2xl bg-white/[0.04] border border-red-500/30 text-white font-bold text-sm sm:text-base shadow-sm flex items-center gap-2.5">
-                <Sparkles className="w-4 h-4 text-amber-300 flex-shrink-0" />
+              
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 font-medium text-sm sm:text-base shadow-xs flex items-center gap-2.5">
+                <Sparkles className="w-5 h-5 text-red-600 flex-shrink-0" />
                 <span>
-                  <strong className="text-amber-300">You book it.</strong> We pick it up. <strong className="text-red-300">We clean it.</strong> We bring it back.
+                  <strong className="text-slate-900 font-bold">You book it.</strong> We pick it up. <strong className="text-red-600 font-bold">We clean it.</strong> We bring it back.
                 </span>
               </div>
             </div>
 
-            {/* 3 Key Points Cards with SVG Icons */}
-            <div className="space-y-3 pt-2">
+            {/* 3 Key Points Cards */}
+            <div className="space-y-3 pt-1">
               {keyPoints.map((point) => {
                 const Icon = point.icon;
                 return (
                   <div
                     key={point.id}
-                    className={`p-4 rounded-2xl bg-white/[0.03] border border-white/10 ${point.borderGlow} transition-all duration-200 flex items-start gap-4`}
+                    className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-sm transition-all duration-200 flex items-start gap-4"
                   >
-                    <div className={`w-10 h-10 rounded-xl ${point.iconBg} border ${point.iconColor} flex items-center justify-center flex-shrink-0 mt-0.5`}>
-                      <Icon className="w-5 h-5" />
+                    <div className={`w-10 h-10 rounded-xl ${point.iconBg} border flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                      <Icon className={`w-5 h-5 ${point.iconColor}`} />
                     </div>
                     <div>
-                      <h3 className="text-sm sm:text-base font-bold text-white font-['Outfit']">
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 font-['Outfit']">
                         {point.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-slate-500 mt-0.5 leading-relaxed">
                         {point.description}
                       </p>
                     </div>
@@ -148,9 +136,9 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
             <div className="pt-2">
               <button
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-sm shadow-lg shadow-red-600/30 transition-all cursor-pointer hover:scale-102 active:scale-100"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-sm transition-all cursor-pointer hover:shadow-md"
               >
-                <Calendar className="w-4 h-4 text-red-200" />
+                <Calendar className="w-4 h-4 text-red-400" />
                 <span>BOOK A WASH</span>
                 <ArrowRight className="w-4 h-4" />
               </button>

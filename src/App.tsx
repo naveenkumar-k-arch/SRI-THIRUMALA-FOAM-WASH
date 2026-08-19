@@ -98,7 +98,7 @@ export function App() {
 
   // Home Page Landing Experience
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-red-600 selection:text-white w-full max-w-full overflow-x-hidden relative">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-red-600 selection:text-white w-full max-w-full overflow-x-hidden relative font-sans">
       
       {/* Sticky Header / Navbar */}
       <Navbar 
