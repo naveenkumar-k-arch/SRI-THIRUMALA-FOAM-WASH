@@ -1,10 +1,61 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { Sparkles, ChevronLeft, ChevronRight, ShieldCheck } from 'lucide-react';
+import { Sparkles, ChevronLeft, ChevronRight, ShieldCheck, Car, Bike, Truck } from 'lucide-react';
+
+interface ComparisonItem {
+  id: string;
+  name: string;
+  category: string;
+  icon: typeof Car;
+  beforeImg: string;
+  afterImg: string;
+  beforeLabel: string;
+  afterLabel: string;
+  description: string;
+}
+
+const COMPARISONS: ComparisonItem[] = [
+  {
+    id: 'car',
+    name: 'Car / Sedan / Hatchback',
+    category: 'Car Wash',
+    icon: Car,
+    beforeImg: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=80',
+    afterImg: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1600&q=80',
+    beforeLabel: 'BEFORE: MUDDY & ROAD DUST',
+    afterLabel: 'AFTER: SNOW FOAM & CERAMIC GLOSS',
+    description: 'Complete high-pressure snow foam wash, swirl-free microfiber hand wash, and tire dressing.'
+  },
+  {
+    id: 'bike',
+    name: 'Motorcycle / Scooter',
+    category: 'Bike Wash',
+    icon: Bike,
+    beforeImg: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1600&q=80',
+    afterImg: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1600&q=80',
+    beforeLabel: 'BEFORE: CHAIN GREASE & OFFROAD DIRT',
+    afterLabel: 'AFTER: DEGREASED & GLEAMING POLISH',
+    description: 'Chain cleaning, engine bay foam rinse, chrome polishing, and high-shine body protection.'
+  },
+  {
+    id: 'suv',
+    name: 'SUV & 4x4 Fleet',
+    category: 'SUV Wash',
+    icon: Truck,
+    beforeImg: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=80',
+    afterImg: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80',
+    beforeLabel: 'BEFORE: HEAVY SPLATTER & UNDERBODY MUD',
+    afterLabel: 'AFTER: SHOWROOM DEEP DETAIL',
+    description: 'Underbody pressure wash, fender arch cleaning, glass hydro-shield, and interior vacuuming.'
+  }
+];
 
 export const BeforeAfterSlider: React.FC = () => {
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState<string>('car');
+  const [sliderPosition, setSliderPosition] = useState<number>(50);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const activeComparison = COMPARISONS.find(c => c.id === selectedVehicle) || COMPARISONS[0];
 
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return;
@@ -33,7 +84,7 @@ export const BeforeAfterSlider: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-semibold tracking-wide mb-2.5">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
             <span>TRANSFORMATION RESULTS</span>
@@ -43,8 +94,33 @@ export const BeforeAfterSlider: React.FC = () => {
             Before & After <span className="text-red-600">Visual Comparison</span>
           </h2>
           <p className="mt-2 text-slate-600 text-xs sm:text-sm font-normal">
-            Drag the slider across the vehicle to reveal the deep snow foam wash & paint gloss restoration.
+            Choose a vehicle type and drag the slider to reveal the deep snow foam wash & gloss restoration.
           </p>
+
+          {/* Vehicle Category Switcher Pills */}
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mt-6 flex-wrap">
+            {COMPARISONS.map((comp) => {
+              const Icon = comp.icon;
+              const isSelected = selectedVehicle === comp.id;
+              return (
+                <button
+                  key={comp.id}
+                  onClick={() => {
+                    setSelectedVehicle(comp.id);
+                    setSliderPosition(50);
+                  }}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-slate-900 text-white shadow-md border border-slate-900'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isSelected ? 'text-red-400' : 'text-slate-600'}`} />
+                  <span>{comp.name}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Interactive Comparison Container with 3D Bevel */}
@@ -60,32 +136,32 @@ export const BeforeAfterSlider: React.FC = () => {
             onTouchMove={handleTouchMove}
             className="relative h-[280px] xs:h-[320px] sm:h-[460px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 select-none cursor-ew-resize bg-slate-950 touch-none bevel-3d"
           >
-            {/* AFTER: Clean Car Image (Base Layer) */}
+            {/* AFTER: Clean Image (Base Layer) */}
             <div className="absolute inset-0 w-full h-full">
               <img 
-                src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1600&q=80" 
-                alt="After Sri Thirumala Foam Wash - Gleaming Clean Car" 
+                src={activeComparison.afterImg} 
+                alt={`${activeComparison.name} - After Sri Thirumala Foam Wash Cleaned`} 
                 className="w-full h-full object-cover object-center pointer-events-none"
               />
               <div className="absolute top-4 right-4 sm:top-5 sm:right-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-emerald-600 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm flex items-center gap-1.5 depth-pop">
                 <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                <span>AFTER: SPOTLESS & GLOSSY</span>
+                <span>{activeComparison.afterLabel}</span>
               </div>
             </div>
 
-            {/* BEFORE: Dirty Car Image (Clipped Layer) */}
+            {/* BEFORE: Dirty Image (Clipped Layer) */}
             <div 
               className="absolute inset-0 h-full overflow-hidden transition-all duration-75"
               style={{ width: `${sliderPosition}%` }}
             >
               <img 
-                src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=80" 
-                alt="Before Sri Thirumala Foam Wash - Muddy Dirty Car" 
+                src={activeComparison.beforeImg} 
+                alt={`${activeComparison.name} - Before Sri Thirumala Foam Wash Dirty`} 
                 className="absolute inset-0 w-full h-full object-cover object-center max-w-none pointer-events-none"
                 style={{ width: containerRef.current ? `${containerRef.current.offsetWidth}px` : '100%' }}
               />
               <div className="absolute top-4 left-4 sm:top-5 sm:left-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm depth-pop">
-                <span>BEFORE: DUST & ROAD GRIME</span>
+                <span>{activeComparison.beforeLabel}</span>
               </div>
             </div>
 
@@ -105,30 +181,36 @@ export const BeforeAfterSlider: React.FC = () => {
 
             {/* Bottom Helper Bar */}
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-black/80 backdrop-blur-md text-white text-[10px] sm:text-xs font-semibold shadow-md whitespace-nowrap">
-              Drag slider to compare
+              Drag slider to compare • {activeComparison.name}
             </div>
           </div>
 
-          {/* Quick Preset Buttons */}
-          <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-3 mt-5">
-            <button
-              onClick={() => setSliderPosition(20)}
-              className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-colors cursor-pointer"
-            >
-              Show More "After" (80%)
-            </button>
-            <button
-              onClick={() => setSliderPosition(50)}
-              className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer"
-            >
-              Center 50/50 Split
-            </button>
-            <button
-              onClick={() => setSliderPosition(80)}
-              className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-colors cursor-pointer"
-            >
-              Show More "Before" (80%)
-            </button>
+          {/* Quick Preset Buttons & Description */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 px-1">
+            <p className="text-xs text-slate-500 italic text-center sm:text-left">
+              {activeComparison.description}
+            </p>
+
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <button
+                onClick={() => setSliderPosition(20)}
+                className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-colors cursor-pointer"
+              >
+                80% After
+              </button>
+              <button
+                onClick={() => setSliderPosition(50)}
+                className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer"
+              >
+                50/50 Split
+              </button>
+              <button
+                onClick={() => setSliderPosition(80)}
+                className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-colors cursor-pointer"
+              >
+                80% Before
+              </button>
+            </div>
           </div>
         </div>
 
