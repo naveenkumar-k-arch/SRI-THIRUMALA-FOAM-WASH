@@ -158,8 +158,8 @@ export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking 
           <div className="lg:col-span-7 bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200 shadow-xs flex flex-col justify-between">
             <div className="relative w-full h-[240px] sm:h-[320px] rounded-xl overflow-hidden border border-slate-200">
               <iframe
-                title="Sri Thirumala Foam Wash Location - Karpur Karnataka"
-                src="https://maps.google.com/maps?q=PPF9%2B2M+Karpur,+Karnataka&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                title="Sri Thirumala Foam Wash Location - Karpur Rd, Karpur, Karnataka"
+                src="https://maps.google.com/maps?q=12.7225,77.7191&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 className="w-full h-full border-0 grayscale opacity-90"
                 loading="lazy"
               ></iframe>

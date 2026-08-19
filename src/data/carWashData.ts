@@ -11,10 +11,10 @@ export const COMPANY_INFO = {
   email: 'srithirumalafoamwash@gmail.com',
   address: 'Karpur Rd, Karpur, Karnataka 562106',
   plusCode: 'PPF9+2M Karpur, Karnataka',
-  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=PPF9%2B2M+Karpur%2C+Karnataka',
-  hubCoordinates: { lat: 12.8256, lng: 77.7845 },
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=12.7225,77.7191',
+  hubCoordinates: { lat: 12.7225, lng: 77.7191 },
   timing: 'Everyday: 7:00 AM – 8:30 PM (Doorstep Pickup & Delivery)',
-  location: 'Karpur, Karnataka'
+  location: 'Karpur, Karnataka 562106'
 };
 
 export const VEHICLE_OPTIONS: VehicleOption[] = [
