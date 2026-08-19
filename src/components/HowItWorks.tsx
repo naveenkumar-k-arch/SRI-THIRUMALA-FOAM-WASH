@@ -46,7 +46,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenBooking }) => {
   ];
 
   return (
-    <section className="py-20 sm:py-24 bg-[#030712] relative overflow-hidden border-b border-white/10 text-left">
+    <section className="py-20 sm:py-24 bg-[#030712] relative overflow-hidden border-b border-white/10 text-left w-full max-w-full">
       
       {/* Background Subtle Ambience */}
       <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>

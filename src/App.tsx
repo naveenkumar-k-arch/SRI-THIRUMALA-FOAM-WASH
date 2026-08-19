@@ -97,7 +97,7 @@ export function App() {
 
   // Home Page Landing Experience
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-red-600 selection:text-white">
+    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-red-600 selection:text-white w-full max-w-full overflow-x-hidden relative">
       
       {/* Sticky Header / Navbar */}
       <Navbar 
@@ -106,7 +106,7 @@ export function App() {
       />
 
       {/* Main Content Sections */}
-      <main className="flex-1">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden">
         
         {/* Signature Scroll-Driven 3D Car Wash Video Experience */}
         <HeroWashExperience 

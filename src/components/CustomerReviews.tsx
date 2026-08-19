@@ -4,7 +4,7 @@ import { REVIEWS } from '../data/carWashData';
 
 export const CustomerReviews: React.FC = () => {
   return (
-    <section className="py-20 sm:py-24 bg-[#030712] relative border-b border-white/10 text-left overflow-hidden">
+    <section className="py-20 sm:py-24 bg-[#030712] relative border-b border-white/10 text-left overflow-hidden w-full max-w-full">
       
       {/* Ambient background glow */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>

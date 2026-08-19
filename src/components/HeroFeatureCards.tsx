@@ -37,7 +37,7 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
   ];
 
   return (
-    <section id="about" className="bg-[#030712] py-20 sm:py-24 border-b border-white/10 text-left relative z-20 overflow-hidden">
+    <section id="about" className="bg-[#030712] py-20 sm:py-24 border-b border-white/10 text-left relative z-20 overflow-hidden w-full max-w-full">
       
       {/* Background Ambient Glows */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>

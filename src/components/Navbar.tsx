@@ -40,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#030712]/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#030712]/90 backdrop-blur-md border-b border-white/10 transition-all duration-300 w-full max-w-full overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Circular Logo & Name */}

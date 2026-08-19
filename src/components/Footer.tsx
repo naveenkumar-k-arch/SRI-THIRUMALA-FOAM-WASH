@@ -8,7 +8,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onOpenBooking: _onOpenBooking }) => {
   return (
-    <footer className="bg-slate-900 text-slate-400 text-left pt-16 pb-12 border-t border-slate-800">
+    <footer className="bg-slate-900 text-slate-400 text-left pt-16 pb-12 border-t border-slate-800 overflow-hidden w-full max-w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Footer Content */}

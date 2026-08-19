@@ -17,7 +17,7 @@ interface LocationContactProps {
 
 export const LocationContact: React.FC<LocationContactProps> = ({ onOpenBooking }) => {
   return (
-    <section id="contact" className="py-20 sm:py-24 bg-[#030712] relative text-left overflow-hidden">
+    <section id="contact" className="py-20 sm:py-24 bg-[#030712] relative text-left overflow-hidden w-full max-w-full">
       
       {/* Background Glow */}
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>

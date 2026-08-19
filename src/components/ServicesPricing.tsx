@@ -42,7 +42,7 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
   };
 
   return (
-    <section id="pricing" className="py-24 bg-[#030712] relative border-b border-white/10 text-slate-100">
+    <section id="pricing" className="py-24 bg-[#030712] relative border-b border-white/10 text-slate-100 overflow-hidden w-full max-w-full">
       
       {/* Background Ambience Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-red-600/10 blur-[130px] rounded-full pointer-events-none"></div>

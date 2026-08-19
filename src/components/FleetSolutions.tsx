@@ -146,7 +146,7 @@ export const FleetSolutions: React.FC = () => {
   ];
 
   return (
-    <section id="fleet" className="py-20 sm:py-24 bg-[#030712] relative border-b border-white/10 text-left overflow-hidden">
+    <section id="fleet" className="py-20 sm:py-24 bg-[#030712] relative border-b border-white/10 text-left overflow-hidden w-full max-w-full">
       
       {/* Ambient background glows */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
