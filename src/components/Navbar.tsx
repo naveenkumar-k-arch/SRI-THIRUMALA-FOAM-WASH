@@ -40,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#030712]/90 backdrop-blur-md border-b border-white/10 transition-all duration-300 w-full max-w-full overflow-x-hidden">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#030712]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300 w-full">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Circular Logo & Name */}
@@ -95,22 +95,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
           <div className="relative" ref={accountRef}>
             <button
               onClick={() => setIsAccountOpen(!isAccountOpen)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/15 hover:border-white/30 transition-all text-sm font-semibold cursor-pointer"
+              className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white border border-white/20 hover:border-white/30 transition-all text-xs sm:text-sm font-semibold cursor-pointer shadow-sm"
             >
               <User className="w-4 h-4 text-orange-400" />
               <span>Account</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isAccountOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-300 transition-transform duration-200 ${isAccountOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu floating above all layers */}
             {isAccountOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#120707] border border-white/15 rounded-2xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150 text-left">
+              <div className="absolute right-0 mt-2.5 w-48 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl py-2 z-[100] animate-in fade-in slide-in-from-top-2 duration-150 text-left">
                 <button
                   onClick={() => {
                     setIsAccountOpen(false);
                     onOpenAccount('login');
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-red-600/20 transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-200 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   <LogIn className="w-4 h-4 text-orange-400" />
                   <span>Login</span>
@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
                     setIsAccountOpen(false);
                     onOpenAccount('signup');
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-red-600/20 transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-200 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   <UserPlus className="w-4 h-4 text-orange-400" />
                   <span>Sign Up</span>
