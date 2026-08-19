@@ -49,7 +49,7 @@ interface BookSlotPageProps {
 
 export const BookSlotPage: React.FC<BookSlotPageProps> = ({ 
   onNavigateHome,
-  initialServiceId = 'deep_interior_foam'
+  initialServiceId
 }) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -59,14 +59,16 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
   const [showMobileSummary, setShowMobileSummary] = useState<boolean>(false);
   const [savedBookings, setSavedBookings] = useState<BookingRecord[]>([]);
 
-  // Selected Services List (A la carte & customizable)
-  const defaultServices = initialServiceId === 'express_foam' 
+  // Selected Services List - Empty by default so user can choose freely
+  const initialServices = initialServiceId === 'express_foam' 
     ? ['water_wash', 'foam_wash', 'underbody_wash'] 
     : initialServiceId === 'signature_ceramic'
     ? ['water_wash', 'foam_wash', 'vacuum_clean', 'ceramic_gloss', 'leather_polish']
-    : ['water_wash', 'foam_wash', 'vacuum_clean', 'interior_sanitization'];
+    : initialServiceId && initialServiceId !== 'deep_interior_foam'
+    ? [initialServiceId]
+    : [];
 
-  const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>(defaultServices);
+  const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>(initialServices);
 
   // Form State: Any vehicle input
   const [vehicleModel, setVehicleModel] = useState<string>('');
@@ -185,10 +187,6 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
   // Toggle individual service
   const toggleService = (serviceId: string) => {
     if (selectedServiceIds.includes(serviceId)) {
-      if (selectedServiceIds.length === 1) {
-        alert('Please retain at least one detailing service.');
-        return;
-      }
       setSelectedServiceIds(selectedServiceIds.filter(id => id !== serviceId));
     } else {
       setSelectedServiceIds([...selectedServiceIds, serviceId]);

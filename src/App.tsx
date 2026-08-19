@@ -26,7 +26,7 @@ export function App() {
     addons: string[];
   }>({
     vehicleType: 'sedan',
-    serviceId: 'deep_interior_foam',
+    serviceId: '',
     addons: []
   });
 
@@ -51,6 +51,7 @@ export function App() {
   }, []);
 
   const handleNavigateToBook = () => {
+    setBookingPreset({ vehicleType: 'sedan', serviceId: '', addons: [] });
     window.location.hash = '#book';
     setCurrentPage('book');
     window.scrollTo({ top: 0, behavior: 'smooth' });
