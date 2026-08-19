@@ -21,9 +21,9 @@ const COMPARISONS: ComparisonItem[] = [
     icon: Car,
     beforeImg: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=80',
     afterImg: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1600&q=80',
-    beforeLabel: 'BEFORE: MUDDY & ROAD DUST',
-    afterLabel: 'AFTER: SNOW FOAM & CERAMIC GLOSS',
-    description: 'Complete high-pressure snow foam wash, swirl-free microfiber hand wash, and tire dressing.'
+    beforeLabel: 'BEFORE: DUST, MUD & ROAD FILM',
+    afterLabel: 'AFTER: ACTIVE FOAM & MIRROR FINISH',
+    description: 'High-pressure pre-wash, thick active snow foam soak, alloy de-dusting, and ceramic shine coat.'
   },
   {
     id: 'bike',
@@ -32,20 +32,20 @@ const COMPARISONS: ComparisonItem[] = [
     icon: Bike,
     beforeImg: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1600&q=80',
     afterImg: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1600&q=80',
-    beforeLabel: 'BEFORE: CHAIN GREASE & OFFROAD DIRT',
-    afterLabel: 'AFTER: DEGREASED & GLEAMING POLISH',
-    description: 'Chain cleaning, engine bay foam rinse, chrome polishing, and high-shine body protection.'
+    beforeLabel: 'BEFORE: CHAIN GRIME & DRIED MUD',
+    afterLabel: 'AFTER: ENGINE DEGREASE & CHROME GLOSS',
+    description: 'Deep chain clean & lube, engine cooling fins foam blast, chrome restoration, and tire blackening.'
   },
   {
     id: 'suv',
-    name: 'SUV & 4x4 Fleet',
+    name: 'SUV / 4x4 / Creta / Fortuner',
     category: 'SUV Wash',
     icon: Truck,
     beforeImg: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=80',
     afterImg: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80',
-    beforeLabel: 'BEFORE: HEAVY SPLATTER & UNDERBODY MUD',
-    afterLabel: 'AFTER: SHOWROOM DEEP DETAIL',
-    description: 'Underbody pressure wash, fender arch cleaning, glass hydro-shield, and interior vacuuming.'
+    beforeLabel: 'BEFORE: OFFROAD SPLATTER & UNDERBODY DIRT',
+    afterLabel: 'AFTER: COMPLETE FOAM SPA & HYDROPHOBIC COAT',
+    description: 'Heavy underbody pressure wash, arch degreasing, glass water-spot removal, and deep foam bath.'
   }
 ];
 
