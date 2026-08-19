@@ -79,18 +79,16 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
   const [customerEmail, setCustomerEmail] = useState<string>('');
   
   const [pickupAddress, setPickupAddress] = useState<string>('');
-  const [pickupPincode, setPickupPincode] = useState<string>('562125');
+  const [pickupPincode, setPickupPincode] = useState<string>('');
   const [landmark, setLandmark] = useState<string>('');
-  const [distanceKm, setDistanceKm] = useState<number>(2.4);
+  const [distanceKm, setDistanceKm] = useState<number>(0);
   const [notes, setNotes] = useState<string>('');
 
   const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
-  const [inTime, setInTime] = useState<string>('10:30 AM');
+  const [inTime, setInTime] = useState<string>('');
 
-  // Booked slots tracking to detect conflicts
-  const [bookedSlotsList, setBookedSlotsList] = useState<Record<string, string[]>>({
-    [new Date().toISOString().split('T')[0]]: ['09:30 AM', '02:30 PM'],
-  });
+  // Booked slots tracking - only populated with real user bookings from storage
+  const [bookedSlotsList, setBookedSlotsList] = useState<Record<string, string[]>>({});
 
   // Load existing bookings from localStorage
   useEffect(() => {
@@ -100,9 +98,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
         const parsed: BookingRecord[] = JSON.parse(stored);
         setSavedBookings(parsed);
         
-        const mapped: Record<string, string[]> = {
-          [new Date().toISOString().split('T')[0]]: ['09:30 AM', '02:30 PM']
-        };
+        const mapped: Record<string, string[]> = {};
         parsed.forEach(b => {
           if (!mapped[b.date]) mapped[b.date] = [];
           if (!mapped[b.date].includes(b.inTime)) {
@@ -128,6 +124,7 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
 
   // Time formatting helper: Calculate Out-Time from In-Time + Duration
   const calculateOutTime = (inTimeStr: string, durationMins: number): string => {
+    if (!inTimeStr || !inTimeStr.trim()) return 'Pending Slot';
     try {
       const parts = inTimeStr.trim().split(' ');
       if (parts.length < 2) return inTimeStr;
@@ -343,8 +340,12 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
       }
     }
 
-    // Step 3 Validation: Slot conflict check
+    // Step 3 Validation: In-time slot selection & conflict check
     if (currentStep === 3) {
+      if (!inTime || !inTime.trim()) {
+        alert('Please choose an in-time pickup slot.');
+        return;
+      }
       if (isSlotBooked(inTime, date)) {
         alert(`The slot ${inTime} on ${date} is currently booked. Please select another available slot.`);
         return;
@@ -1121,8 +1122,8 @@ Please confirm valet pickup dispatch.`
                       {/* In-Time */}
                       <div className="p-3.5 rounded-lg bg-slate-800/80 border border-slate-700">
                         <span className="text-slate-400 block text-[11px] font-medium uppercase">Pickup In-Time:</span>
-                        <span className="text-lg font-bold text-white font-mono font-['Outfit']">
-                          {inTime}
+                        <span className={`text-lg font-bold font-mono font-['Outfit'] ${inTime ? 'text-white' : 'text-slate-400 text-sm'}`}>
+                          {inTime || 'Tap a slot above'}
                         </span>
                         <span className="block text-[10px] text-slate-400 mt-0.5">Valet driver collection</span>
                       </div>
@@ -1139,8 +1140,8 @@ Please confirm valet pickup dispatch.`
                       {/* Out-Time */}
                       <div className="p-3.5 rounded-lg bg-slate-800/80 border border-slate-700">
                         <span className="text-emerald-400 block text-[11px] font-medium uppercase">Return Out-Time:</span>
-                        <span className="text-lg font-bold text-emerald-400 font-mono font-['Outfit']">
-                          {outTime}
+                        <span className={`text-lg font-bold font-mono font-['Outfit'] ${inTime ? 'text-emerald-400' : 'text-slate-400 text-sm'}`}>
+                          {inTime ? outTime : 'Pending Slot Choice'}
                         </span>
                         <span className="block text-[10px] text-slate-400 mt-0.5">Spotless vehicle return</span>
                       </div>
