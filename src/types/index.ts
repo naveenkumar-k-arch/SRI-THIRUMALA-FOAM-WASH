@@ -145,3 +145,102 @@ export const hasPermission = (role: UserRole | undefined, permission: Permission
   return permissions.includes('ALL_ACCESS') || permissions.includes(permission);
 };
 
+// ─── Super Admin Enterprise Management Types ────────────────────────────────
+export type WashStatus =
+  | 'PENDING'
+  | 'VALET_DISPATCHED'
+  | 'VEHICLE_PICKED_UP'
+  | 'WASH_IN_PROGRESS'
+  | 'QUALITY_INSPECTED'
+  | 'OUT_FOR_DELIVERY'
+  | 'COMPLETED'
+  | 'CANCELLED';
+
+export type PaymentMethodType = 'UPI_QR' | 'CASH_ON_DELIVERY' | 'CARD_SWIPE' | 'NET_BANKING';
+export type PaymentStatusType = 'PAID' | 'PENDING' | 'REFUNDED' | 'FAILED';
+
+export interface AdminBooking {
+  id: string;
+  bookingRef: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  vehicleType: VehicleCategory;
+  vehicleModel: string;
+  vehicleNumber: string;
+  serviceId: string;
+  serviceName: string;
+  addons: string[];
+  totalPrice: number;
+  date: string;
+  timeSlot: string;
+  pickupAddress: string;
+  status: WashStatus;
+  paymentStatus: PaymentStatusType;
+  paymentMethod: PaymentMethodType;
+  valetDriverName?: string;
+  valetDriverPhone?: string;
+  createdAt: string;
+  notes?: string;
+}
+
+export interface CustomerRecord {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  photoURL?: string;
+  role: UserRole;
+  provider: 'email' | 'google';
+  totalBookings: number;
+  totalSpent: number;
+  preferredVehicle?: string;
+  lastBookingDate?: string;
+  registeredDate: string;
+  isVIP?: boolean;
+}
+
+export interface PaymentLog {
+  id: string;
+  transactionRef: string;
+  bookingRef: string;
+  customerName: string;
+  customerPhone: string;
+  serviceName: string;
+  vehicleModel: string;
+  amount: number;
+  method: PaymentMethodType;
+  status: PaymentStatusType;
+  date: string;
+  time: string;
+  invoiceNumber: string;
+  collectedBy?: string;
+}
+
+export interface SlotAllocation {
+  id: string;
+  date: string;
+  timeSlot: string;
+  maxCapacity: number;
+  bookedCount: number;
+  isBlocked: boolean;
+  blockReason?: string;
+  assignedValet?: string;
+}
+
+export interface PaymentSettings {
+  enableUpi: boolean;
+  enableCod: boolean;
+  enableCard: boolean;
+  enableNetBanking: boolean;
+  merchantUpiVpa: string;
+  merchantName: string;
+  advanceDepositPolicy: 'ZERO_ADVANCE' | 'FIXED_DEPOSIT' | 'FULL_PAYMENT';
+  depositAmount: number;
+  freeDeliveryRadiusKm: number;
+  deliverySurchargePerKm: number;
+  enableGstInvoice: boolean;
+  gstRatePercent: number;
+  supportPhone: string;
+}
+
