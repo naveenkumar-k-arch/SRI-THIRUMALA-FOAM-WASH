@@ -84,20 +84,18 @@ export const AccountModal: React.FC<AccountModalProps> = ({
   const [resetSent, setResetSent] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
 
-  // Sync tab when prop changes
-  useEffect(() => {
-    setActiveTab(initialTab);
-    clearForm();
-  }, [initialTab, isOpen]);
-
-  if (!isOpen) return null;
-
   const clearForm = () => {
     setEmail(''); setPassword(''); setName(''); setPhone('');
     setError(''); setLoading(false); setGoogleLoading(false);
     setSuccessState(null); setResetSent(false); setForgotMode(false);
     setShowPassword(false);
   };
+
+  // Sync tab when prop changes
+  useEffect(() => {
+    setActiveTab(initialTab);
+    clearForm();
+  }, [initialTab, isOpen]);
 
   const handleTabSwitch = (tab: 'login' | 'signup') => {
     setActiveTab(tab);
@@ -165,6 +163,8 @@ export const AccountModal: React.FC<AccountModalProps> = ({
   };
 
   const strength = getPasswordStrength(password);
+
+  if (!isOpen) return null;
 
   // ── Success Screen ─────────────────────────────────────────────────────────
   if (successState) {
