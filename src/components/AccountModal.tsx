@@ -40,10 +40,16 @@ const firebaseErrorMessage = (code: string): string => {
       return 'Too many attempts. Please wait a moment and try again.';
     case 'auth/popup-closed-by-user':
       return 'Google sign-in was cancelled. Please try again.';
+    case 'auth/popup-blocked':
+      return 'Sign-in popup was blocked by your browser. Please allow popups for this website.';
+    case 'auth/unauthorized-domain':
+      return 'Please add "sri-thirumala-foam-wash.vercel.app" to Firebase Authorized Domains in Firebase Console.';
+    case 'auth/operation-not-allowed':
+      return 'Google Sign-In is disabled in Firebase Console. Please enable Google provider.';
     case 'auth/network-request-failed':
       return 'Network error. Please check your internet connection.';
     default:
-      return 'Something went wrong. Please try again.';
+      return 'Sign-in failed. Please try again or use Email / Password.';
   }
 };
 
