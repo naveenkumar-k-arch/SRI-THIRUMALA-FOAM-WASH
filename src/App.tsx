@@ -13,14 +13,17 @@ import { Footer } from './components/Footer';
 import { AccountModal } from './components/AccountModal';
 import { FloatingBookingBar } from './components/FloatingBookingBar';
 import { BookSlotPage } from './pages/BookSlotPage';
+import { AdminLoginPage } from './pages/AdminLoginPage';
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { ADMIN_CONFIG } from './config/adminConfig';
 import type { VehicleCategory } from './types';
 
 // ─── Inner App (has access to AuthContext) ───────────────────────────────────
 function AppInner() {
-  const { user, loading } = useAuth();
+  const { user, isAdmin, loading } = useAuth();
 
-  // Page routing state ('home' | 'book')
-  const [currentPage, setCurrentPage] = useState<'home' | 'book'>('home');
+  // Page routing state ('home' | 'book' | 'admin-login' | 'admin-dashboard')
+  const [currentPage, setCurrentPage] = useState<'home' | 'book' | 'admin-login' | 'admin-dashboard'>('home');
 
   // Booking preset (vehicle type / service / addons pre-selected from home)
   const [bookingPreset, setBookingPreset] = useState<{
@@ -44,8 +47,23 @@ function AppInner() {
   // Listen to hash changes for direct URL navigation
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.toLowerCase();
-      if (hash === '#book' || hash === '#booking' || hash === '#book-slot') {
+      const rawHash = window.location.hash.toLowerCase().replace(/^#\/?/, '').trim();
+      const adminSlug = ADMIN_CONFIG.endpoint.toLowerCase().replace(/^#\/?/, '').trim();
+
+      // Check for secret admin endpoint (100% hidden, no public buttons)
+      if (rawHash === adminSlug) {
+        if (user && isAdmin) {
+          setCurrentPage('admin-dashboard');
+        } else {
+          setCurrentPage('admin-login');
+        }
+      } else if (rawHash === `${adminSlug}/dashboard` || rawHash === `${adminSlug}-dashboard`) {
+        if (user && isAdmin) {
+          setCurrentPage('admin-dashboard');
+        } else {
+          setCurrentPage('admin-login');
+        }
+      } else if (rawHash === 'book' || rawHash === 'booking' || rawHash === 'book-slot') {
         if (user) {
           setCurrentPage('book');
         } else {
@@ -63,7 +81,7 @@ function AppInner() {
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [user]);
+  }, [user, isAdmin]);
 
   // ── Navigate to booking — guard: must be logged in ───────────────────────
   const handleNavigateToBook = () => {
@@ -108,6 +126,18 @@ function AppInner() {
     setIsAccountOpen(true);
   };
 
+  const handleAdminLoginSuccess = () => {
+    window.location.hash = `#${ADMIN_CONFIG.endpoint}/dashboard`;
+    setCurrentPage('admin-dashboard');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateAdminLogin = () => {
+    window.location.hash = `#${ADMIN_CONFIG.endpoint}`;
+    setCurrentPage('admin-login');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Called by AccountModal after successful login/signup
   const handleAuthSuccess = () => {
     setIsAccountOpen(false);
@@ -132,6 +162,26 @@ function AppInner() {
           <p className="text-slate-400 text-xs font-semibold tracking-wider">Loading...</p>
         </div>
       </div>
+    );
+  }
+
+  // ── Admin Login Page (100% Hidden Endpoint) ────────────────────────────────
+  if (currentPage === 'admin-login') {
+    return (
+      <AdminLoginPage
+        onLoginSuccess={handleAdminLoginSuccess}
+        onNavigateHome={handleNavigateHome}
+      />
+    );
+  }
+
+  // ── Admin Dashboard Page (100% Hidden Endpoint, Blank Canvas) ─────────────
+  if (currentPage === 'admin-dashboard') {
+    return (
+      <AdminDashboardPage
+        onNavigateHome={handleNavigateHome}
+        onNavigateLogin={handleNavigateAdminLogin}
+      />
     );
   }
 
