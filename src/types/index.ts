@@ -97,3 +97,51 @@ export interface BookingRecord {
   notes?: string;
   status: 'Confirmed' | 'Driver Assigned' | 'In Washing' | 'Completed';
 }
+
+// ─── RBAC (Role-Based Access Control) & JWT Types ────────────────────────────
+export type UserRole = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
+
+export type Permission =
+  | 'ALL_ACCESS'
+  | 'MANAGE_USERS'
+  | 'MANAGE_ADMINS'
+  | 'MANAGE_BOOKINGS'
+  | 'MANAGE_PRICING'
+  | 'VIEW_ANALYTICS'
+  | 'VIEW_LOGS'
+  | 'SYSTEM_CONFIG';
+
+export interface JWTMeta {
+  token: string;
+  issuedAt: Date | null;
+  expirationTime: Date | null;
+  authTime: Date | null;
+  claims: Record<string, any>;
+}
+
+export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
+  SUPER_ADMIN: [
+    'ALL_ACCESS',
+    'MANAGE_USERS',
+    'MANAGE_ADMINS',
+    'MANAGE_BOOKINGS',
+    'MANAGE_PRICING',
+    'VIEW_ANALYTICS',
+    'VIEW_LOGS',
+    'SYSTEM_CONFIG'
+  ],
+  ADMIN: [
+    'MANAGE_BOOKINGS',
+    'MANAGE_PRICING',
+    'VIEW_ANALYTICS',
+    'VIEW_LOGS'
+  ],
+  USER: []
+};
+
+export const hasPermission = (role: UserRole | undefined, permission: Permission): boolean => {
+  if (!role) return false;
+  const permissions = ROLE_PERMISSIONS[role] || [];
+  return permissions.includes('ALL_ACCESS') || permissions.includes(permission);
+};
+
