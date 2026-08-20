@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import { Navbar } from './components/Navbar';
 import { HeroWashExperience } from './components/HeroWashExperience';
@@ -12,11 +12,13 @@ import { LocationContact } from './components/LocationContact';
 import { Footer } from './components/Footer';
 import { AccountModal } from './components/AccountModal';
 import { FloatingBookingBar } from './components/FloatingBookingBar';
-import { BookSlotPage } from './pages/BookSlotPage';
-import { AdminLoginPage } from './pages/AdminLoginPage';
-import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { ADMIN_CONFIG } from './config/adminConfig';
 import type { VehicleCategory } from './types';
+
+// Code-split secondary pages for instant initial load and clean module isolation
+const BookSlotPage = lazy(() => import('./pages/BookSlotPage').then((m) => ({ default: m.BookSlotPage })));
+const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage').then((m) => ({ default: m.AdminLoginPage })));
+const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage })));
 
 export function App() {
   const { user, isAdmin, loading } = useAuth();
@@ -167,20 +169,38 @@ export function App() {
   // ── Admin Login Page (100% Hidden Endpoint) ────────────────────────────────
   if (currentPage === 'admin-login') {
     return (
-      <AdminLoginPage
-        onLoginSuccess={handleAdminLoginSuccess}
-        onNavigateHome={handleNavigateHome}
-      />
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 font-mono text-xs">
+            <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mr-3" />
+            Loading Super Admin Portal...
+          </div>
+        }
+      >
+        <AdminLoginPage
+          onLoginSuccess={handleAdminLoginSuccess}
+          onNavigateHome={handleNavigateHome}
+        />
+      </Suspense>
     );
   }
 
   // ── Admin Dashboard Page (100% Hidden Endpoint, Blank Canvas) ─────────────
   if (currentPage === 'admin-dashboard') {
     return (
-      <AdminDashboardPage
-        onNavigateHome={handleNavigateHome}
-        onNavigateLogin={handleNavigateAdminLogin}
-      />
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 font-mono text-xs">
+            <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mr-3" />
+            Loading Super Admin Console...
+          </div>
+        }
+      >
+        <AdminDashboardPage
+          onNavigateHome={handleNavigateHome}
+          onNavigateLogin={handleNavigateAdminLogin}
+        />
+      </Suspense>
     );
   }
 
@@ -193,12 +213,21 @@ export function App() {
     }
     return (
       <div className="min-h-screen bg-[#030712]">
-        <BookSlotPage
-          onNavigateHome={handleNavigateHome}
-          initialVehicleType={bookingPreset.vehicleType}
-          initialServiceId={bookingPreset.serviceId}
-          initialAddons={bookingPreset.addons}
-        />
+        <Suspense
+          fallback={
+            <div className="min-h-screen bg-[#030712] flex items-center justify-center text-slate-400 font-mono text-xs">
+              <div className="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full animate-spin mr-3" />
+              Loading Booking Engine...
+            </div>
+          }
+        >
+          <BookSlotPage
+            onNavigateHome={handleNavigateHome}
+            initialVehicleType={bookingPreset.vehicleType}
+            initialServiceId={bookingPreset.serviceId}
+            initialAddons={bookingPreset.addons}
+          />
+        </Suspense>
         <AccountModal
           isOpen={isAccountOpen}
           initialTab={accountTab}
