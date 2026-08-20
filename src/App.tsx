@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
 import { Navbar } from './components/Navbar';
 import { HeroWashExperience } from './components/HeroWashExperience';
 import { HeroFeatureCards } from './components/HeroFeatureCards';
@@ -18,8 +18,7 @@ import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { ADMIN_CONFIG } from './config/adminConfig';
 import type { VehicleCategory } from './types';
 
-// ─── Inner App (has access to AuthContext) ───────────────────────────────────
-function AppInner() {
+export function App() {
   const { user, isAdmin, loading } = useAuth();
 
   // Page routing state ('home' | 'book' | 'admin-login' | 'admin-dashboard')
@@ -264,15 +263,6 @@ function AppInner() {
       />
 
     </div>
-  );
-}
-
-// ─── Root App wrapped in AuthProvider ────────────────────────────────────────
-export function App() {
-  return (
-    <AuthProvider>
-      <AppInner />
-    </AuthProvider>
   );
 }
 
