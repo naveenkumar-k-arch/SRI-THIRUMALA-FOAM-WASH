@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Navbar } from './components/Navbar';
 import { HeroWashExperience } from './components/HeroWashExperience';
 import { HeroFeatureCards } from './components/HeroFeatureCards';
@@ -14,11 +15,14 @@ import { FloatingBookingBar } from './components/FloatingBookingBar';
 import { BookSlotPage } from './pages/BookSlotPage';
 import type { VehicleCategory } from './types';
 
-export function App() {
+// ─── Inner App (has access to AuthContext) ───────────────────────────────────
+function AppInner() {
+  const { user, loading } = useAuth();
+
   // Page routing state ('home' | 'book')
   const [currentPage, setCurrentPage] = useState<'home' | 'book'>('home');
 
-  // Initial booking preset state passed when user selects a service directly
+  // Booking preset (vehicle type / service / addons pre-selected from home)
   const [bookingPreset, setBookingPreset] = useState<{
     vehicleType: VehicleCategory;
     serviceId: string;
@@ -33,12 +37,24 @@ export function App() {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [accountTab, setAccountTab] = useState<'login' | 'signup'>('login');
 
+  // Pending booking redirect: if user clicks "Book" while logged out,
+  // we open login modal and navigate to booking after successful auth
+  const [pendingBooking, setPendingBooking] = useState(false);
+
   // Listen to hash changes for direct URL navigation
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.toLowerCase();
       if (hash === '#book' || hash === '#booking' || hash === '#book-slot') {
-        setCurrentPage('book');
+        if (user) {
+          setCurrentPage('book');
+        } else {
+          // Not logged in — redirect hash back to hero and open login
+          window.location.hash = '#hero';
+          setPendingBooking(true);
+          setAccountTab('login');
+          setIsAccountOpen(true);
+        }
       } else {
         setCurrentPage('home');
       }
@@ -47,9 +63,17 @@ export function App() {
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  }, [user]);
 
+  // ── Navigate to booking — guard: must be logged in ───────────────────────
   const handleNavigateToBook = () => {
+    if (!user) {
+      // Not logged in: open login modal, queue the booking navigation
+      setPendingBooking(true);
+      setAccountTab('login');
+      setIsAccountOpen(true);
+      return;
+    }
     setBookingPreset({ vehicleType: 'sedan', serviceId: '', addons: [] });
     window.location.hash = '#book';
     setCurrentPage('book');
@@ -57,12 +81,20 @@ export function App() {
   };
 
   const handleSelectServiceFromHome = (
-    vehicleType: VehicleCategory, 
-    serviceId: string, 
+    vehicleType: VehicleCategory,
+    serviceId: string,
     addons: string[]
   ) => {
+    if (!user) {
+      setPendingBooking(true);
+      setAccountTab('login');
+      setIsAccountOpen(true);
+      return;
+    }
     setBookingPreset({ vehicleType, serviceId, addons });
-    handleNavigateToBook();
+    window.location.hash = '#book';
+    setCurrentPage('book');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigateHome = () => {
@@ -76,11 +108,43 @@ export function App() {
     setIsAccountOpen(true);
   };
 
-  // If on the dedicated Book Slot Page
+  // Called by AccountModal after successful login/signup
+  const handleAuthSuccess = () => {
+    setIsAccountOpen(false);
+    if (pendingBooking) {
+      setPendingBooking(false);
+      setBookingPreset({ vehicleType: 'sedan', serviceId: '', addons: [] });
+      window.location.hash = '#book';
+      setCurrentPage('book');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Show loading spinner while Firebase checks auth state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#030712] flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-amber-400/60 mx-auto">
+            <img src="/logo.png" alt="Sri Thirumala" className="w-full h-full object-cover scale-110" />
+          </div>
+          <div className="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-slate-400 text-xs font-semibold tracking-wider">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Book Slot Page (auth-guarded) ──────────────────────────────────────────
   if (currentPage === 'book') {
+    // Extra safety: if somehow reached book page without auth, redirect home
+    if (!user) {
+      handleNavigateHome();
+      return null;
+    }
     return (
       <div className="min-h-screen bg-[#030712]">
-        <BookSlotPage 
+        <BookSlotPage
           onNavigateHome={handleNavigateHome}
           initialVehicleType={bookingPreset.vehicleType}
           initialServiceId={bookingPreset.serviceId}
@@ -90,80 +154,75 @@ export function App() {
           isOpen={isAccountOpen}
           initialTab={accountTab}
           onClose={() => setIsAccountOpen(false)}
+          onAuthSuccess={handleAuthSuccess}
         />
       </div>
     );
   }
 
-  // Home Page Landing Experience
+  // ── Home Page ──────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-red-600 selection:text-white w-full max-w-full overflow-x-hidden relative font-sans">
-      
+
       {/* Sticky Header / Navbar */}
-      <Navbar 
+      <Navbar
         onOpenBooking={handleNavigateToBook}
         onOpenAccount={handleOpenAccount}
       />
 
       {/* Main Content Sections */}
       <main className="flex-1 w-full max-w-full overflow-x-hidden">
-        
-        {/* Signature Scroll-Driven 3D Car Wash Video Experience */}
-        <HeroWashExperience 
-          onOpenBooking={handleNavigateToBook}
-        />
 
-        {/* Story-Driven About Sri Thirumala Foam Wash */}
-        <HeroFeatureCards 
-          onOpenBooking={handleNavigateToBook}
-        />
+        {/* Hero Wash Experience */}
+        <HeroWashExperience onOpenBooking={handleNavigateToBook} />
 
-        {/* 4-Step Doorstep Workflow ("Clean Car. Zero Hassle.") */}
-        <HowItWorks 
-          onOpenBooking={handleNavigateToBook}
-        />
+        {/* About Sri Thirumala */}
+        <HeroFeatureCards onOpenBooking={handleNavigateToBook} />
+
+        {/* How It Works */}
+        <HowItWorks onOpenBooking={handleNavigateToBook} />
 
         {/* Real Work Transformation Showcase & Gallery */}
-        <GallerySection 
-          onOpenBooking={handleNavigateToBook}
-        />
+        <GallerySection onOpenBooking={handleNavigateToBook} />
 
-        {/* Transparent Pricing & Custom Package Selector */}
-        <ServicesPricing 
-          onSelectService={handleSelectServiceFromHome}
-        />
+        {/* Pricing & Package Selector */}
+        <ServicesPricing onSelectService={handleSelectServiceFromHome} />
 
-        {/* Interactive Before & After Transformation Slider */}
+        {/* Before & After Slider */}
         <BeforeAfterSlider />
 
-        {/* Customer Reviews & Google Rating */}
+        {/* Customer Reviews */}
         <CustomerReviews />
 
-        {/* Hub Location, Operating Hours & Final Call to Action */}
-        <LocationContact 
-          onOpenBooking={handleNavigateToBook}
-        />
+        {/* Location & Contact */}
+        <LocationContact onOpenBooking={handleNavigateToBook} />
 
       </main>
 
       {/* Footer */}
-      <Footer 
-        onOpenBooking={handleNavigateToBook}
-      />
+      <Footer onOpenBooking={handleNavigateToBook} />
 
-      {/* Floating Action Bar */}
-      <FloatingBookingBar 
-        onOpenBooking={handleNavigateToBook}
-      />
+      {/* Floating Booking Bar */}
+      <FloatingBookingBar onOpenBooking={handleNavigateToBook} />
 
-      {/* Account Login / Signup Modal */}
+      {/* Account Modal */}
       <AccountModal
         isOpen={isAccountOpen}
         initialTab={accountTab}
-        onClose={() => setIsAccountOpen(false)}
+        onClose={() => { setIsAccountOpen(false); setPendingBooking(false); }}
+        onAuthSuccess={handleAuthSuccess}
       />
 
     </div>
+  );
+}
+
+// ─── Root App wrapped in AuthProvider ────────────────────────────────────────
+export function App() {
+  return (
+    <AuthProvider>
+      <AppInner />
+    </AuthProvider>
   );
 }
 

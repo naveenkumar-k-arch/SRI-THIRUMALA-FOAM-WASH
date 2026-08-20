@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Phone, ArrowUp, MessageSquare } from 'lucide-react';
 import { COMPANY_INFO } from '../data/carWashData';
+import { useAuth } from '../contexts/AuthContext';
 
 interface FloatingBookingBarProps {
   onOpenBooking: () => void;
 }
 
 export const FloatingBookingBar: React.FC<FloatingBookingBarProps> = ({ onOpenBooking }) => {
+  const { user } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > 300);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   if (!isVisible) return null;
 
+  // Button label changes based on auth state
+  const bookLabel = user ? 'BOOK A WASH' : 'SIGN IN TO BOOK';
+
   return (
     <>
-      {/* Mobile Sticky Bottom Floating Bar — White & Black studio theme */}
+      {/* Mobile Sticky Bottom Floating Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3.5 py-3 flex items-center gap-2.5 shadow-2xl animate-in slide-in-from-bottom duration-300">
         <a
           href={`tel:${COMPANY_INFO.phone}`}
@@ -54,11 +53,11 @@ export const FloatingBookingBar: React.FC<FloatingBookingBarProps> = ({ onOpenBo
           className="flex-1 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm cursor-pointer"
         >
           <Calendar className="w-4 h-4 text-red-200" />
-          <span>BOOK A WASH</span>
+          <span>{bookLabel}</span>
         </button>
       </div>
 
-      {/* Desktop Floating Back to Top & Quick Book Button */}
+      {/* Desktop Floating Quick Buttons */}
       <div className="hidden md:flex fixed bottom-6 right-6 z-40 items-center gap-3 animate-in fade-in duration-300">
         <button
           onClick={scrollToTop}
@@ -73,7 +72,7 @@ export const FloatingBookingBar: React.FC<FloatingBookingBarProps> = ({ onOpenBo
           className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer"
         >
           <Calendar className="w-4 h-4 text-red-400" />
-          <span>BOOK A WASH</span>
+          <span>{bookLabel}</span>
         </button>
       </div>
     </>
