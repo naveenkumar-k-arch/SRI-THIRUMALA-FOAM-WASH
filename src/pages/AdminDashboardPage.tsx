@@ -13,8 +13,6 @@ import {
   RefreshCw,
   Clock,
   CheckCircle2,
-  Lock,
-  Layers,
   Fingerprint
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';

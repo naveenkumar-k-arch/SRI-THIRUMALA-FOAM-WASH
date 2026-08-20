@@ -30,7 +30,6 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
     isSuperAdmin,
     isAdmin,
     userRole,
-    jwtMeta,
     signInWithEmail,
     signUpWithEmail,
     signOut,
