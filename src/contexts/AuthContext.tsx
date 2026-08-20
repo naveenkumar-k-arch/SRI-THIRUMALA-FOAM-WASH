@@ -203,7 +203,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     explicitRole?: UserRole
   ) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(cred.user, { displayName: name });
+    try {
+      await updateProfile(cred.user, { displayName: name });
+    } catch (_) {}
     
     const isSuper = isConfiguredSuperAdminEmail(email);
     const assignedRole: UserRole = explicitRole || (isSuper ? 'SUPER_ADMIN' : 'USER');
@@ -220,7 +222,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       role: assignedRole
     };
 
-    await setDoc(doc(db, 'users', cred.user.uid), profile);
+    try {
+      await setDoc(doc(db, 'users', cred.user.uid), profile);
+    } catch (err) {
+      console.warn('Firestore user profile write skipped:', err);
+    }
+
     await extractJwtMeta(cred.user, true);
     setUserProfile(profile);
   };
@@ -235,34 +242,50 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // ── Sign In with Google ───────────────────────────────────────────────────
   const signInWithGoogle = async () => {
     const cred = await signInWithPopup(auth, googleProvider);
-    const ref = doc(db, 'users', cred.user.uid);
-    const snap = await getDoc(ref);
     const isSuper = isConfiguredSuperAdminEmail(cred.user.email);
     await extractJwtMeta(cred.user, true);
 
-    if (!snap.exists()) {
-      const profile: UserProfile = {
+    try {
+      const ref = doc(db, 'users', cred.user.uid);
+      const snap = await getDoc(ref);
+
+      if (!snap.exists()) {
+        const profile: UserProfile = {
+          uid: cred.user.uid,
+          name: cred.user.displayName || (isSuper ? 'Super Administrator' : 'Customer'),
+          email: cred.user.email || '',
+          phone: '',
+          photoURL: cred.user.photoURL || '',
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+          provider: 'google',
+          role: isSuper ? 'SUPER_ADMIN' : 'USER'
+        };
+        await setDoc(ref, profile);
+        setUserProfile(profile);
+      } else {
+        const data = snap.data() as UserProfile;
+        if (isSuper && data.role !== 'SUPER_ADMIN') {
+          await setDoc(ref, { role: 'SUPER_ADMIN', lastLogin: serverTimestamp() }, { merge: true });
+          data.role = 'SUPER_ADMIN';
+        } else {
+          await setDoc(ref, { lastLogin: serverTimestamp() }, { merge: true });
+        }
+        setUserProfile(data);
+      }
+    } catch (err) {
+      console.warn('Firestore Google sign-in sync skipped:', err);
+      setUserProfile({
         uid: cred.user.uid,
-        name: cred.user.displayName || (isSuper ? 'Super Administrator' : ''),
+        name: cred.user.displayName || 'Customer',
         email: cred.user.email || '',
         phone: '',
         photoURL: cred.user.photoURL || '',
-        createdAt: serverTimestamp(),
-        lastLogin: serverTimestamp(),
+        createdAt: new Date(),
+        lastLogin: new Date(),
         provider: 'google',
         role: isSuper ? 'SUPER_ADMIN' : 'USER'
-      };
-      await setDoc(ref, profile);
-      setUserProfile(profile);
-    } else {
-      const data = snap.data() as UserProfile;
-      if (isSuper && data.role !== 'SUPER_ADMIN') {
-        await setDoc(ref, { role: 'SUPER_ADMIN', lastLogin: serverTimestamp() }, { merge: true });
-        data.role = 'SUPER_ADMIN';
-      } else {
-        await setDoc(ref, { lastLogin: serverTimestamp() }, { merge: true });
-      }
-      setUserProfile(data);
+      });
     }
   };
 
