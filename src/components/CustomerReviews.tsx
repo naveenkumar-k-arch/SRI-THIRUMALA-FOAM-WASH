@@ -4,7 +4,7 @@ import { REVIEWS } from '../data/carWashData';
 
 export const CustomerReviews: React.FC = () => {
   return (
-    <section className="py-16 sm:py-24 bg-white relative border-b border-slate-200 text-left overflow-hidden w-full max-w-full font-sans">
+    <section id="reviews" className="py-16 sm:py-24 bg-white relative border-b border-slate-200 text-left overflow-hidden w-full max-w-full font-sans">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

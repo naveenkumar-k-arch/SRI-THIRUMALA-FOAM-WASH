@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { HeroWashExperience } from './components/HeroWashExperience';
 import { HeroFeatureCards } from './components/HeroFeatureCards';
 import { HowItWorks } from './components/HowItWorks';
-import { FleetSolutions } from './components/FleetSolutions';
 import { ServicesPricing } from './components/ServicesPricing';
 import { BeforeAfterSlider } from './components/BeforeAfterSlider';
 import { GallerySection } from './components/GallerySection';
@@ -124,8 +123,10 @@ export function App() {
           onOpenBooking={handleNavigateToBook}
         />
 
-        {/* Vehicles We Wash - Dedicated Photo Cards Showcase */}
-        <FleetSolutions />
+        {/* Real Work Transformation Showcase & Gallery */}
+        <GallerySection 
+          onOpenBooking={handleNavigateToBook}
+        />
 
         {/* Transparent Pricing & Custom Package Selector */}
         <ServicesPricing 
@@ -134,9 +135,6 @@ export function App() {
 
         {/* Interactive Before & After Transformation Slider */}
         <BeforeAfterSlider />
-
-        {/* Real Work Transformation Gallery */}
-        <GallerySection />
 
         {/* Customer Reviews & Google Rating */}
         <CustomerReviews />

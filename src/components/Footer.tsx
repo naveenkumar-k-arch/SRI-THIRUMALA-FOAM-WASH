@@ -54,8 +54,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking: _onOpenBooking })
             <ul className="space-y-2 text-xs font-medium">
               <li><a href="#hero" className="hover:text-white transition-colors">Home Experience</a></li>
               <li><a href="#about" className="hover:text-white transition-colors">About Sri Thirumala</a></li>
-              <li><a href="#fleet" className="hover:text-white transition-colors">Fleet & Business Care</a></li>
               <li><a href="#gallery" className="hover:text-white transition-colors">Transformation Gallery</a></li>
+              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing & Packages</a></li>
+              <li><a href="#reviews" className="hover:text-white transition-colors">Customer Reviews</a></li>
               <li><a href="#contact" className="hover:text-white transition-colors">Location & Contact</a></li>
             </ul>
           </div>

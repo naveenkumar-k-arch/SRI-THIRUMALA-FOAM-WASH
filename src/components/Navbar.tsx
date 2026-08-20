@@ -34,7 +34,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
     { name: 'Home', href: '#hero' },
     { name: 'About', href: '#about' },
     { name: 'Gallery', href: '#gallery' },
-    { name: 'Fleet Care', href: '#fleet' },
+    { name: 'Pricing', href: '#pricing' },
+    { name: 'Reviews', href: '#reviews' },
     { name: 'Contact', href: '#contact' },
     { name: 'Book a Slot', href: '#booking', isAction: true }
   ];
