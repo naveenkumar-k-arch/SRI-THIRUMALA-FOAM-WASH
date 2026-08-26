@@ -45,8 +45,8 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100 group">
               <img
-                src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&q=80"
-                alt="Sri Thirumala Foam Wash - Professional Clean Car"
+                src="/images/foam/foam-1.png"
+                alt="Sri Thirumala Foam Wash - Professional Active Foam Bath"
                 className="w-full h-[380px] sm:h-[480px] object-cover object-center group-hover:scale-104 transition-transform duration-700"
               />
               
