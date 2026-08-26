@@ -154,25 +154,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Listen for auth state changes across memory sessions with failsafe timeout
   useEffect(() => {
-    // Failsafe timeout ensures the app NEVER gets stuck on a loading screen
+    // Failsafe timeout ensures the app NEVER gets stuck
     const safetyTimer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 400);
 
-    const unsub = onAuthStateChanged(auth, async (u) => {
+    const unsub = onAuthStateChanged(auth, (u) => {
       try {
         setUser(u);
+        setLoading(false);
+        clearTimeout(safetyTimer);
+
         if (u) {
-          await fetchUserProfile(u);
+          fetchUserProfile(u).catch(err => console.warn('Background profile fetch note:', err));
         } else {
           setUserProfile(null);
           setJwtMeta(null);
         }
       } catch (err) {
         console.warn('Auth state resolution note:', err);
-      } finally {
         setLoading(false);
-        clearTimeout(safetyTimer);
       }
     });
 

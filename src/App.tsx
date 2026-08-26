@@ -5,17 +5,17 @@ import { HeroWashExperience } from './components/HeroWashExperience';
 import { HeroFeatureCards } from './components/HeroFeatureCards';
 import { HowItWorks } from './components/HowItWorks';
 import { ServicesPricing } from './components/ServicesPricing';
-import { BeforeAfterSlider } from './components/BeforeAfterSlider';
-import { GallerySection } from './components/GallerySection';
-import { CustomerReviews } from './components/CustomerReviews';
 import { LocationContact } from './components/LocationContact';
 import { Footer } from './components/Footer';
-import { AccountModal } from './components/AccountModal';
 import { FloatingBookingBar } from './components/FloatingBookingBar';
 import { ADMIN_CONFIG } from './config/adminConfig';
 import type { VehicleCategory } from './types';
 
-// Code-split secondary pages for instant initial load and clean module isolation
+// Code-split heavy interactive components for lightning-fast initial render (<50ms)
+const GallerySection = lazy(() => import('./components/GallerySection').then((m) => ({ default: m.GallerySection })));
+const BeforeAfterSlider = lazy(() => import('./components/BeforeAfterSlider').then((m) => ({ default: m.BeforeAfterSlider })));
+const CustomerReviews = lazy(() => import('./components/CustomerReviews').then((m) => ({ default: m.CustomerReviews })));
+const AccountModal = lazy(() => import('./components/AccountModal').then((m) => ({ default: m.AccountModal })));
 const BookSlotPage = lazy(() => import('./pages/BookSlotPage').then((m) => ({ default: m.BookSlotPage })));
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage').then((m) => ({ default: m.AdminLoginPage })));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage })));
@@ -247,16 +247,22 @@ export function App() {
         <HowItWorks onOpenBooking={handleNavigateToBook} />
 
         {/* Real Work Transformation Showcase & Gallery */}
-        <GallerySection onOpenBooking={handleNavigateToBook} />
+        <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400 text-xs font-mono">Loading Gallery Showcase...</div>}>
+          <GallerySection onOpenBooking={handleNavigateToBook} />
+        </Suspense>
 
         {/* Pricing & Package Selector */}
         <ServicesPricing onSelectService={handleSelectServiceFromHome} />
 
         {/* Before & After Slider */}
-        <BeforeAfterSlider />
+        <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400 text-xs font-mono">Loading Transformation Preview...</div>}>
+          <BeforeAfterSlider />
+        </Suspense>
 
         {/* Customer Reviews */}
-        <CustomerReviews />
+        <Suspense fallback={<div className="h-48 flex items-center justify-center text-slate-400 text-xs font-mono">Loading Customer Reviews...</div>}>
+          <CustomerReviews />
+        </Suspense>
 
         {/* Location & Contact */}
         <LocationContact onOpenBooking={handleNavigateToBook} />
@@ -269,13 +275,17 @@ export function App() {
       {/* Floating Booking Bar */}
       <FloatingBookingBar onOpenBooking={handleNavigateToBook} />
 
-      {/* Account Modal */}
-      <AccountModal
-        isOpen={isAccountOpen}
-        initialTab={accountTab}
-        onClose={() => { setIsAccountOpen(false); setPendingBooking(false); }}
-        onAuthSuccess={handleAuthSuccess}
-      />
+      {/* Account Modal (Lazy Loaded only when opened) */}
+      {isAccountOpen && (
+        <Suspense fallback={null}>
+          <AccountModal
+            isOpen={isAccountOpen}
+            initialTab={accountTab}
+            onClose={() => { setIsAccountOpen(false); setPendingBooking(false); }}
+            onAuthSuccess={handleAuthSuccess}
+          />
+        </Suspense>
+      )}
 
     </div>
   );
