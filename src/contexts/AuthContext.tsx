@@ -239,7 +239,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     try {
       await updateProfile(cred.user, { displayName: name });
-    } catch (_) {}
+    } catch {}
     
     const isSuper = isConfiguredSuperAdminEmail(email);
     const assignedRole: UserRole = explicitRole || (isSuper ? 'SUPER_ADMIN' : 'USER');

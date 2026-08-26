@@ -113,7 +113,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           spread: 70,
           origin: { y: 0.6 }
         });
-      } catch (e) {
+      } catch {
         // Safe fallback
       }
     }
