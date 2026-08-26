@@ -152,11 +152,11 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
         </button>
       </div>
 
-      {/* Main Content Layout - Docked at the Bottom */}
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 w-full flex-1 flex flex-col justify-end items-center pt-24 pb-2 sm:pb-4">
+      {/* MIDDLE: Title, Headline, Description & Primary CTA Button */}
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 my-auto flex flex-col items-center pt-8 pb-4">
         
         {/* Subtitle Tag */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/40 text-red-400 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2 shadow-lg backdrop-blur-sm">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/40 text-red-400 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2.5 shadow-lg backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
           <span>SRI THIRUMALA FOAM WASH • KARPUR</span>
         </div>
@@ -178,23 +178,27 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
         </h1>
 
         {/* Subtitle Description */}
-        <p className="mt-2 text-slate-200 text-xs sm:text-sm font-medium max-w-xl mx-auto leading-relaxed drop-shadow-md text-center">
+        <p className="mt-2.5 text-slate-200 text-xs sm:text-sm font-medium max-w-xl mx-auto leading-relaxed drop-shadow-md text-center">
           Doorstep Valet Pickup & Delivery across Karpur. High-pressure active foam baths, interior sanitization & mirror gloss finish.
         </p>
 
-        {/* CTA Button */}
-        <div className="mt-3 sm:mt-4 w-full sm:w-auto px-2 sm:px-0">
+        {/* Primary CTA Button */}
+        <div className="mt-4 sm:mt-6 w-full sm:w-auto px-2 sm:px-0">
           <button
             onClick={onOpenBooking}
-            className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-8 sm:px-12 py-3 sm:py-3.5 rounded-2xl bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-sm sm:text-base border border-amber-300/40 shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] tactile-btn cursor-pointer font-['Outfit'] select-none"
+            className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-8 sm:px-12 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-sm sm:text-base border border-amber-300/40 shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] tactile-btn cursor-pointer font-['Outfit'] select-none"
           >
             <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-200 group-hover:scale-110 transition-transform" />
             <span className="tracking-wider text-white drop-shadow-md">BOOK A WASH SLOT</span>
           </button>
         </div>
 
-        {/* 4 Feature Cards (Valet Pickup, Active Foam, 180-Bar Jet, 4.9★ Rated) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 w-full max-w-4xl mt-3 sm:mt-5">
+      </div>
+
+      {/* BOTTOM: 4 Feature Cards (Valet Pickup, Active Foam, 180-Bar Jet, 4.9★ Rated) & Scroll Indicator */}
+      <div className="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 w-full flex flex-col items-center pb-2 sm:pb-3">
+        
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 w-full">
           <div className="p-2 sm:p-2.5 rounded-xl bg-black/65 backdrop-blur-md border border-white/15 text-left flex items-center gap-2 shadow-lg">
             <span className="text-base sm:text-lg">🚗</span>
             <div>
@@ -231,7 +235,7 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
         {/* Scroll Indicator */}
         <a 
           href="#about"
-          className="mt-2 inline-flex flex-col items-center text-slate-400 hover:text-white transition-colors cursor-pointer group"
+          className="mt-2.5 sm:mt-3 inline-flex flex-col items-center text-slate-400 hover:text-white transition-colors cursor-pointer group"
         >
           <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400 group-hover:text-orange-400 transition-colors font-['Outfit']">
             EXPLORE DETAILS
@@ -240,6 +244,7 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
         </a>
 
       </div>
+
     </section>
   );
 };
