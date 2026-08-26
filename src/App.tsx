@@ -12,7 +12,6 @@ import { ADMIN_CONFIG } from './config/adminConfig';
 import type { VehicleCategory } from './types';
 
 // Code-split heavy interactive components for lightning-fast initial render (<50ms)
-const CarWash3DSimulator = lazy(() => import('./components/CarWash3DSimulator').then((m) => ({ default: m.CarWash3DSimulator })));
 const GallerySection = lazy(() => import('./components/GallerySection').then((m) => ({ default: m.GallerySection })));
 const BeforeAfterSlider = lazy(() => import('./components/BeforeAfterSlider').then((m) => ({ default: m.BeforeAfterSlider })));
 const CustomerReviews = lazy(() => import('./components/CustomerReviews').then((m) => ({ default: m.CustomerReviews })));
@@ -276,11 +275,6 @@ export function App() {
 
         {/* About Sri Thirumala */}
         <HeroFeatureCards onOpenBooking={handleNavigateToBook} />
-
-        {/* Interactive 3D 360° Car Wash Simulator */}
-        <Suspense fallback={<div className="h-96 flex items-center justify-center text-slate-400 text-xs font-mono">Loading 3D Car Wash Studio...</div>}>
-          <CarWash3DSimulator onOpenBooking={handleNavigateToBook} />
-        </Suspense>
 
         {/* How It Works */}
         <HowItWorks onOpenBooking={handleNavigateToBook} />

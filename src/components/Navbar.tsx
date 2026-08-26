@@ -40,7 +40,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount, on
   const navLinks = [
     { name: 'Home', href: '#hero' },
     { name: 'About', href: '#about' },
-    { name: '3D Studio', href: '#simulator-3d' },
     { name: 'Gallery', href: '#gallery' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'Reviews', href: '#reviews' },
