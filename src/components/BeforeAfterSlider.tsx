@@ -19,11 +19,11 @@ const COMPARISONS: ComparisonItem[] = [
     name: 'Car / Sedan / Hatchback',
     category: 'Car Wash',
     icon: Car,
-    beforeImg: '/images/foam/foam-8.png',
-    afterImg: '/images/foam/foam-1.png',
+    beforeImg: '/images/foam/car-before.jpg',
+    afterImg: '/images/foam/car-after.jpg',
     beforeLabel: 'BEFORE: DUST, MUD & ROAD FILM',
     afterLabel: 'AFTER: ACTIVE FOAM & MIRROR FINISH',
-    description: 'High-pressure pre-wash, thick active snow foam soak, alloy de-dusting, and ceramic shine coat.'
+    description: 'Real Sri Thirumala Foam Wash transformation: high-pressure pre-wash, thick snow foam soak, alloy de-dusting, and showroom shine.'
   },
   {
     id: 'bike',
@@ -41,11 +41,11 @@ const COMPARISONS: ComparisonItem[] = [
     name: 'SUV / 4x4 / Creta / Fortuner',
     category: 'SUV Wash',
     icon: Truck,
-    beforeImg: '/images/foam/foam-4.png',
-    afterImg: '/images/foam/foam-2.png',
-    beforeLabel: 'BEFORE: OFFROAD SPLATTER & UNDERBODY DIRT',
-    afterLabel: 'AFTER: COMPLETE FOAM SPA & HYDROPHOBIC COAT',
-    description: 'Heavy underbody pressure wash, arch degreasing, glass water-spot removal, and deep foam bath.'
+    beforeImg: '/images/foam/car-before.jpg',
+    afterImg: '/images/foam/car-after.jpg',
+    beforeLabel: 'BEFORE: OFFROAD SPLATTER & ROAD FILM',
+    afterLabel: 'AFTER: DEEP FOAM SPA & HYDROPHOBIC GLOSS',
+    description: 'Heavy pressure blast, thick snow foam soak, spotless soft-water rinse, and mirror gloss coating.'
   }
 ];
 
@@ -79,7 +79,7 @@ export const BeforeAfterSlider: React.FC = () => {
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-white relative border-b border-slate-200 text-left overflow-hidden w-full max-w-full font-sans">
+    <section id="comparison" className="py-16 sm:py-24 bg-white relative border-b border-slate-200 text-left overflow-hidden w-full max-w-full font-sans">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

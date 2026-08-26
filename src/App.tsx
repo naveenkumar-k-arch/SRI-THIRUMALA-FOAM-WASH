@@ -279,6 +279,11 @@ export function App() {
         {/* How It Works */}
         <HowItWorks onOpenBooking={handleNavigateToBook} />
 
+        {/* Before & After Visual Comparison */}
+        <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400 text-xs font-mono">Loading Transformation Preview...</div>}>
+          <BeforeAfterSlider />
+        </Suspense>
+
         {/* Real Work Transformation Showcase & Gallery */}
         <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400 text-xs font-mono">Loading Gallery Showcase...</div>}>
           <GallerySection onOpenBooking={handleNavigateToBook} />
@@ -286,11 +291,6 @@ export function App() {
 
         {/* Pricing & Package Selector */}
         <ServicesPricing onSelectService={handleSelectServiceFromHome} />
-
-        {/* Before & After Slider */}
-        <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400 text-xs font-mono">Loading Transformation Preview...</div>}>
-          <BeforeAfterSlider />
-        </Suspense>
 
         {/* Customer Reviews */}
         <Suspense fallback={<div className="h-48 flex items-center justify-center text-slate-400 text-xs font-mono">Loading Customer Reviews...</div>}>
