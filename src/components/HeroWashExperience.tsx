@@ -106,9 +106,9 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
   };
 
   return (
-    <section id="hero" className="relative min-h-[100svh] bg-[#030712] flex flex-col justify-between pt-16 sm:pt-20 overflow-hidden text-center">
+    <section id="hero" className="relative min-h-[92svh] sm:min-h-[100svh] bg-slate-950 flex flex-col justify-between pt-16 sm:pt-20 pb-8 sm:pb-12 overflow-hidden text-center">
       
-      {/* Background Edge-to-Edge Seamless Background Video - NO BOX BORDERS */}
+      {/* Background Edge-to-Edge Seamless Background Video */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <video
           ref={videoRef}
@@ -118,25 +118,25 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
           playsInline
           muted={isMuted}
           preload="auto"
-          className="w-full h-full object-cover object-center opacity-85 scale-105"
+          className="w-full h-full object-cover object-center opacity-80 sm:opacity-85 scale-105"
         />
         
-        {/* Seamless Vignette and Gradient Overlays Blending Edge to Edge */}
-        <div className="absolute top-0 left-0 right-0 h-32 sm:h-40 bg-gradient-to-b from-[#030712] via-[#030712]/75 to-transparent z-10"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-44 sm:h-56 bg-gradient-to-t from-[#030712] via-[#030712]/85 to-transparent z-10"></div>
-        <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-28 bg-gradient-to-r from-[#030712]/90 to-transparent z-10"></div>
-        <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-28 bg-gradient-to-l from-[#030712]/90 to-transparent z-10"></div>
-        <div className="absolute inset-0 bg-radial-[circle_at_center_transparent_0%,#030712_85%] opacity-40 z-10"></div>
+        {/* Seamless Vignette and Gradient Overlays Blending to Titanium Background */}
+        <div className="absolute top-0 left-0 right-0 h-28 sm:h-36 bg-gradient-to-b from-slate-950 via-slate-950/70 to-transparent z-10"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent z-10"></div>
+        <div className="absolute top-0 bottom-0 left-0 w-6 sm:w-24 bg-gradient-to-r from-slate-950/75 to-transparent z-10"></div>
+        <div className="absolute top-0 bottom-0 right-0 w-6 sm:w-24 bg-gradient-to-l from-slate-950/75 to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-radial-[circle_at_center_transparent_20%,rgba(15,23,42,0.75)_95%] z-10"></div>
       </div>
 
       {/* Floating Sound Toggle Control on Mobile & Desktop */}
-      <div className="absolute top-[4.5rem] sm:top-24 right-3 sm:right-6 z-30">
+      <div className="absolute top-20 sm:top-24 right-3 sm:right-6 z-30">
         <button
           onClick={toggleSound}
           className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border backdrop-blur-md transition-all duration-300 shadow-xl cursor-pointer ${
             !isMuted
-              ? 'bg-red-600/90 hover:bg-red-600 text-white border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
-              : 'bg-black/80 hover:bg-black/95 text-amber-300 border-amber-500/50 animate-pulse'
+              ? 'bg-red-600/95 hover:bg-red-600 text-white border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
+              : 'bg-slate-900/90 hover:bg-black text-amber-300 border-amber-500/50 animate-pulse'
           }`}
           title={isMuted ? 'Click to Enable Sound' : 'Sound is Active (Click to Mute)'}
         >
@@ -154,22 +154,23 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
         </button>
       </div>
 
-      {/* Main Center Floating Content */}
-      <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 my-auto pt-14 sm:pt-20 pb-6 sm:pb-8 flex flex-col items-center perspective-container">
+      {/* Main Center Content */}
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 my-auto pt-6 sm:pt-14 pb-4 sm:pb-6 flex flex-col items-center perspective-container">
         
         {/* Subtitle Tag */}
-        <span className="text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-orange-400 font-['Outfit'] block mb-2 sm:mb-4 drop-shadow-[0_0_12px_rgba(232,121,249,0.6)]">
-          SRI THIRUMALA FOAM WASH
-        </span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/40 text-red-400 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2.5 sm:mb-4 shadow-lg backdrop-blur-sm">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+          <span>SRI THIRUMALA FOAM WASH • KARPUR</span>
+        </div>
 
-        {/* Hero Headline - Responsive Mobile Scaling with 3D Depth */}
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight uppercase leading-tight sm:leading-tight font-['Outfit'] max-w-5xl drop-shadow-2xl floating-3d">
+        {/* Hero Headline - Responsive Mobile Scaling */}
+        <h1 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-black tracking-tight uppercase leading-tight sm:leading-tight font-['Outfit'] max-w-4xl drop-shadow-2xl">
           <span className="text-white">WE </span>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400 drop-shadow-[0_0_25px_rgba(239,68,68,0.7)]">
             PICK IT UP.
           </span>{' '}
           <span className="text-white">WE </span>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-300 drop-shadow-[0_0_25px_rgba(249,115,22,0.7)]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300 drop-shadow-[0_0_25px_rgba(249,115,22,0.7)]">
             WASH IT.
           </span>{' '}
           <span className="text-white">WE </span>
@@ -178,27 +179,66 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
           </span>
         </h1>
 
-        {/* Primary Glow 3D Tactile Button: BOOK A SLOT */}
-        <div className="mt-6 sm:mt-10 w-full sm:w-auto px-4 sm:px-0 depth-pop">
+        {/* Mobile-Friendly Value Prop Chips */}
+        <p className="mt-3 text-slate-300 text-xs sm:text-sm font-medium max-w-xl mx-auto leading-relaxed drop-shadow-md">
+          Doorstep Valet Pickup & Delivery across Karpur. High-pressure active foam baths, interior sanitization & mirror gloss finish.
+        </p>
+
+        {/* Primary Glow 3D Button: BOOK A SLOT */}
+        <div className="mt-5 sm:mt-8 w-full sm:w-auto px-2 sm:px-0 depth-pop">
           <button
             onClick={onOpenBooking}
-            className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-7 sm:px-12 py-3.5 sm:py-4.5 rounded-2xl bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-sm sm:text-lg border border-amber-300/40 shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] tactile-btn cursor-pointer font-['Outfit'] select-none"
+            className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-8 sm:px-12 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-sm sm:text-base border border-amber-300/40 shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] tactile-btn cursor-pointer font-['Outfit'] select-none"
           >
             <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-200 group-hover:scale-110 transition-transform" />
-            <span className="tracking-wider text-white drop-shadow-md">BOOK A SLOT</span>
+            <span className="tracking-wider text-white drop-shadow-md">BOOK A WASH SLOT</span>
           </button>
+        </div>
+
+        {/* Bottom Feature Badges Grid (Replaces Empty Mobile Black Void) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mt-6 sm:mt-10 w-full max-w-4xl">
+          <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-md border border-white/15 text-left flex items-center gap-2 shadow-lg">
+            <span className="text-base sm:text-lg">🚗</span>
+            <div>
+              <p className="text-[10px] sm:text-xs font-bold text-white leading-tight">Valet Pickup</p>
+              <p className="text-[8px] sm:text-[10px] text-slate-400 leading-tight">Doorstep & return</p>
+            </div>
+          </div>
+
+          <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-md border border-white/15 text-left flex items-center gap-2 shadow-lg">
+            <span className="text-base sm:text-lg">🫧</span>
+            <div>
+              <p className="text-[10px] sm:text-xs font-bold text-white leading-tight">Active Foam</p>
+              <p className="text-[8px] sm:text-[10px] text-slate-400 leading-tight">pH-neutral bath</p>
+            </div>
+          </div>
+
+          <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-md border border-white/15 text-left flex items-center gap-2 shadow-lg">
+            <span className="text-base sm:text-lg">⚡</span>
+            <div>
+              <p className="text-[10px] sm:text-xs font-bold text-white leading-tight">180-Bar Jet</p>
+              <p className="text-[8px] sm:text-[10px] text-slate-400 leading-tight">Soft water flush</p>
+            </div>
+          </div>
+
+          <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-md border border-white/15 text-left flex items-center gap-2 shadow-lg">
+            <span className="text-base sm:text-lg">⭐</span>
+            <div>
+              <p className="text-[10px] sm:text-xs font-bold text-white leading-tight">4.9★ Rated</p>
+              <p className="text-[8px] sm:text-[10px] text-amber-300 font-bold leading-tight">250+ Washes</p>
+            </div>
+          </div>
         </div>
 
         {/* Scroll Indicator */}
         <a 
           href="#about"
-          className="mt-8 sm:mt-14 inline-flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer group"
+          className="mt-5 sm:mt-8 inline-flex flex-col items-center gap-0.5 text-slate-400 hover:text-white transition-colors cursor-pointer group"
         >
-          <div className="w-6 sm:w-8 h-0.5 bg-orange-400 rounded-full mb-0.5 shadow-[0_0_8px_#fb923c]"></div>
-          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] text-slate-300 group-hover:text-orange-400 transition-colors font-['Outfit']">
+          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 group-hover:text-orange-400 transition-colors font-['Outfit']">
             SCROLL TO EXPLORE
           </span>
-          <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-400 animate-bounce mt-0.5" />
+          <ChevronDown className="w-3.5 h-3.5 text-orange-400 animate-bounce" />
         </a>
 
       </div>
