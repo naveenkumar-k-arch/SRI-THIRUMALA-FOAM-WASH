@@ -50,16 +50,20 @@ export function App() {
     const handleHashChange = () => {
       const rawHash = window.location.hash.toLowerCase().replace(/^#\/?/, '').trim();
       const adminSlug = ADMIN_CONFIG.endpoint.toLowerCase().replace(/^#\/?/, '').trim();
+      const hasAdminSession = Boolean(
+        (user && isAdmin) ||
+        (typeof window !== 'undefined' && window.sessionStorage?.getItem('srit_admin_session') === 'true')
+      );
 
-      // Check for secret admin endpoint (100% hidden, no public buttons)
+      // Check for secret admin endpoint
       if (rawHash === adminSlug) {
-        if (user && isAdmin) {
+        if (hasAdminSession) {
           setCurrentPage('admin-dashboard');
         } else {
           setCurrentPage('admin-login');
         }
       } else if (rawHash === `${adminSlug}/dashboard` || rawHash === `${adminSlug}-dashboard`) {
-        if (user && isAdmin) {
+        if (hasAdminSession) {
           setCurrentPage('admin-dashboard');
         } else {
           setCurrentPage('admin-login');

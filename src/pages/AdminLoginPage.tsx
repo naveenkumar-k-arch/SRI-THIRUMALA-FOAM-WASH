@@ -100,17 +100,18 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
         }
 
         // Step 2: Database role validation & session entry
+        sessionStorage.setItem('srit_admin_session', 'true');
         setAuthStep('issuing_jwt');
-        await new Promise((res) => setTimeout(res, 200));
+        await new Promise((res) => setTimeout(res, 150));
 
         setAuthStep('validating_db_rbac');
-        await new Promise((res) => setTimeout(res, 200));
+        await new Promise((res) => setTimeout(res, 150));
 
         setAuthStep('success');
         setSuccessMsg('Authenticated as Super Admin with valid session. Entering console...');
         setTimeout(() => {
           onLoginSuccess();
-        }, 500);
+        }, 300);
       }
     } catch (err: any) {
       setAuthStep('idle');
@@ -121,11 +122,12 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
       const isMasterKey = (password === ADMIN_CONFIG.superAdminPassword || password === 'srithirumalafoamwash7@gmail.com' || password === 'srithirumalafoamwash7');
 
       if (isDesignated && isMasterKey) {
+        sessionStorage.setItem('srit_admin_session', 'true');
         setAuthStep('success');
         setSuccessMsg('Master Administrative Key Authorized. Entering console...');
         setTimeout(() => {
           onLoginSuccess();
-        }, 400);
+        }, 200);
       } else if (code === 'auth/user-not-found' || code === 'auth/invalid-credential') {
         setErrorMsg('Invalid administrative credentials. If this is first-time setup, click "Initialize Super Admin Account" below.');
       } else if (code === 'auth/wrong-password') {

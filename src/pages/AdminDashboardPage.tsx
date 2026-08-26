@@ -116,12 +116,18 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setTimeout(() => setToastMessage(''), 3500);
   };
 
-  // Guard: if not authenticated as Super Admin or Admin, bounce to login
+  // Guard: if not authenticated as Super Admin or Admin in state/session, bounce to login
   useEffect(() => {
-    if (!loading && (!user || (!isSuperAdmin && !isAdmin))) {
+    const hasAdminSession = Boolean(
+      isSuperAdmin ||
+      isAdmin ||
+      (typeof window !== 'undefined' && window.sessionStorage?.getItem('srit_admin_session') === 'true')
+    );
+
+    if (!loading && !hasAdminSession) {
       onNavigateLogin();
     }
-  }, [user, isSuperAdmin, isAdmin, loading, onNavigateLogin]);
+  }, [isSuperAdmin, isAdmin, loading, onNavigateLogin]);
 
   // Load Real Data from Neon PostgreSQL Database (+ Firestore fallback)
   const fetchLiveDatabaseData = async () => {
@@ -308,7 +314,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   }, []);
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      window.sessionStorage?.removeItem('srit_admin_session');
+      await signOut();
+    } catch {}
     onNavigateLogin();
   };
 

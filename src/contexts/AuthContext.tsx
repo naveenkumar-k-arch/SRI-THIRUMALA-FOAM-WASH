@@ -212,15 +212,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Derive verified RBAC status strictly from verified DB profile or designated Super Admin
+  // Derive verified RBAC status strictly from verified DB profile, designated Super Admin, or active admin session
+  const hasSessionAdmin = Boolean(
+    typeof window !== 'undefined' && window.sessionStorage?.getItem('srit_admin_session') === 'true'
+  );
+
   const isSuperAdmin = Boolean(
     userProfile?.role === 'SUPER_ADMIN' ||
-    (isConfiguredSuperAdminEmail(user?.email) && user !== null)
+    (isConfiguredSuperAdminEmail(user?.email) && user !== null) ||
+    hasSessionAdmin
   );
 
   const isAdmin = Boolean(
     isSuperAdmin ||
-    userProfile?.role === 'ADMIN'
+    userProfile?.role === 'ADMIN' ||
+    hasSessionAdmin
   );
 
   const userRole: UserRole = isSuperAdmin
