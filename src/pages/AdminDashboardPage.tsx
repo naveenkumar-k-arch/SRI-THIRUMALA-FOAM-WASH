@@ -27,7 +27,9 @@ import {
   Save,
   Menu,
   Inbox,
-  RefreshCw
+  RefreshCw,
+  ArrowRight,
+  MapPin
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '../firebase';
@@ -80,8 +82,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 }) => {
   const { user, userProfile, isSuperAdmin, isAdmin, signOut, loading } = useAuth();
 
-  // Active Section navigation from Left Sidebar ('overview' | 'customers' | 'slots' | 'payments' | 'settings')
-  const [activeTab, setActiveTab] = useState<'overview' | 'customers' | 'slots' | 'payments' | 'settings'>('overview');
+  // Active Section navigation from Left Sidebar ('overview' | 'orders' | 'customers' | 'slots' | 'payments' | 'settings')
+  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'customers' | 'slots' | 'payments' | 'settings'>('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // REAL LIVE Data States (Zero hardcoded fake details)
@@ -90,6 +92,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [payments, setPayments] = useState<PaymentLog[]>([]);
   const [paymentSettings, setPaymentSettings] = useState<PaymentSettings>(DEFAULT_PAYMENT_SETTINGS);
   const [dataLoading, setDataLoading] = useState(true);
+
+  // Order Section Filter & Search
+  const [orderSearch, setOrderSearch] = useState('');
+  const [orderStatusFilter, setOrderStatusFilter] = useState<'all' | WashStatus>('all');
+  const [orderVehicleFilter, setOrderVehicleFilter] = useState<string>('all');
 
   // Slot Management State
   const [selectedSlotDate, setSelectedSlotDate] = useState<string>(new Date().toISOString().split('T')[0]);
@@ -432,6 +439,25 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     }
   };
 
+  // Filtered Orders (Dedicated Search & Status Filter)
+  const filteredOrders = useMemo(() => {
+    return bookings.filter((b) => {
+      const matchSearch =
+        b.bookingRef.toLowerCase().includes(orderSearch.toLowerCase()) ||
+        b.customerName.toLowerCase().includes(orderSearch.toLowerCase()) ||
+        b.customerPhone.includes(orderSearch) ||
+        b.vehicleModel.toLowerCase().includes(orderSearch.toLowerCase()) ||
+        (b.vehicleNumber && b.vehicleNumber.toLowerCase().includes(orderSearch.toLowerCase())) ||
+        b.serviceName.toLowerCase().includes(orderSearch.toLowerCase()) ||
+        (b.pickupAddress && b.pickupAddress.toLowerCase().includes(orderSearch.toLowerCase()));
+
+      if (!matchSearch) return false;
+      if (orderStatusFilter !== 'all' && b.status !== orderStatusFilter) return false;
+      if (orderVehicleFilter !== 'all' && b.vehicleType !== orderVehicleFilter) return false;
+      return true;
+    });
+  }, [bookings, orderSearch, orderStatusFilter, orderVehicleFilter]);
+
   // Filtered Customers
   const filteredCustomers = useMemo(() => {
     return customers.filter((c) => {
@@ -550,7 +576,35 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
               </div>
             </button>
 
-            {/* 2. Customers */}
+            {/* 2. Orders & Bookings (NEW DEDICATED SECTION) */}
+            <button
+              onClick={() => {
+                setActiveTab('orders');
+                setSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-xs font-bold transition-all duration-200 cursor-pointer text-left ${
+                activeTab === 'orders'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_8px_16px_rgba(37,99,235,0.25),inset_0_1px_0_rgba(255,255,255,0.3)] transform -translate-y-0.5'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-medium'
+              }`}
+            >
+              <div className={`p-1.5 rounded-lg ${activeTab === 'orders' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                <Car className="w-4 h-4 shrink-0" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <span>2. Orders & Bookings</span>
+                  <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${activeTab === 'orders' ? 'bg-white/30 text-white' : 'bg-blue-100 text-blue-700'}`}>
+                    {bookings.length}
+                  </span>
+                </div>
+                <div className={`text-[10px] font-normal ${activeTab === 'orders' ? 'text-blue-100' : 'text-slate-400'}`}>
+                  Live queue & valet dispatch
+                </div>
+              </div>
+            </button>
+
+            {/* 3. Customers */}
             <button
               onClick={() => {
                 setActiveTab('customers');
@@ -567,7 +621,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <span>2. All Customers</span>
+                  <span>3. All Customers</span>
                   <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${activeTab === 'customers' ? 'bg-white/30 text-white' : 'bg-slate-200 text-slate-700'}`}>
                     {customers.length}
                   </span>
@@ -578,7 +632,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
               </div>
             </button>
 
-            {/* 3. Slots */}
+            {/* 4. Slots */}
             <button
               onClick={() => {
                 setActiveTab('slots');
@@ -594,14 +648,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 <Calendar className="w-4 h-4 shrink-0" />
               </div>
               <div className="flex-1">
-                <div>3. Slot Management</div>
+                <div>4. Slot Management</div>
                 <div className={`text-[10px] font-normal ${activeTab === 'slots' ? 'text-blue-100' : 'text-slate-400'}`}>
                   6 batch windows & filters
                 </div>
               </div>
             </button>
 
-            {/* 4. Payments */}
+            {/* 5. Payments */}
             <button
               onClick={() => {
                 setActiveTab('payments');
@@ -618,7 +672,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <span>4. Payment Logs</span>
+                  <span>5. Payment Logs</span>
                   <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${activeTab === 'payments' ? 'bg-white/30 text-white' : 'bg-slate-200 text-slate-700'}`}>
                     {payments.length}
                   </span>
@@ -629,7 +683,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
               </div>
             </button>
 
-            {/* 5. Settings */}
+            {/* 6. Settings */}
             <button
               onClick={() => {
                 setActiveTab('settings');
@@ -645,7 +699,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 <Settings className="w-4 h-4 shrink-0" />
               </div>
               <div className="flex-1">
-                <div>5. Payment Settings</div>
+                <div>6. Payment Settings</div>
                 <div className={`text-[10px] font-normal ${activeTab === 'settings' ? 'text-blue-100' : 'text-slate-400'}`}>
                   UPI gateway & deposit rules
                 </div>
@@ -711,11 +765,12 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
             </button>
             <div>
               <h1 className="text-base sm:text-lg font-black text-slate-900 capitalize font-['Outfit']">
-                {activeTab === 'overview' && '1. Revenue & Live Slots Overview'}
-                {activeTab === 'customers' && `2. All Registered Customers (${customers.length})`}
-                {activeTab === 'slots' && '3. Slot Management & Capacity Filters'}
-                {activeTab === 'payments' && `4. Financial Payment Logs (${payments.length})`}
-                {activeTab === 'settings' && '5. Payment Settings & Gateway Configuration'}
+                {activeTab === 'overview' && '1. Operational & Revenue Overview'}
+                {activeTab === 'orders' && `2. Live Booking Orders & Valet Dispatch (${bookings.length})`}
+                {activeTab === 'customers' && `3. All Registered Customers (${customers.length})`}
+                {activeTab === 'slots' && '4. Slot Management & Capacity Filters'}
+                {activeTab === 'payments' && `5. Financial Payment Logs (${payments.length})`}
+                {activeTab === 'settings' && '6. Payment Settings & Gateway Configuration'}
               </h1>
               <p className="text-[11px] text-slate-500 font-medium">
                 Real-Time Live Operations Studio • Karpur, Karnataka
@@ -888,27 +943,171 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 </div>
               </div>
 
-              {/* Real Bookings Queue (3D Table Surface) */}
+              {/* Recent Orders Overview Card with Direct Link to Dedicated Orders Tab */}
               <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] space-y-4">
                 <div className="flex items-center justify-between pb-4 border-b border-slate-200">
                   <div>
                     <h3 className="text-base font-black text-slate-900 flex items-center gap-2 font-['Outfit']">
                       <Car className="w-5 h-5 text-blue-600" />
-                      <span>Live Booking Queue & Valet Dispatch</span>
+                      <span>Recent Customer Bookings</span>
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">Real-time status tracking for customer wash orders</p>
+                    <p className="text-xs text-slate-500 mt-0.5">Quick stream of incoming customer wash requests</p>
                   </div>
-                  <span className="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
-                    {bookings.length} Orders
-                  </span>
+                  <button
+                    onClick={() => setActiveTab('orders')}
+                    className="text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl shadow-[0_4px_10px_rgba(37,99,235,0.3)] transition cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>View All Orders ({bookings.length})</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
 
                 {bookings.length === 0 ? (
-                  <div className="text-center py-14 text-slate-500 space-y-3 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                    <Inbox className="w-12 h-12 text-slate-400 mx-auto" />
+                  <div className="text-center py-10 text-slate-500 space-y-2 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                    <Inbox className="w-10 h-10 text-slate-400 mx-auto" />
                     <div className="text-sm font-bold text-slate-700">No customer bookings created yet</div>
+                    <p className="text-xs text-slate-500">Orders placed by customers will stream here automatically.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {bookings.slice(0, 3).map((booking) => (
+                      <div
+                        key={booking.id}
+                        className="p-4 rounded-2xl border border-slate-200/80 bg-slate-50/50 hover:bg-blue-50/30 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs shrink-0">
+                            {booking.vehicleType === 'bike' ? '🏍️' : booking.vehicleType === 'suv' ? '🚙' : '🚗'}
+                          </div>
+                          <div>
+                            <div className="font-bold text-xs text-slate-900 flex items-center gap-2">
+                              <span>{booking.customerName}</span>
+                              <span className="font-mono text-[10px] text-blue-700 font-bold px-2 py-0.5 rounded bg-blue-50 border border-blue-200">
+                                {booking.bookingRef}
+                              </span>
+                            </div>
+                            <div className="text-[11px] text-slate-500 font-medium mt-0.5">
+                              {booking.vehicleModel} • {booking.serviceName} • <span className="font-mono text-slate-700">{booking.timeSlot}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between sm:justify-end gap-4">
+                          <div className="text-right">
+                            <div className="font-black text-sm text-slate-900 font-mono">₹{booking.totalPrice}</div>
+                            <div className="text-[10px] font-bold text-emerald-700 uppercase">{booking.status.replace(/_/g, ' ')}</div>
+                          </div>
+                          <button
+                            onClick={() => setActiveTab('orders')}
+                            className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-xs font-bold text-slate-700 transition cursor-pointer"
+                          >
+                            Manage
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+            </div>
+          )}
+
+          {/* ═════════════════════════════════════════════════════════════════ */}
+          {/* 2. DEDICATED ORDERS & BOOKINGS COMMAND CENTER                     */}
+          {/* ═════════════════════════════════════════════════════════════════ */}
+          {activeTab === 'orders' && (
+            <div className="space-y-6 animate-in fade-in duration-200">
+              
+              {/* Search & Status Filters Bar (3D Light Card) */}
+              <div className="bg-white border border-slate-200/90 rounded-3xl p-5 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  
+                  {/* Search input */}
+                  <div className="relative flex-1 max-w-md">
+                    <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={orderSearch}
+                      onChange={(e) => setOrderSearch(e.target.value)}
+                      placeholder="Search orders by customer, phone, plate, ref, service..."
+                      className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-800 pl-10 pr-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition"
+                    />
+                  </div>
+
+                  {/* Vehicle Type Filter */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase mr-1">Vehicle:</span>
+                    {['all', 'sedan', 'suv', 'bike'].map((type) => (
+                      <button
+                        key={type}
+                        onClick={() => setOrderVehicleFilter(type)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize transition-all cursor-pointer ${
+                          orderVehicleFilter === type
+                            ? 'bg-slate-900 text-white shadow-sm'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
+
+                </div>
+
+                {/* Status Chips Filter */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-slate-100">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase mr-1">Status:</span>
+                  {[
+                    { key: 'all', label: `All (${bookings.length})` },
+                    { key: 'CONFIRMED', label: 'Confirmed' },
+                    { key: 'VALET_DISPATCHED', label: 'Valet Dispatched' },
+                    { key: 'WASH_IN_PROGRESS', label: 'In Progress' },
+                    { key: 'COMPLETED', label: 'Completed' },
+                    { key: 'CANCELLED', label: 'Cancelled' },
+                  ].map((st) => (
+                    <button
+                      key={st.key}
+                      onClick={() => setOrderStatusFilter(st.key as any)}
+                      className={`px-3 py-1 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                        orderStatusFilter === st.key
+                          ? 'bg-blue-600 text-white shadow-[0_4px_10px_rgba(37,99,235,0.3)]'
+                          : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                      }`}
+                    >
+                      {st.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Dedicated Orders Table */}
+              <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] space-y-4">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+                  <div>
+                    <h3 className="text-base font-black text-slate-900 flex items-center gap-2 font-['Outfit']">
+                      <Car className="w-5 h-5 text-blue-600" />
+                      <span>Live Booking Orders & Valet Dispatch Queue ({filteredOrders.length})</span>
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5">Manage customer wash orders, update valet status, and generate printable receipts</p>
+                  </div>
+                  <button
+                    onClick={() => fetchLiveDatabaseData()}
+                    className="text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${dataLoading ? 'animate-spin' : ''}`} />
+                    <span>Refresh</span>
+                  </button>
+                </div>
+
+                {filteredOrders.length === 0 ? (
+                  <div className="text-center py-16 text-slate-500 space-y-3 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                    <Inbox className="w-12 h-12 text-slate-400 mx-auto" />
+                    <div className="text-sm font-bold text-slate-700">No matching orders found</div>
                     <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                      When customers book washes from the public portal, their orders will stream here with live valet status controls.
+                      {orderSearch || orderStatusFilter !== 'all' || orderVehicleFilter !== 'all'
+                        ? 'Try clearing your filters or search keywords to view all customer orders.'
+                        : 'When customers place bookings from the website, they will appear here in real-time.'}
                     </p>
                   </div>
                 ) : (
@@ -917,19 +1116,20 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                       <thead>
                         <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
                           <th className="pb-3 pr-4">Booking Ref</th>
-                          <th className="pb-3 px-4">Customer</th>
-                          <th className="pb-3 px-4">Vehicle</th>
-                          <th className="pb-3 px-4">Service Package</th>
-                          <th className="pb-3 px-4">Time Slot</th>
-                          <th className="pb-3 px-4">Amount</th>
-                          <th className="pb-3 px-4">Status & Action</th>
+                          <th className="pb-3 px-4">Customer & Valet Address</th>
+                          <th className="pb-3 px-4">Vehicle Specs</th>
+                          <th className="pb-3 px-4">Service & Slot</th>
+                          <th className="pb-3 px-4">Amount & Payment</th>
+                          <th className="pb-3 px-4">Live Status Action</th>
+                          <th className="pb-3 pl-4 text-right">Invoice</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 font-medium">
-                        {bookings.map((booking) => (
+                        {filteredOrders.map((booking) => (
                           <tr key={booking.id} className="hover:bg-blue-50/40 transition-colors">
-                            <td className="py-4 pr-4 font-mono font-bold text-blue-700">
-                              {booking.bookingRef}
+                            <td className="py-4 pr-4">
+                              <div className="font-mono font-bold text-blue-700 text-xs">{booking.bookingRef}</div>
+                              <div className="text-[10px] text-slate-400 font-mono mt-0.5">{booking.date}</div>
                             </td>
                             <td className="py-4 px-4">
                               <div className="font-bold text-slate-900">{booking.customerName}</div>
@@ -937,24 +1137,39 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                                 <Phone className="w-3 h-3 text-slate-400" />
                                 <span>{booking.customerPhone}</span>
                               </div>
-                            </td>
-                            <td className="py-4 px-4">
-                              <div className="font-bold text-slate-800">{booking.vehicleModel}</div>
-                              <div className="text-[11px] text-slate-500 font-mono uppercase">{booking.vehicleNumber}</div>
-                            </td>
-                            <td className="py-4 px-4">
-                              <div className="text-slate-800 font-semibold">{booking.serviceName}</div>
-                              {booking.addons?.length > 0 && (
-                                <div className="text-[10px] text-blue-600 font-bold mt-0.5">
-                                  +{booking.addons.length} Addons
+                              {booking.pickupAddress && (
+                                <div className="text-[10px] text-slate-500 mt-1 flex items-start gap-1 max-w-xs">
+                                  <MapPin className="w-3 h-3 text-blue-500 shrink-0 mt-0.5" />
+                                  <span className="truncate">{booking.pickupAddress}</span>
                                 </div>
                               )}
                             </td>
-                            <td className="py-4 px-4 font-mono text-slate-700 font-semibold">
-                              {booking.timeSlot}
+                            <td className="py-4 px-4">
+                              <div className="font-bold text-slate-800">{booking.vehicleModel}</div>
+                              <div className="text-[11px] text-slate-500 font-mono uppercase">{booking.vehicleNumber || 'No Plate'}</div>
+                              <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 uppercase">
+                                {booking.vehicleType}
+                              </span>
                             </td>
-                            <td className="py-4 px-4 font-black text-slate-900 font-mono text-sm">
-                              ₹{booking.totalPrice.toLocaleString('en-IN')}
+                            <td className="py-4 px-4">
+                              <div className="text-slate-800 font-semibold">{booking.serviceName}</div>
+                              <div className="text-[11px] text-blue-700 font-mono font-bold mt-0.5">
+                                {booking.timeSlot}
+                              </div>
+                            </td>
+                            <td className="py-4 px-4">
+                              <div className="font-black text-slate-900 font-mono text-sm">
+                                ₹{booking.totalPrice.toLocaleString('en-IN')}
+                              </div>
+                              <span
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mt-0.5 ${
+                                  booking.paymentStatus === 'PAID'
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : 'bg-amber-100 text-amber-800'
+                                }`}
+                              >
+                                {booking.paymentStatus === 'PAID' ? '✓ PAID' : 'PENDING'}
+                              </span>
                             </td>
                             <td className="py-4 px-4">
                               <select
@@ -962,6 +1177,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                                 onChange={(e) => handleUpdateBookingStatus(booking.id, e.target.value as WashStatus)}
                                 className="bg-white border border-slate-300 text-xs text-slate-800 rounded-xl px-3 py-1.5 font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 cursor-pointer"
                               >
+                                <option value="CONFIRMED">Confirmed</option>
                                 <option value="PENDING">Pending Pickup</option>
                                 <option value="VALET_DISPATCHED">Valet Dispatched</option>
                                 <option value="VEHICLE_PICKED_UP">Vehicle Picked Up</option>
@@ -971,6 +1187,39 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                                 <option value="COMPLETED">Completed</option>
                                 <option value="CANCELLED">Cancelled</option>
                               </select>
+                            </td>
+                            <td className="py-4 pl-4 text-right">
+                              <button
+                                onClick={() => {
+                                  const matchingPayment = payments.find((p) => p.bookingRef === booking.bookingRef || p.bookingRef === booking.id);
+                                  if (matchingPayment) {
+                                    setSelectedReceipt(matchingPayment);
+                                  } else {
+                                    // Generate on-the-fly preview
+                                    setSelectedReceipt({
+                                      id: `pay_${booking.id}`,
+                                      transactionRef: `TXN-${booking.id.substring(0, 6).toUpperCase()}`,
+                                      bookingRef: booking.bookingRef,
+                                      customerName: booking.customerName,
+                                      customerPhone: booking.customerPhone,
+                                      serviceName: booking.serviceName,
+                                      vehicleModel: booking.vehicleModel,
+                                      amount: booking.totalPrice,
+                                      method: booking.paymentMethod || 'UPI_QR',
+                                      status: booking.paymentStatus || 'PENDING',
+                                      date: booking.date,
+                                      time: booking.timeSlot.split('-')[0].trim(),
+                                      invoiceNumber: `INV-2026-${booking.id.substring(0, 4).toUpperCase()}`,
+                                      collectedBy: 'Valet Desk'
+                                    });
+                                  }
+                                }}
+                                className="p-2 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 text-slate-600 hover:text-blue-700 transition shadow-sm cursor-pointer inline-flex items-center gap-1 text-[11px] font-bold"
+                                title="View 3D Digital Invoice & Receipt"
+                              >
+                                <FileText className="w-3.5 h-3.5" />
+                                <span>Receipt</span>
+                              </button>
                             </td>
                           </tr>
                         ))}
