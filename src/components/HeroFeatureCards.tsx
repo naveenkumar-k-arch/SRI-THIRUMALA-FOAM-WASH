@@ -49,28 +49,28 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
                 alt="Sri Thirumala Foam Wash - Premium Car & Bike Service Facility"
                 className="w-full h-auto object-contain block group-hover:scale-[1.02] transition-transform duration-500"
               />
-            </div>
 
-            {/* Clean Facility Info Strip Below Image */}
-            <div className="mt-3.5 p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center flex-shrink-0">
-                  <Droplets className="w-4 h-4" />
+              {/* Floating Bottom Overlap Badge */}
+              <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-white/80 shadow-2xl flex items-center justify-between z-10 transition-transform group-hover:-translate-y-0.5">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <Droplets className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-slate-900 font-bold text-xs sm:text-sm font-['Outfit'] leading-tight">
+                      Official Service Facility
+                    </h4>
+                    <p className="text-[10px] sm:text-[11px] text-slate-500 leading-tight mt-0.5">
+                      Premium Foam & Detailing Station
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-slate-900 font-bold text-xs sm:text-sm font-['Outfit']">
-                    Official Service Facility
-                  </h4>
-                  <p className="text-[11px] text-slate-500">
-                    Premium Foam & Detailing Station
-                  </p>
-                </div>
+
+                <span className="text-[10px] sm:text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1 shadow-xs flex-shrink-0">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Verified Facility</span>
+                </span>
               </div>
-
-              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Verified Facility</span>
-              </span>
             </div>
           </div>
 
