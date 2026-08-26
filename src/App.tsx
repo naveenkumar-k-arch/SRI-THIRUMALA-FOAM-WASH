@@ -16,7 +16,7 @@ const GallerySection = lazy(() => import('./components/GallerySection').then((m)
 const BeforeAfterSlider = lazy(() => import('./components/BeforeAfterSlider').then((m) => ({ default: m.BeforeAfterSlider })));
 const CustomerReviews = lazy(() => import('./components/CustomerReviews').then((m) => ({ default: m.CustomerReviews })));
 const AccountModal = lazy(() => import('./components/AccountModal').then((m) => ({ default: m.AccountModal })));
-const CustomerOrderTrackerModal = lazy(() => import('./components/CustomerOrderTrackerModal').then((m) => ({ default: m.CustomerOrderTrackerModal })));
+const TrackWashPage = lazy(() => import('./pages/TrackWashPage').then((m) => ({ default: m.TrackWashPage })));
 const BookSlotPage = lazy(() => import('./pages/BookSlotPage').then((m) => ({ default: m.BookSlotPage })));
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage').then((m) => ({ default: m.AdminLoginPage })));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage })));
@@ -24,8 +24,8 @@ const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage').then(
 export function App() {
   const { user, isAdmin } = useAuth();
 
-  // Page routing state ('home' | 'book' | 'admin-login' | 'admin-dashboard')
-  const [currentPage, setCurrentPage] = useState<'home' | 'book' | 'admin-login' | 'admin-dashboard'>('home');
+  // Page routing state ('home' | 'book' | 'track-wash' | 'admin-login' | 'admin-dashboard')
+  const [currentPage, setCurrentPage] = useState<'home' | 'book' | 'track-wash' | 'admin-login' | 'admin-dashboard'>('home');
 
   // Booking preset (vehicle type / service / addons pre-selected from home)
   const [bookingPreset, setBookingPreset] = useState<{
@@ -41,9 +41,6 @@ export function App() {
   // Account modal states
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [accountTab, setAccountTab] = useState<'login' | 'signup'>('login');
-
-  // Customer Live Order Tracker Modal state
-  const [isTrackerOpen, setIsTrackerOpen] = useState(false);
 
   // Pending booking redirect: if user clicks "Book" while logged out,
   // we open login modal and navigate to booking after successful auth
@@ -82,6 +79,8 @@ export function App() {
           setAccountTab('login');
           setIsAccountOpen(true);
         }
+      } else if (rawHash === 'track-wash' || rawHash === 'tracker' || rawHash === 'track' || rawHash === 'track-order') {
+        setCurrentPage('track-wash');
       } else {
         setCurrentPage('home');
       }
@@ -147,6 +146,12 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleNavigateToTracker = () => {
+    window.location.hash = '#track-wash';
+    setCurrentPage('track-wash');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Called by AccountModal after successful login/signup
   const handleAuthSuccess = () => {
     setIsAccountOpen(false);
@@ -198,6 +203,25 @@ export function App() {
     );
   }
 
+  // ── Dedicated Track Wash Page (Bright Light Studio Theme) ──────────────────
+  if (currentPage === 'track-wash') {
+    return (
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-slate-50 flex items-center justify-center text-slate-700 font-sans text-xs">
+            <div className="w-8 h-8 border-3 border-orange-500 border-t-transparent rounded-full animate-spin mr-3" />
+            Loading Live Wash & Valet Tracker...
+          </div>
+        }
+      >
+        <TrackWashPage
+          onNavigateHome={handleNavigateHome}
+          onNavigateBooking={handleNavigateToBook}
+        />
+      </Suspense>
+    );
+  }
+
   // ── Book Slot Page (auth-guarded) ──────────────────────────────────────────
   if (currentPage === 'book') {
     // Extra safety: if somehow reached book page without auth, redirect home
@@ -240,7 +264,7 @@ export function App() {
       <Navbar
         onOpenBooking={handleNavigateToBook}
         onOpenAccount={handleOpenAccount}
-        onOpenTracker={() => setIsTrackerOpen(true)}
+        onOpenTracker={handleNavigateToTracker}
       />
 
       {/* Main Content Sections */}
@@ -292,17 +316,6 @@ export function App() {
             initialTab={accountTab}
             onClose={() => { setIsAccountOpen(false); setPendingBooking(false); }}
             onAuthSuccess={handleAuthSuccess}
-          />
-        </Suspense>
-      )}
-
-      {/* Customer Live Order Tracker Modal (Lazy Loaded) */}
-      {isTrackerOpen && (
-        <Suspense fallback={null}>
-          <CustomerOrderTrackerModal
-            isOpen={isTrackerOpen}
-            onClose={() => setIsTrackerOpen(false)}
-            onOpenBooking={handleNavigateToBook}
           />
         </Suspense>
       )}

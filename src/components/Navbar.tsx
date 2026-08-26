@@ -276,6 +276,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount, on
                 if (link.isAction) {
                   e.preventDefault();
                   onOpenBooking();
+                } else if (link.isTracker) {
+                  e.preventDefault();
+                  onOpenTracker();
                 }
               }}
               className="block py-2 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 font-semibold text-sm"
