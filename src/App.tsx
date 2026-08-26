@@ -16,6 +16,7 @@ const GallerySection = lazy(() => import('./components/GallerySection').then((m)
 const BeforeAfterSlider = lazy(() => import('./components/BeforeAfterSlider').then((m) => ({ default: m.BeforeAfterSlider })));
 const CustomerReviews = lazy(() => import('./components/CustomerReviews').then((m) => ({ default: m.CustomerReviews })));
 const AccountModal = lazy(() => import('./components/AccountModal').then((m) => ({ default: m.AccountModal })));
+const CustomerOrderTrackerModal = lazy(() => import('./components/CustomerOrderTrackerModal').then((m) => ({ default: m.CustomerOrderTrackerModal })));
 const BookSlotPage = lazy(() => import('./pages/BookSlotPage').then((m) => ({ default: m.BookSlotPage })));
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage').then((m) => ({ default: m.AdminLoginPage })));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage })));
@@ -40,6 +41,9 @@ export function App() {
   // Account modal states
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [accountTab, setAccountTab] = useState<'login' | 'signup'>('login');
+
+  // Customer Live Order Tracker Modal state
+  const [isTrackerOpen, setIsTrackerOpen] = useState(false);
 
   // Pending booking redirect: if user clicks "Book" while logged out,
   // we open login modal and navigate to booking after successful auth
@@ -236,6 +240,7 @@ export function App() {
       <Navbar
         onOpenBooking={handleNavigateToBook}
         onOpenAccount={handleOpenAccount}
+        onOpenTracker={() => setIsTrackerOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -287,6 +292,17 @@ export function App() {
             initialTab={accountTab}
             onClose={() => { setIsAccountOpen(false); setPendingBooking(false); }}
             onAuthSuccess={handleAuthSuccess}
+          />
+        </Suspense>
+      )}
+
+      {/* Customer Live Order Tracker Modal (Lazy Loaded) */}
+      {isTrackerOpen && (
+        <Suspense fallback={null}>
+          <CustomerOrderTrackerModal
+            isOpen={isTrackerOpen}
+            onClose={() => setIsTrackerOpen(false)}
+            onOpenBooking={handleNavigateToBook}
           />
         </Suspense>
       )}

@@ -147,6 +147,7 @@ export const hasPermission = (role: UserRole | undefined, permission: Permission
 
 // ─── Super Admin Enterprise Management Types ────────────────────────────────
 export type WashStatus =
+  | 'CONFIRMED'
   | 'PENDING'
   | 'VALET_DISPATCHED'
   | 'VEHICLE_PICKED_UP'
