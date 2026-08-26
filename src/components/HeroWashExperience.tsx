@@ -106,7 +106,7 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
   };
 
   return (
-    <section id="hero" className="relative min-h-[92svh] sm:min-h-[100svh] bg-slate-950 flex flex-col justify-between pt-16 sm:pt-20 pb-8 sm:pb-12 overflow-hidden text-center">
+    <section id="hero" className="relative min-h-[100svh] min-h-[680px] sm:min-h-[100svh] bg-slate-950 flex flex-col justify-between pt-20 sm:pt-24 pb-10 sm:pb-14 overflow-hidden text-center">
       
       {/* Background Edge-to-Edge Seamless Background Video */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -118,15 +118,15 @@ export const HeroWashExperience: React.FC<HeroWashExperienceProps> = ({ onOpenBo
           playsInline
           muted={isMuted}
           preload="auto"
-          className="w-full h-full object-cover object-center opacity-80 sm:opacity-85 scale-105"
+          className="w-full h-full object-cover object-center opacity-85 sm:opacity-90 scale-110 sm:scale-105 transition-transform duration-700"
         />
         
         {/* Seamless Vignette and Gradient Overlays Blending to Titanium Background */}
-        <div className="absolute top-0 left-0 right-0 h-28 sm:h-36 bg-gradient-to-b from-slate-950 via-slate-950/70 to-transparent z-10"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent z-10"></div>
-        <div className="absolute top-0 bottom-0 left-0 w-6 sm:w-24 bg-gradient-to-r from-slate-950/75 to-transparent z-10"></div>
-        <div className="absolute top-0 bottom-0 right-0 w-6 sm:w-24 bg-gradient-to-l from-slate-950/75 to-transparent z-10"></div>
-        <div className="absolute inset-0 bg-radial-[circle_at_center_transparent_20%,rgba(15,23,42,0.75)_95%] z-10"></div>
+        <div className="absolute top-0 left-0 right-0 h-20 sm:h-36 bg-gradient-to-b from-slate-950/90 via-slate-950/50 to-transparent z-10"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-44 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent z-10"></div>
+        <div className="absolute top-0 bottom-0 left-0 w-4 sm:w-20 bg-gradient-to-r from-slate-950/60 to-transparent z-10"></div>
+        <div className="absolute top-0 bottom-0 right-0 w-4 sm:w-20 bg-gradient-to-l from-slate-950/60 to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-radial-[circle_at_center_transparent_30%,rgba(15,23,42,0.6)_95%] z-10"></div>
       </div>
 
       {/* Floating Sound Toggle Control on Mobile & Desktop */}
