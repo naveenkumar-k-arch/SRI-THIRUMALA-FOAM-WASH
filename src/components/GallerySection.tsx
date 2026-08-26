@@ -45,8 +45,8 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       categoryLabel: 'Snow Foam Wash',
       title: 'Active High-Foam Pre-Wash Bath',
       vehicleName: 'Sedan • Honda City ZX',
-      sub: 'Thick snow foam lifting gritty road film without touching the clear coat.',
-      imageUrl: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1200&q=80',
+      sub: 'Thick active snow foam lifting gritty road film without touching the clear coat.',
+      imageUrl: '/images/foam/foam-1.png',
       tags: ['Thick Snow Foam', 'pH-Neutral', 'Touchless Soak'],
       treatmentSteps: [
         'High-pressure underbody and wheel arch blast',
@@ -64,7 +64,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Mirror Gloss Ceramic Sealant',
       vehicleName: 'Luxury • BMW 5 Series M-Sport',
       sub: 'Ultra-reflective hydrophobic ceramic coating delivering deep liquid gloss.',
-      imageUrl: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-2.png',
       tags: ['Hydrophobic Finish', '9H Ceramic Seal', 'Deep Wet Look'],
       treatmentSteps: [
         'Iron fallout remover & clay bar paint decontamination',
@@ -82,7 +82,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Deep Cabin Extraction & Sanitization',
       vehicleName: 'SUV • Hyundai Creta Knight Edition',
       sub: 'Steam vacuuming, leather nourishment, and hospital-grade sanitization.',
-      imageUrl: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-3.png',
       tags: ['Deep Shampoo', 'Leather Care', 'Odor Elimination'],
       treatmentSteps: [
         'High-power 360° air tornado crevice blowout',
@@ -99,7 +99,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'High-Pressure Wheel Well & Rim De-ironing',
       vehicleName: 'Sportback • Audi A5 Quattro',
       sub: 'Brake dust dissolving purple reaction clean with tire gloss nourishment.',
-      imageUrl: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-4.png',
       tags: ['Alloy De-Iron', 'Fender Well Wash', 'Satin Tire Dressing'],
       treatmentSteps: [
         'pH-neutral acid-free wheel cleaner application',
@@ -116,7 +116,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Deep Black Wet-Look Paint Polish',
       vehicleName: 'Sports Coupe • Porsche 911 Carrera',
       sub: 'Precision paint smoothing, gloss enhancement, and Carnauba wax lock.',
-      imageUrl: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-5.png',
       tags: ['Machine Buffing', 'Brazilian Wax', 'Mirror Clarity'],
       treatmentSteps: [
         'Rotary paint buffing with micro-abrasive finishing compound',
@@ -133,7 +133,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Superbike & Cruiser Precision Foam Spa',
       vehicleName: 'Cruiser • Royal Enfield Interceptor 650',
       sub: 'Engine cooling fin foam blast, chain degrease, and chrome polish.',
-      imageUrl: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-6.png',
       tags: ['Engine Degreasing', 'Chain Clean & Lube', 'Chrome Polish'],
       treatmentSteps: [
         'Electrical socket & air intake water-tight shielding',
@@ -150,7 +150,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Sportbike Deep Decontamination & Matte Care',
       vehicleName: 'Sport • Kawasaki Ninja / KTM Duke',
       sub: 'Delicate fairing wash, scratch-free microfiber wipe, and brake cleaning.',
-      imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-7.png',
       tags: ['Matte Finish Safe', 'Brake Cleaner', 'Fairing Detail'],
       treatmentSteps: [
         'Contact-free snow foam pre-wash to soften road grime',
@@ -167,7 +167,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Outstation Travel Fleet Multi-Stage Wash',
       vehicleName: 'MUV • Toyota Innova Crysta Tourer',
       sub: 'Heavy highway bug remover, chassis underwash, and interior freshening.',
-      imageUrl: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-8.png',
       tags: ['Bug & Tar Removal', 'Chassis Wash', 'Fresh Cabin'],
       treatmentSteps: [
         'Front grille & windshield bug splatter softening',
@@ -184,7 +184,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Luxury Cockpit & Leather Treatment',
       vehicleName: 'Executive • Mercedes-Benz E-Class',
       sub: 'Matte leather conditioning, digital screen streak-free polish, and vents clean.',
-      imageUrl: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-9.png',
       tags: ['Leather Conditioning', 'Digital Screen Care', 'Deep Vacuum'],
       treatmentSteps: [
         'Soft horsehair brush agitation on perforated leather',
@@ -201,7 +201,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: '4x4 Off-Road Mud Stripping & Underbody Flush',
       vehicleName: '4x4 SUV • Mahindra Thar / Scorpio-N',
       sub: 'Heavy mud cake dissolving, wheel arch blast, and suspension protection.',
-      imageUrl: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-1.png',
       tags: ['Mud Stripping', 'Suspension Bay', 'Heavy Pressure'],
       treatmentSteps: [
         'High-volume mud breakdown with alkaline pre-spray',
@@ -218,7 +218,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'Metallic Red Gloss Enhancement & Sealant',
       vehicleName: 'Premium Sedan • Volkswagen Virtus GT',
       sub: 'Ultra-vibrant paint pop with 6-month hydrophobic water repelling shield.',
-      imageUrl: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-2.png',
       tags: ['Paint Clarity', 'Hydrophobic Shield', 'Showroom Pop'],
       treatmentSteps: [
         'Chemical de-ironing & surface clay glide',
@@ -235,7 +235,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
       title: 'High-Pressure 180-Bar Spotless Rinse',
       vehicleName: 'Hatchback • Hyundai i20 N-Line',
       sub: 'Filtered soft-water rinse eliminating hard water stains and mineral spots.',
-      imageUrl: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: '/images/foam/foam-3.png',
       tags: ['Soft Water Rinse', 'Zero Water Spots', 'Heated Air Dry'],
       treatmentSteps: [
         'Water softener filtration eliminating TDS mineral residue',

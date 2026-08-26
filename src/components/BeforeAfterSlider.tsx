@@ -19,8 +19,8 @@ const COMPARISONS: ComparisonItem[] = [
     name: 'Car / Sedan / Hatchback',
     category: 'Car Wash',
     icon: Car,
-    beforeImg: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=80',
-    afterImg: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1600&q=80',
+    beforeImg: '/images/foam/foam-8.png',
+    afterImg: '/images/foam/foam-1.png',
     beforeLabel: 'BEFORE: DUST, MUD & ROAD FILM',
     afterLabel: 'AFTER: ACTIVE FOAM & MIRROR FINISH',
     description: 'High-pressure pre-wash, thick active snow foam soak, alloy de-dusting, and ceramic shine coat.'
@@ -30,8 +30,8 @@ const COMPARISONS: ComparisonItem[] = [
     name: 'Motorcycle / Scooter',
     category: 'Bike Wash',
     icon: Bike,
-    beforeImg: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1600&q=80',
-    afterImg: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1600&q=80',
+    beforeImg: '/images/foam/foam-7.png',
+    afterImg: '/images/foam/foam-6.png',
     beforeLabel: 'BEFORE: CHAIN GRIME & DRIED MUD',
     afterLabel: 'AFTER: ENGINE DEGREASE & CHROME GLOSS',
     description: 'Deep chain clean & lube, engine cooling fins foam blast, chrome restoration, and tire blackening.'
@@ -41,8 +41,8 @@ const COMPARISONS: ComparisonItem[] = [
     name: 'SUV / 4x4 / Creta / Fortuner',
     category: 'SUV Wash',
     icon: Truck,
-    beforeImg: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=80',
-    afterImg: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80',
+    beforeImg: '/images/foam/foam-4.png',
+    afterImg: '/images/foam/foam-2.png',
     beforeLabel: 'BEFORE: OFFROAD SPLATTER & UNDERBODY DIRT',
     afterLabel: 'AFTER: COMPLETE FOAM SPA & HYDROPHOBIC COAT',
     description: 'Heavy underbody pressure wash, arch degreasing, glass water-spot removal, and deep foam bath.'
