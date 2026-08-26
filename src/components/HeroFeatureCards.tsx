@@ -43,11 +43,11 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
           
           {/* LEFT: Large Premium Car Detailing Image */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100 group">
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-2xl bg-slate-100 group ring-1 ring-black/5">
               <img
                 src="/images/foam/about-showcase.png"
                 alt="Sri Thirumala Foam Wash - Professional Active Foam Bath"
-                className="w-full h-[380px] sm:h-[480px] object-cover object-center group-hover:scale-104 transition-transform duration-700"
+                className="w-full h-[380px] sm:h-[480px] object-cover object-center contrast-[1.05] saturate-[1.12] brightness-[1.02] group-hover:scale-104 transition-transform duration-700"
               />
               
               {/* Subtle gradient overlay */}
