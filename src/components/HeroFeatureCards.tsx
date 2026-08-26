@@ -43,37 +43,34 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
           
           {/* LEFT: Large Premium Car Detailing Image */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-2xl bg-slate-100 group ring-1 ring-black/5">
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-2xl bg-slate-950 group ring-1 ring-black/5">
               <img
                 src="/images/foam/about-showcase.png"
-                alt="Sri Thirumala Foam Wash - Professional Active Foam Bath"
-                className="w-full h-[380px] sm:h-[480px] object-cover object-center contrast-[1.05] saturate-[1.12] brightness-[1.02] group-hover:scale-104 transition-transform duration-700"
+                alt="Sri Thirumala Foam Wash - Premium Car & Bike Service Facility"
+                className="w-full h-auto object-contain block group-hover:scale-[1.02] transition-transform duration-500"
               />
-              
-              {/* Subtle gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+            </div>
 
-              {/* Floating Bottom Badge on Image */}
-              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center flex-shrink-0">
-                    <Droplets className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-slate-900 font-bold text-sm font-['Outfit']">
-                      Karpur Detailing Hub
-                    </h4>
-                    <p className="text-xs text-slate-500">
-                      Doorstep Valet & Return
-                    </p>
-                  </div>
+            {/* Clean Facility Info Strip Below Image */}
+            <div className="mt-3.5 p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center flex-shrink-0">
+                  <Droplets className="w-4 h-4" />
                 </div>
-
-                <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Valet Active</span>
-                </span>
+                <div>
+                  <h4 className="text-slate-900 font-bold text-xs sm:text-sm font-['Outfit']">
+                    Official Service Facility
+                  </h4>
+                  <p className="text-[11px] text-slate-500">
+                    Premium Foam & Detailing Station
+                  </p>
+                </div>
               </div>
+
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Verified Facility</span>
+              </span>
             </div>
           </div>
 
