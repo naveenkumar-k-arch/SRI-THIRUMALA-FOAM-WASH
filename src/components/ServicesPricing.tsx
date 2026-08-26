@@ -105,56 +105,56 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
             return (
               <div
                 key={pkg.id}
-                className={`relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between cursor-default ${
+                className={`relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between cursor-default transition-all duration-200 ${
                   isPopular
-                    ? 'bg-slate-900 text-white border-2 border-red-600 shadow-xl card-3d-dark z-10'
-                    : 'bg-white border border-slate-200 text-slate-900 card-3d'
+                    ? 'bg-white text-slate-900 border-2 border-orange-500 shadow-xl ring-4 ring-orange-500/10 z-10'
+                    : 'bg-white border border-slate-200/90 text-slate-900 shadow-sm hover:shadow-md hover:border-blue-300'
                 }`}
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-red-600 text-white font-extrabold text-[10px] uppercase tracking-wider shadow-sm depth-pop">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-red-600 to-orange-600 text-white font-black text-[10px] uppercase tracking-wider shadow-md shadow-orange-500/20">
                     MOST POPULAR
                   </div>
                 )}
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className={`text-xs font-bold uppercase tracking-wider font-mono ${isPopular ? 'text-amber-400' : 'text-red-600'}`}>
+                    <span className={`text-xs font-bold uppercase tracking-wider font-mono ${isPopular ? 'text-orange-600 font-black' : 'text-blue-600'}`}>
                       {pkg.duration}
                     </span>
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${isPopular ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
+                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${isPopular ? 'bg-orange-50 text-orange-700 border border-orange-200' : 'bg-blue-50 text-blue-700 border border-blue-200'}`}>
                       Valet Included
                     </span>
                   </div>
 
-                  <h3 className={`text-lg font-extrabold font-['Outfit'] mt-1 ${isPopular ? 'text-white' : 'text-slate-900'}`}>
+                  <h3 className="text-lg font-black font-['Outfit'] mt-1 text-slate-900">
                     {pkg.name}
                   </h3>
                   
-                  <p className={`text-xs mt-1 min-h-[32px] leading-relaxed ${isPopular ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <p className="text-xs mt-1 min-h-[32px] leading-relaxed text-slate-500">
                     {pkg.tagline}
                   </p>
 
                   {/* Price Block */}
-                  <div className={`my-5 p-3.5 rounded-xl border flex items-baseline gap-1 depth-pop ${
-                    isPopular ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'
+                  <div className={`my-5 p-3.5 rounded-2xl border flex items-baseline gap-1 ${
+                    isPopular ? 'bg-orange-50/50 border-orange-200' : 'bg-slate-50 border-slate-200'
                   }`}>
-                    <span className={`text-sm font-bold font-mono ${isPopular ? 'text-slate-400' : 'text-slate-500'}`}>₹</span>
-                    <span className={`text-3xl font-extrabold font-['Outfit'] ${isPopular ? 'text-amber-400' : 'text-slate-900'}`}>
+                    <span className="text-sm font-bold font-mono text-slate-500">₹</span>
+                    <span className={`text-3xl font-black font-['Outfit'] font-mono ${isPopular ? 'text-orange-600' : 'text-slate-900'}`}>
                       {price}
                     </span>
-                    <span className={`text-xs ml-1 ${isPopular ? 'text-slate-400' : 'text-slate-500'}`}>/ all-inclusive</span>
+                    <span className="text-xs ml-1 text-slate-500">/ all-inclusive</span>
                   </div>
 
                   {/* Features List */}
                   <div className="space-y-2 text-left mb-6">
-                    <p className={`text-[10px] font-bold uppercase tracking-wider ${isPopular ? 'text-slate-400' : 'text-slate-500'}`}>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                       What's Included:
                     </p>
                     {pkg.features.map((feat, idx) => (
-                      <div key={idx} className={`flex items-start gap-2 text-xs font-medium ${isPopular ? 'text-slate-300' : 'text-slate-700'}`}>
-                        <Check className={`w-3.5 h-3.5 flex-shrink-0 mt-0.5 ${isPopular ? 'text-red-400' : 'text-red-600'}`} />
+                      <div key={idx} className="flex items-start gap-2 text-xs font-medium text-slate-700">
+                        <Check className={`w-3.5 h-3.5 flex-shrink-0 mt-0.5 ${isPopular ? 'text-orange-600' : 'text-blue-600'}`} />
                         <span>{feat}</span>
                       </div>
                     ))}
@@ -164,10 +164,10 @@ export const ServicesPricing: React.FC<ServicesPricingProps> = ({ onSelectServic
                 {/* Card CTA */}
                 <button
                   onClick={() => handleBookPackage(pkg.id)}
-                  className={`w-full py-3 rounded-xl font-bold text-xs sm:text-sm cursor-pointer flex items-center justify-center gap-1.5 ${
+                  className={`w-full py-3 rounded-xl font-bold text-xs sm:text-sm cursor-pointer flex items-center justify-center gap-1.5 shadow-sm transition-all ${
                     isPopular
-                      ? 'bg-red-600 hover:bg-red-700 text-white tactile-btn'
-                      : 'bg-slate-900 hover:bg-slate-800 text-white tactile-dark-btn'
+                      ? 'bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white shadow-md shadow-orange-500/20'
+                      : 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/10'
                   }`}
                 >
                   <span>Select & Book Slot</span>

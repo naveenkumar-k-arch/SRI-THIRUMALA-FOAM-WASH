@@ -230,11 +230,11 @@ export function App() {
       return null;
     }
     return (
-      <div className="min-h-screen bg-[#030712]">
+      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
         <Suspense
           fallback={
-            <div className="min-h-screen bg-[#030712] flex items-center justify-center text-slate-400 font-mono text-xs">
-              <div className="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full animate-spin mr-3" />
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center text-slate-700 font-sans text-xs">
+              <div className="w-8 h-8 border-3 border-orange-500 border-t-transparent rounded-full animate-spin mr-3" />
               Loading Booking Engine...
             </div>
           }
