@@ -39,6 +39,7 @@ import {
   COMPANY_INFO 
 } from '../data/carWashData';
 import type { BookingRecord } from '../types';
+import { api } from '../services/api';
 
 interface BookSlotPageProps {
   onNavigateHome: () => void;
@@ -86,30 +87,78 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
 
   const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [inTime, setInTime] = useState<string>('');
-
-  // Booked slots tracking - only populated with real user bookings from storage
   const [bookedSlotsList, setBookedSlotsList] = useState<Record<string, string[]>>({});
 
-  // Load existing bookings from localStorage
+  // Load existing bookings and real booked slots from Neon PostgreSQL + localStorage
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem('stfw_bookings');
-      if (stored) {
-        const parsed: BookingRecord[] = JSON.parse(stored);
-        setSavedBookings(parsed);
-        
-        const mapped: Record<string, string[]> = {};
-        parsed.forEach(b => {
-          if (!mapped[b.date]) mapped[b.date] = [];
-          if (!mapped[b.date].includes(b.inTime)) {
-            mapped[b.date].push(b.inTime);
-          }
-        });
-        setBookedSlotsList(mapped);
+    let isMounted = true;
+
+    async function loadNeonBookings() {
+      try {
+        // 1. Fetch live booked slots from Neon DB
+        const serverSlots = await api.getBookedSlots();
+        if (isMounted && Object.keys(serverSlots).length > 0) {
+          setBookedSlotsList(prev => ({ ...prev, ...serverSlots }));
+        }
+
+        // 2. Fetch live bookings
+        const liveList = await api.getBookings();
+        if (isMounted && liveList.length > 0) {
+          // Map DB response to BookingRecord interface
+          const mapped: BookingRecord[] = liveList.map((b: any) => ({
+            id: b.id,
+            vehicleModel: `${b.vehicleBrand || ''} ${b.vehicleNumber || ''}`.trim() || b.vehicleType,
+            serviceNames: [b.serviceType],
+            addons: [],
+            addonNames: [],
+            totalPrice: b.price,
+            totalDurationMinutes: 60,
+            pickupAddress: b.pickupAddress || '',
+            pickupPincode: b.pickupPincode || '',
+            distanceKm: b.distanceKm || 0,
+            date: b.date,
+            inTime: b.inTime,
+            outTime: b.outTime,
+            timeSlot: b.timeSlot,
+            customerName: b.customerName,
+            customerPhone: b.customerPhone,
+            customerEmail: b.customerEmail,
+            notes: b.notes,
+            status: b.status
+          }));
+          setSavedBookings(mapped);
+          return;
+        }
+      } catch (err) {
+        console.warn('Neon DB load error, using local storage fallback:', err);
       }
-    } catch {
-      // safe fallback
+
+      // Local storage fallback
+      try {
+        const stored = localStorage.getItem('stfw_bookings');
+        if (stored && isMounted) {
+          const parsed: BookingRecord[] = JSON.parse(stored);
+          setSavedBookings(parsed);
+          
+          const mapped: Record<string, string[]> = {};
+          parsed.forEach(b => {
+            if (!mapped[b.date]) mapped[b.date] = [];
+            if (!mapped[b.date].includes(b.inTime)) {
+              mapped[b.date].push(b.inTime);
+            }
+          });
+          setBookedSlotsList(mapped);
+        }
+      } catch {
+        // safe fallback
+      }
     }
+
+    loadNeonBookings();
+
+    return () => {
+      isMounted = false;
+    };
   }, [isSubmitted]);
 
   // Scroll to top on step transition
@@ -395,6 +444,42 @@ export const BookSlotPage: React.FC<BookSlotPageProps> = ({
         notes: `${landmark ? `Landmark: ${landmark}. ` : ''}${notes}`,
         status: 'Confirmed'
       };
+
+      // Save to Neon PostgreSQL Database
+      try {
+        api.createBooking({
+          id: bookingId,
+          bookingId: bookingId,
+          customerName: customerName,
+          customerPhone: customerPhone,
+          customerEmail: customerEmail,
+          vehicleType: vehicleModel || 'Car',
+          vehicleBrand: vehicleModel,
+          vehicleNumber: vehicleNumber,
+          serviceType: serviceNamesList.join(', '),
+          price: grandTotal,
+          date: date,
+          inTime: inTime,
+          outTime: outTime,
+          timeSlot: `${inTime} – ${outTime}`,
+          pickupType: 'Doorstep Valet',
+          pickupAddress: pickupAddress,
+          pickupPincode: pickupPincode,
+          distanceKm: distanceKm,
+          notes: `${landmark ? `Landmark: ${landmark}. ` : ''}${notes}`,
+          status: 'Confirmed',
+          paymentStatus: 'Pending',
+          paymentMethod: 'UPI'
+        }).then(res => {
+          if (res?.success) {
+            console.log('✅ Booking successfully stored in Neon PostgreSQL:', bookingId);
+          }
+        }).catch(err => {
+          console.warn('Could not save to PostgreSQL backend, saved locally:', err);
+        });
+      } catch (e) {
+        console.warn('API error:', e);
+      }
 
       // Save to localStorage
       try {

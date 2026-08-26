@@ -129,7 +129,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
         clearForm();
         onClose();
         onAuthSuccess?.();
-      }, 1400);
+      }, 650);
     } catch (err: any) {
       const msg = err?.code ? firebaseErrorMessage(err.code) : (err?.message || 'Something went wrong. Please try again.');
       setError(msg);
@@ -148,7 +148,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
         clearForm();
         onClose();
         onAuthSuccess?.();
-      }, 1200);
+      }, 650);
     } catch (err: any) {
       const msg = err?.code ? firebaseErrorMessage(err.code) : (err?.message || 'Google sign-in failed. Please try again.');
       setError(msg);

@@ -21,7 +21,7 @@ const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage').then((m) => (
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage })));
 
 export function App() {
-  const { user, isAdmin, loading } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   // Page routing state ('home' | 'book' | 'admin-login' | 'admin-dashboard')
   const [currentPage, setCurrentPage] = useState<'home' | 'book' | 'admin-login' | 'admin-dashboard'>('home');
@@ -151,20 +151,6 @@ export function App() {
     }
   };
 
-  // Show loading spinner while Firebase checks auth state
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#030712] flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-amber-400/60 mx-auto">
-            <img src="/logo.png" alt="Sri Thirumala" className="w-full h-full object-cover scale-110" />
-          </div>
-          <div className="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-slate-400 text-xs font-semibold tracking-wider">Loading...</p>
-        </div>
-      </div>
-    );
-  }
 
   // ── Admin Login Page (100% Hidden Endpoint) ────────────────────────────────
   if (currentPage === 'admin-login') {

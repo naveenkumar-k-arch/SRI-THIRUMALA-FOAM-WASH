@@ -13,6 +13,7 @@ import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, googleProvider } from '../firebase';
 import { isConfiguredSuperAdminEmail } from '../config/adminConfig';
 import type { UserRole, JWTMeta } from '../types';
+import { api } from '../services/api';
 
 // ─── Firestore User Profile Shape ───────────────────────────────────────────
 export interface UserProfile {
@@ -111,6 +112,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         setUserProfile(data);
+
+        // Sync to Neon PostgreSQL Database in background
+        api.syncUser({
+          id: u.uid,
+          name: data.name || u.displayName || 'Customer',
+          email: u.email || '',
+          phone: data.phone || u.phoneNumber || '',
+          role: data.role || (isSuperAdminUser ? 'SUPER_ADMIN' : 'USER')
+        }).catch(err => console.warn('Neon DB user sync note:', err));
       } else {
         // Provision Firestore DB profile if not exists
         const initialRole: UserRole = isSuperAdminUser ? 'SUPER_ADMIN' : 'USER';
@@ -127,25 +137,49 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
         await setDoc(ref, newProfile);
         setUserProfile(newProfile);
+
+        // Sync to Neon PostgreSQL Database
+        api.syncUser({
+          id: u.uid,
+          name: newProfile.name,
+          email: newProfile.email,
+          phone: newProfile.phone,
+          role: initialRole
+        }).catch(err => console.warn('Neon DB user sync note:', err));
       }
     } catch (err) {
       console.error('Error verifying user role from Firestore DB:', err);
     }
   }, [extractJwtMeta]);
 
-  // Listen for auth state changes across memory sessions
+  // Listen for auth state changes across memory sessions with failsafe timeout
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (u) => {
-      setUser(u);
-      if (u) {
-        await fetchUserProfile(u);
-      } else {
-        setUserProfile(null);
-        setJwtMeta(null);
-      }
+    // Failsafe timeout ensures the app NEVER gets stuck on a loading screen
+    const safetyTimer = setTimeout(() => {
       setLoading(false);
+    }, 1000);
+
+    const unsub = onAuthStateChanged(auth, async (u) => {
+      try {
+        setUser(u);
+        if (u) {
+          await fetchUserProfile(u);
+        } else {
+          setUserProfile(null);
+          setJwtMeta(null);
+        }
+      } catch (err) {
+        console.warn('Auth state resolution note:', err);
+      } finally {
+        setLoading(false);
+        clearTimeout(safetyTimer);
+      }
     });
-    return unsub;
+
+    return () => {
+      clearTimeout(safetyTimer);
+      unsub();
+    };
   }, [fetchUserProfile]);
 
   // Periodic JWT token heartbeat (rotates token before expiration)
@@ -228,6 +262,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.warn('Firestore user profile write skipped:', err);
     }
 
+    // Sync to Neon PostgreSQL Database
+    api.syncUser({
+      id: cred.user.uid,
+      name: name,
+      email: email,
+      phone: phone,
+      role: assignedRole
+    }).catch(err => console.warn('Neon DB user sync note:', err));
+
     await extractJwtMeta(cred.user, true);
     setUserProfile(profile);
   };
@@ -263,6 +306,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
         await setDoc(ref, profile);
         setUserProfile(profile);
+
+        api.syncUser({
+          id: cred.user.uid,
+          name: profile.name,
+          email: profile.email,
+          phone: '',
+          role: profile.role
+        }).catch(err => console.warn('Neon DB user sync note:', err));
       } else {
         const data = snap.data() as UserProfile;
         if (isSuper && data.role !== 'SUPER_ADMIN') {
@@ -272,10 +323,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           await setDoc(ref, { lastLogin: serverTimestamp() }, { merge: true });
         }
         setUserProfile(data);
+
+        api.syncUser({
+          id: cred.user.uid,
+          name: data.name || cred.user.displayName || 'Customer',
+          email: data.email || cred.user.email || '',
+          phone: data.phone || '',
+          role: data.role || (isSuper ? 'SUPER_ADMIN' : 'USER')
+        }).catch(err => console.warn('Neon DB user sync note:', err));
       }
     } catch (err) {
       console.warn('Firestore Google sign-in sync skipped:', err);
-      setUserProfile({
+      const fallbackProfile: UserProfile = {
         uid: cred.user.uid,
         name: cred.user.displayName || 'Customer',
         email: cred.user.email || '',
@@ -285,7 +344,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         lastLogin: new Date(),
         provider: 'google',
         role: isSuper ? 'SUPER_ADMIN' : 'USER'
-      });
+      };
+      setUserProfile(fallbackProfile);
+
+      api.syncUser({
+        id: cred.user.uid,
+        name: fallbackProfile.name,
+        email: fallbackProfile.email,
+        phone: '',
+        role: fallbackProfile.role
+      }).catch(err => console.warn('Neon DB user sync note:', err));
     }
   };
 
