@@ -137,21 +137,21 @@ export const BeforeAfterSlider: React.FC = () => {
         </div>
 
         {/* Interactive Comparison Container with Pixel-Perfect Clip Path */}
-        <div className="max-w-4xl mx-auto perspective-container">
+        <div className="max-w-3xl mx-auto perspective-container">
           <div 
             ref={containerRef}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
-            className="relative h-[340px] xs:h-[400px] sm:h-[500px] md:h-[540px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 select-none cursor-ew-resize bg-slate-950 touch-none ring-1 ring-black/5"
+            className="relative w-full aspect-[4/3] sm:aspect-[749/660] max-h-[580px] min-h-[320px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 select-none cursor-ew-resize bg-slate-950 touch-none ring-1 ring-black/5 mx-auto"
           >
             {/* AFTER: Clean Image (Base Layer - 100% width & height) */}
             <div className="absolute inset-0 w-full h-full">
               <img 
                 src={activeComparison.afterImg} 
                 alt={`${activeComparison.name} - After Sri Thirumala Foam Wash Cleaned`} 
-                className="w-full h-full object-cover object-center pointer-events-none select-none"
+                className="w-full h-full object-cover object-bottom pointer-events-none select-none"
                 draggable={false}
               />
               <div className="absolute top-4 right-4 sm:top-5 sm:right-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-emerald-600 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm flex items-center gap-1.5 depth-pop pointer-events-none">
@@ -170,7 +170,7 @@ export const BeforeAfterSlider: React.FC = () => {
               <img 
                 src={activeComparison.beforeImg} 
                 alt={`${activeComparison.name} - Before Sri Thirumala Foam Wash Dirty`} 
-                className="w-full h-full object-cover object-center pointer-events-none select-none"
+                className="w-full h-full object-cover object-bottom pointer-events-none select-none"
                 draggable={false}
               />
               <div className="absolute top-4 left-4 sm:top-5 sm:left-5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-md backdrop-blur-sm depth-pop pointer-events-none">
