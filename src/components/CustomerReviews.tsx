@@ -4,7 +4,7 @@ import { REVIEWS } from '../data/carWashData';
 
 export const CustomerReviews: React.FC = () => {
   return (
-    <section id="reviews" className="py-16 sm:py-24 bg-white relative border-b border-slate-200 text-left overflow-hidden w-full max-w-full font-sans">
+    <section id="reviews" className="py-16 sm:py-24 bg-slate-200/35 backdrop-blur-xs relative border-b border-slate-300/80 text-left overflow-hidden w-full max-w-full font-sans">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -21,7 +21,7 @@ export const CustomerReviews: React.FC = () => {
             </h2>
           </div>
 
-          <div className="flex items-center gap-3.5 bg-slate-50 p-3.5 rounded-2xl border border-slate-200 flex-shrink-0">
+          <div className="flex items-center gap-3.5 bg-white/90 p-3.5 rounded-2xl border border-slate-300/70 shadow-xs flex-shrink-0">
             <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center flex-shrink-0">
               <CheckCircle2 className="w-5 h-5" />
             </div>
@@ -41,7 +41,7 @@ export const CustomerReviews: React.FC = () => {
           {REVIEWS.map((rev) => (
             <div 
               key={rev.id}
-              className="bg-slate-50 hover:bg-white rounded-2xl p-5 border border-slate-200 hover:border-slate-300 transition-all duration-200 shadow-xs hover:shadow-sm flex flex-col justify-between"
+              className="bg-white/90 hover:bg-white rounded-2xl p-5 border border-slate-300/70 hover:border-slate-400 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between"
             >
               <div>
                 {/* Rating stars & date */}

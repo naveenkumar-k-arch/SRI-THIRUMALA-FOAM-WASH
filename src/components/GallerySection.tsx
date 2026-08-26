@@ -278,7 +278,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
   };
 
   return (
-    <section id="gallery" className="py-16 sm:py-24 bg-white relative border-b border-slate-200 text-left overflow-hidden w-full max-w-full font-sans">
+    <section id="gallery" className="py-16 sm:py-24 bg-slate-200/35 backdrop-blur-xs relative border-b border-slate-300/80 text-left overflow-hidden w-full max-w-full font-sans">
       
       {/* Background Subtle Accent Gradients */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -306,7 +306,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onOpenBooking })
         </div>
 
         {/* Quality Standards Ribbon */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 p-4 sm:p-5 rounded-2xl bg-white/90 border border-slate-300/70 shadow-sm text-slate-800">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0">
               <Droplets className="w-4 h-4" />

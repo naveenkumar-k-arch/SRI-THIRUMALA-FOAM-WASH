@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount, on
   const displayName = userProfile?.name || user?.displayName || user?.email?.split('@')[0] || 'User';
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200/90 shadow-sm transition-all duration-300 w-full font-sans">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-slate-100/90 backdrop-blur-2xl border-b border-slate-300/80 shadow-xs transition-all duration-300 w-full font-sans">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
 
         {/* Brand Logo & Name */}

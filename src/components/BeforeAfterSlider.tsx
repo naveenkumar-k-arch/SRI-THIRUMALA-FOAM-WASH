@@ -92,7 +92,7 @@ export const BeforeAfterSlider: React.FC = () => {
   };
 
   return (
-    <section id="comparison" className="py-16 sm:py-24 bg-white relative border-b border-slate-200 text-left overflow-hidden w-full max-w-full font-sans">
+    <section id="comparison" className="py-16 sm:py-24 bg-slate-100/60 backdrop-blur-xs relative border-b border-slate-300/80 text-left overflow-hidden w-full max-w-full font-sans">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

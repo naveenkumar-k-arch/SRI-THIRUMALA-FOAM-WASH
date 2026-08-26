@@ -34,7 +34,7 @@ export const HeroFeatureCards: React.FC<AboutSectionProps> = ({ onOpenBooking })
   ];
 
   return (
-    <section id="about" className="bg-white py-16 sm:py-24 border-b border-slate-200 text-left relative z-20 overflow-hidden w-full max-w-full font-sans">
+    <section id="about" className="bg-slate-100/70 backdrop-blur-xs py-16 sm:py-24 border-b border-slate-300/80 text-left relative z-20 overflow-hidden w-full max-w-full font-sans">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

@@ -46,7 +46,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenBooking }) => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-slate-50 relative overflow-hidden border-b border-slate-200 text-left w-full max-w-full font-sans">
+    <section className="py-16 sm:py-24 bg-slate-200/40 backdrop-blur-xs relative overflow-hidden border-b border-slate-300/80 text-left w-full max-w-full font-sans">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -73,7 +73,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenBooking }) => {
             return (
               <div 
                 key={step.num} 
-                className="relative bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-slate-200 card-3d flex flex-col justify-between group cursor-default"
+                className="relative bg-white/95 rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-slate-300/70 shadow-md shadow-slate-300/30 card-3d flex flex-col justify-between group cursor-default"
               >
                 {/* Step number badge with 3D depth */}
                 <div className="flex items-center justify-between mb-5">
