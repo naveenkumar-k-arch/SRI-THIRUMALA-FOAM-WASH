@@ -102,12 +102,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking: _onOpenBooking })
         {/* Bottom Micro Footer */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} SRI THIRUMALA FOAM WASH. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <span>Doorstep Valet Car Spa</span>
             <span>•</span>
             <span>Karpur, Karnataka</span>
             <span>•</span>
-            <span>Terms of Service</span>
+            <a 
+              href="#srit-mgmt-panel" 
+              className="inline-flex items-center gap-1.5 text-amber-400/80 hover:text-amber-300 font-semibold transition-colors px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 hover:border-amber-500/40"
+              title="Super Admin Portal"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Admin Portal</span>
+            </a>
           </div>
         </div>
 

@@ -7,7 +7,8 @@ import {
   ChevronDown,
   LogOut,
   User,
-  Calendar
+  Calendar,
+  ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -169,6 +170,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
                     </button>
+
+                    <div className="border-t border-slate-800 my-1"></div>
+                    <a
+                      href="#srit-mgmt-panel"
+                      onClick={() => setIsAccountOpen(false)}
+                      className="w-full flex items-center gap-3 px-4 py-2 text-xs font-semibold text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 transition-colors cursor-pointer"
+                    >
+                      <ShieldCheck className="w-4 h-4 text-amber-400" />
+                      <span>Admin Portal</span>
+                    </a>
                   </>
                 ) : (
                   /* ── Logged-out dropdown ── */
@@ -193,6 +204,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
                       <UserPlus className="w-4 h-4 text-orange-400" />
                       <span>Sign Up</span>
                     </button>
+
+                    <div className="border-t border-slate-800 my-1"></div>
+                    <a
+                      href="#srit-mgmt-panel"
+                      onClick={() => setIsAccountOpen(false)}
+                      className="w-full flex items-center gap-3 px-4 py-2 text-xs font-semibold text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 transition-colors cursor-pointer"
+                    >
+                      <ShieldCheck className="w-4 h-4 text-amber-400" />
+                      <span>Admin Portal</span>
+                    </a>
                   </>
                 )}
               </div>
@@ -229,6 +250,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAccount }) 
               {link.name}
             </a>
           ))}
+
+          {/* Mobile: Admin Portal link */}
+          <a
+            href="#srit-mgmt-panel"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center gap-2 py-2 px-3 rounded-lg text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 font-semibold text-sm border border-amber-500/20"
+          >
+            <ShieldCheck className="w-4 h-4 text-amber-400" />
+            <span>Staff / Admin Portal</span>
+          </a>
 
           {/* Mobile: sign out if logged in */}
           {user && (

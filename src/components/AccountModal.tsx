@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   X, LogIn, UserPlus, Mail, Lock, User, Phone,
-  CheckCircle2, Eye, EyeOff, AlertCircle, Loader2
+  CheckCircle2, Eye, EyeOff, AlertCircle, Loader2, ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -479,6 +479,18 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                     </>
                   )}
                 </p>
+
+                {/* Staff / Admin Portal Link */}
+                <div className="pt-2 border-t border-slate-100 text-center">
+                  <a
+                    href="#srit-mgmt-panel"
+                    onClick={() => onClose()}
+                    className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-amber-600 font-medium transition-colors"
+                  >
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Staff / Admin Portal Access &rarr;</span>
+                  </a>
+                </div>
 
               </form>
             </>
