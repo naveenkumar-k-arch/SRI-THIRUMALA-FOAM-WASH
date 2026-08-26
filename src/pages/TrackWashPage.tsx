@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Car,
   MapPin,
@@ -9,7 +9,9 @@ import {
   ArrowRight,
   Phone,
   MessageSquare,
-  ArrowLeft
+  ArrowLeft,
+  Calendar,
+  User
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
@@ -96,6 +98,7 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<CustomerOrder | null>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
 
   const fetchCustomerOrders = async () => {
     setLoading(true);
@@ -125,6 +128,13 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
     fetchCustomerOrders();
   }, [user]);
 
+  const handleSelectOrder = (order: CustomerOrder) => {
+    setSelectedOrder(order);
+    setTimeout(() => {
+      detailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
+
   const handleSearchManual = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) {
@@ -141,7 +151,8 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
         (b.customerPhone && b.customerPhone.includes(q)) ||
         (b.customerEmail && b.customerEmail.toLowerCase().includes(q)) ||
         (b.customerName && b.customerName.toLowerCase().includes(q)) ||
-        (b.vehicleNumber && b.vehicleNumber.toLowerCase().includes(q))
+        (b.vehicleNumber && b.vehicleNumber.toLowerCase().includes(q)) ||
+        (b.vehicleBrand && b.vehicleBrand.toLowerCase().includes(q))
       );
       setOrders(found as any[]);
       if (found.length > 0) {
@@ -219,13 +230,13 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold mb-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Live Studio Sync • Karpur, Karnataka</span>
+                <span>Live PostgreSQL Real-Time Sync • Karpur Studio</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-['Outfit']">
                 LIVE WASH & VALET STAGE TRACKER
               </h1>
               <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">
-                Track your vehicle's real-time cleaning stages, active foam bath, gloss inspection, and doorstep delivery valet in real time.
+                Click any order below to view its live 7-stage detailing progress, active foam wash station, and doorstep valet return status.
               </p>
             </div>
 
@@ -235,7 +246,7 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
               title="Refresh Live Status"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-              <span>Refresh Status</span>
+              <span>Refresh Orders</span>
             </button>
           </div>
 
@@ -247,7 +258,7 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Track by Booking ID (e.g. STFW-25588), Phone (+91...), Customer Name, or Plate..."
+                placeholder="Search orders by Booking ID (e.g. STFW-25588), Customer Name, Vehicle, Phone, or Plate..."
                 className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-900 pl-10 pr-4 py-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:bg-white transition font-mono shadow-inner"
               />
             </div>
@@ -255,7 +266,7 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
               type="submit"
               className="px-6 py-3 rounded-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold text-xs shadow-md shadow-orange-500/20 transition cursor-pointer flex items-center justify-center gap-2 shrink-0"
             >
-              <span>Track My Wash</span>
+              <span>Search Orders</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -265,7 +276,7 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
         {loading ? (
           <div className="text-center py-20 bg-white border border-slate-200 rounded-3xl p-8 space-y-3 shadow-sm">
             <div className="w-8 h-8 border-3 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto" />
-            <div className="text-sm font-bold text-slate-700">Synchronizing Live Order Stages...</div>
+            <div className="text-sm font-bold text-slate-700 font-['Outfit']">Synchronizing Live Order Stages...</div>
           </div>
         ) : orders.length === 0 ? (
           <div className="text-center py-16 bg-white border border-slate-200 rounded-3xl p-8 space-y-4 shadow-sm">
@@ -275,144 +286,247 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
             <div>
               <h3 className="text-lg font-black text-slate-900 font-['Outfit']">No matching orders found</h3>
               <p className="text-xs text-slate-500 max-w-md mx-auto mt-1">
-                Enter your phone number or booking reference above to track an active wash, or book your next foam wash now.
+                Enter your booking reference or phone number above to track an active wash, or schedule a fresh doorstep foam wash now.
               </p>
             </div>
             <button
               onClick={onNavigateBooking}
               className="px-6 py-3 rounded-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold text-xs shadow-md shadow-orange-500/20 transition cursor-pointer inline-flex items-center gap-2"
             >
-              <span>Book a Slot Now</span>
+              <span>Book a Wash Now</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         ) : (
           <div className="space-y-6">
             
-            {/* Orders Selector Pills if multiple orders */}
-            {orders.length > 1 && (
-              <div className="bg-white border border-slate-200 rounded-2xl p-3 shadow-sm flex items-center gap-2 overflow-x-auto">
-                <span className="text-xs font-bold text-slate-500 uppercase px-2">Select Order:</span>
-                {orders.map((o) => (
-                  <button
-                    key={o.id}
-                    onClick={() => setSelectedOrder(o)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer shrink-0 ${
-                      selectedOrder?.id === o.id
-                        ? 'bg-orange-600 text-white shadow-sm'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
-                  >
-                    <span className="font-mono">{o.bookingRef || o.id}</span>
-                    <span className="text-[11px] opacity-90">({o.vehicleBrand || o.vehicleType})</span>
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {selectedOrder && (
-              <div className="space-y-6">
-                
-                {/* Order Summary Card (Bright Light) */}
-                <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-mono text-sm font-black text-orange-700 bg-orange-50 border border-orange-200 px-3 py-1 rounded-xl">
-                        {selectedOrder.bookingRef || selectedOrder.id}
-                      </span>
-                      <span className="text-xs font-bold px-3 py-1 rounded-xl bg-slate-100 text-slate-800 uppercase border border-slate-200">
-                        {selectedOrder.status.replace(/_/g, ' ')}
-                      </span>
-                    </div>
-                    <h2 className="text-xl font-black text-slate-900 mt-2.5 font-['Outfit']">
-                      {selectedOrder.serviceType}
-                    </h2>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Customer: <strong className="text-slate-800">{selectedOrder.customerName}</strong> • {selectedOrder.vehicleBrand || selectedOrder.vehicleType} • <span className="font-mono uppercase text-slate-700 font-bold">{selectedOrder.vehicleNumber || 'Registered Plate'}</span>
-                    </p>
-                  </div>
-
-                  <div className="text-left md:text-right border-t md:border-t-0 pt-3 md:pt-0 border-slate-100">
-                    <div className="text-xs text-slate-500">Scheduled Booking Slot</div>
-                    <div className="text-sm font-bold text-slate-900 font-mono mt-0.5">{selectedOrder.date} • {selectedOrder.timeSlot}</div>
-                    <div className="text-xs font-bold text-emerald-700 mt-1">₹{selectedOrder.price} ({selectedOrder.paymentStatus || 'Pending Settlement'})</div>
-                  </div>
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* 📋 PROMINENT ORDER SELECTION CARDS LIST (Clean Light Studio)    */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h2 className="text-base font-black text-slate-900 flex items-center gap-2 font-['Outfit']">
+                    <Car className="w-5 h-5 text-orange-600" />
+                    <span>Select an Order to View Real-Time Live Progress ({orders.length} Bookings)</span>
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">Click any booking card below to inspect its live stage status</p>
                 </div>
+              </div>
 
-                {/* ── 7-STAGE CLEAN LIGHT LIVE PROGRESS TIMELINE ── */}
-                <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                    <h3 className="text-base font-black text-slate-900 flex items-center gap-2 font-['Outfit']">
-                      <Sparkles className="w-5 h-5 text-orange-600" />
-                      <span>LIVE SERVICE STAGES & VALET DISPATCH STATUS</span>
-                    </h3>
-                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>PostgreSQL Live Sync</span>
-                    </span>
-                  </div>
+              {/* Grid of Interactive Order Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {orders.map((o) => {
+                  const isSelected = selectedOrder?.id === o.id;
+                  const currentStageIdx = getStageIndex(o.status);
+                  const stageObj = STAGES[currentStageIdx] || STAGES[0];
 
-                  <div className="relative pl-6 sm:pl-10 space-y-7 before:absolute before:left-3 sm:before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200">
-                    {STAGES.map((stage, idx) => {
-                      const currentStageIdx = getStageIndex(selectedOrder.status);
-                      const isCompleted = idx < currentStageIdx;
-                      const isCurrent = idx === currentStageIdx;
+                  return (
+                    <div
+                      key={o.id}
+                      onClick={() => handleSelectOrder(o)}
+                      className={`p-5 rounded-2xl border-2 transition-all cursor-pointer relative overflow-hidden group text-left ${
+                        isSelected
+                          ? 'bg-orange-50/40 border-orange-500 shadow-md ring-2 ring-orange-500/10'
+                          : 'bg-white border-slate-200 hover:border-orange-300 hover:bg-slate-50/60 shadow-xs'
+                      }`}
+                    >
+                      {/* Top Row: Ref & Status Pill */}
+                      <div className="flex items-center justify-between gap-2 mb-2.5">
+                        <span className="font-mono text-xs font-black text-orange-700 bg-orange-100/70 border border-orange-200 px-2.5 py-0.5 rounded-lg">
+                          {o.bookingRef || o.id}
+                        </span>
+                        
+                        <span
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
+                            o.status === 'COMPLETED'
+                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                              : o.status === 'WASH_IN_PROGRESS'
+                              ? 'bg-blue-100 text-blue-800 border border-blue-200 animate-pulse'
+                              : 'bg-amber-100 text-amber-800 border border-amber-200'
+                          }`}
+                        >
+                          {o.status.replace(/_/g, ' ')}
+                        </span>
+                      </div>
 
-                      return (
-                        <div key={stage.key} className="relative flex items-start gap-4">
-                          
-                          {/* Step icon node */}
-                          <div
-                            className={`absolute -left-6 sm:-left-10 top-0.5 w-7 h-7 sm:w-10 sm:h-10 rounded-2xl flex items-center justify-center text-sm font-bold transition-all shadow-sm ${
-                              isCompleted
-                                ? 'bg-emerald-500 text-white shadow-emerald-500/20'
-                                : isCurrent
-                                ? 'bg-gradient-to-br from-red-600 to-orange-500 text-white ring-4 ring-orange-500/20 animate-pulse shadow-md'
-                                : 'bg-slate-100 text-slate-400 border border-slate-200'
+                      {/* Middle: Vehicle & Customer */}
+                      <div className="space-y-1">
+                        <div className="text-sm font-black text-slate-900 font-['Outfit'] flex items-center gap-2">
+                          <span>{o.vehicleBrand || o.vehicleType}</span>
+                          <span className="text-[11px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 uppercase">
+                            {o.vehicleNumber || 'No Plate'}
+                          </span>
+                        </div>
+
+                        <div className="text-xs text-slate-600 flex items-center gap-1.5">
+                          <User className="w-3.5 h-3.5 text-slate-400" />
+                          <span className="font-semibold text-slate-800">{o.customerName}</span>
+                          <span className="text-slate-400">•</span>
+                          <span className="text-slate-500 font-mono text-[11px]">{o.customerPhone}</span>
+                        </div>
+
+                        <div className="text-xs text-slate-500 truncate mt-1">
+                          {o.serviceType}
+                        </div>
+                      </div>
+
+                      {/* Bottom Row: Slot, Price & Click Hint */}
+                      <div className="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <div className="text-[11px] text-slate-500 font-mono flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                          <span>{o.date} • {o.timeSlot.split('-')[0].trim()}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="font-black text-slate-900 font-mono text-sm">₹{o.price}</span>
+                          <span
+                            className={`text-[11px] font-bold flex items-center gap-1 ${
+                              isSelected ? 'text-orange-700 font-black' : 'text-slate-500 group-hover:text-orange-600'
                             }`}
                           >
-                            {isCompleted ? '✓' : stage.icon}
-                          </div>
+                            <span>{isSelected ? 'Viewing Progress' : 'View Progress'}</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
 
-                          <div className="flex-1 pt-0.5 bg-slate-50/60 p-4 rounded-2xl border border-slate-200/80">
-                            <div className="flex items-center justify-between">
-                              <span
-                                className={`text-xs sm:text-sm font-bold ${
-                                  isCompleted
-                                    ? 'text-emerald-700'
-                                    : isCurrent
-                                    ? 'text-orange-700 font-extrabold'
-                                    : 'text-slate-500'
-                                }`}
-                              >
-                                {stage.label}
-                              </span>
-                              {isCurrent && (
-                                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200 uppercase tracking-wide">
-                                  Current Stage
-                                </span>
-                              )}
-                              {isCompleted && (
-                                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 uppercase tracking-wide">
-                                  Completed ✓
-                                </span>
-                              )}
-                            </div>
-                            <p
-                              className={`text-xs mt-1 ${
-                                isCurrent ? 'text-slate-800 font-medium' : 'text-slate-500'
+                      {/* Current Stage Strip indicator */}
+                      <div className="mt-2.5 p-2 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] flex items-center gap-2 text-slate-700">
+                        <span className="text-base">{stageObj.icon}</span>
+                        <div className="truncate">
+                          <strong className="text-slate-900">{stageObj.label}</strong>: {stageObj.description}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* 🚀 EXPANDED LIVE 7-STAGE PROGRESS DETAILS FOR SELECTED ORDER     */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {selectedOrder && (
+              <div ref={detailsRef} className="space-y-6 animate-in fade-in duration-200">
+                
+                {/* Active Order Summary Card */}
+                <div className="bg-white border-2 border-orange-500/80 rounded-3xl p-6 sm:p-7 shadow-md space-y-4">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                    <div>
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-mono text-sm font-black text-orange-700 bg-orange-50 border border-orange-200 px-3 py-1 rounded-xl">
+                          {selectedOrder.bookingRef || selectedOrder.id}
+                        </span>
+                        <span
+                          className={`text-xs font-bold px-3 py-1 rounded-xl uppercase ${
+                            selectedOrder.status === 'COMPLETED'
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : 'bg-orange-100 text-orange-800'
+                          }`}
+                        >
+                          {selectedOrder.status.replace(/_/g, ' ')}
+                        </span>
+                      </div>
+                      
+                      <h2 className="text-xl font-black text-slate-900 mt-2 font-['Outfit']">
+                        {selectedOrder.vehicleBrand || selectedOrder.vehicleType} • {selectedOrder.serviceType}
+                      </h2>
+
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Customer: <strong className="text-slate-800">{selectedOrder.customerName}</strong> ({selectedOrder.customerPhone}) • Vehicle Plate: <span className="font-mono uppercase text-slate-800 font-bold">{selectedOrder.vehicleNumber || 'Registered Plate'}</span>
+                      </p>
+                    </div>
+
+                    <div className="text-left md:text-right border-t md:border-t-0 pt-3 md:pt-0 border-slate-100">
+                      <div className="text-xs text-slate-500">Scheduled Bay Slot</div>
+                      <div className="text-sm font-bold text-slate-900 font-mono mt-0.5">{selectedOrder.date} • {selectedOrder.timeSlot}</div>
+                      <div className="text-sm font-black text-emerald-700 font-mono mt-1">₹{selectedOrder.price} ({selectedOrder.paymentStatus || 'PAID'})</div>
+                    </div>
+                  </div>
+
+                  {/* ── 7-STAGE CLEAN LIGHT LIVE PROGRESS TIMELINE ── */}
+                  <div className="space-y-6 pt-2">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-base font-black text-slate-900 flex items-center gap-2 font-['Outfit']">
+                        <Sparkles className="w-5 h-5 text-orange-600" />
+                        <span>LIVE SERVICE STAGES & VALET DISPATCH STATUS</span>
+                      </h3>
+                      <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>Stage {getStageIndex(selectedOrder.status) + 1} of 7 Active</span>
+                      </span>
+                    </div>
+
+                    <div className="relative pl-6 sm:pl-10 space-y-7 before:absolute before:left-3 sm:before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200">
+                      {STAGES.map((stage, idx) => {
+                        const currentStageIdx = getStageIndex(selectedOrder.status);
+                        const isCompleted = idx < currentStageIdx;
+                        const isCurrent = idx === currentStageIdx;
+
+                        return (
+                          <div key={stage.key} className="relative flex items-start gap-4">
+                            
+                            {/* Step icon node */}
+                            <div
+                              className={`absolute -left-6 sm:-left-10 top-0.5 w-7 h-7 sm:w-10 sm:h-10 rounded-2xl flex items-center justify-center text-sm font-bold transition-all shadow-sm ${
+                                isCompleted
+                                  ? 'bg-emerald-500 text-white shadow-emerald-500/20'
+                                  : isCurrent
+                                  ? 'bg-gradient-to-br from-red-600 to-orange-500 text-white ring-4 ring-orange-500/20 animate-pulse shadow-md'
+                                  : 'bg-slate-100 text-slate-400 border border-slate-200'
                               }`}
                             >
-                              {stage.description}
-                            </p>
+                              {isCompleted ? '✓' : stage.icon}
+                            </div>
+
+                            <div className={`flex-1 pt-0.5 p-4 rounded-2xl border transition-all ${
+                              isCurrent
+                                ? 'bg-orange-50/70 border-orange-300 shadow-sm'
+                                : isCompleted
+                                ? 'bg-emerald-50/40 border-emerald-200/80'
+                                : 'bg-slate-50/60 border-slate-200/80'
+                            }`}>
+                              <div className="flex items-center justify-between">
+                                <span
+                                  className={`text-xs sm:text-sm font-bold ${
+                                    isCompleted
+                                      ? 'text-emerald-700'
+                                      : isCurrent
+                                      ? 'text-orange-700 font-black'
+                                      : 'text-slate-500'
+                                  }`}
+                                >
+                                  {stage.label}
+                                </span>
+                                {isCurrent && (
+                                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200 uppercase tracking-wide">
+                                    Current Stage
+                                  </span>
+                                )}
+                                {isCompleted && (
+                                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 uppercase tracking-wide">
+                                    Completed ✓
+                                  </span>
+                                )}
+                              </div>
+                              <p
+                                className={`text-xs mt-1 ${
+                                  isCurrent ? 'text-slate-800 font-semibold' : 'text-slate-500'
+                                }`}
+                              >
+                                {stage.description}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
+
                 </div>
 
-                {/* Valet Pickup & Helpline Strip */}
+                {/* Valet Pickup & Studio Helpline Strip */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   
                   {/* Valet Pickup Address */}
@@ -439,7 +553,7 @@ export const TrackWashPage: React.FC<TrackWashPageProps> = ({
                         <span>Call</span>
                       </a>
                       <a
-                        href={`https://wa.me/918550000889?text=Hi%20Sri%20Thirumala%20Foam%20Wash,%20tracking%20my%20order%20${encodeURIComponent(selectedOrder.bookingRef)}`}
+                        href={`https://wa.me/918550000889?text=Hi%20Sri%20Thirumala%20Foam%20Wash,%20tracking%20my%20order%20${encodeURIComponent(selectedOrder.bookingRef || selectedOrder.id)}`}
                         target="_blank"
                         rel="noreferrer"
                         className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm shadow-emerald-600/20"
